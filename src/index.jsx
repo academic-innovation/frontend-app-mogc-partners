@@ -10,16 +10,33 @@ import ReactDOM from 'react-dom';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
+import { Route, Switch } from 'react-router';
+
+import store from './common/store';
 import appMessages from './i18n';
-import ExamplePage from './example/ExamplePage';
+import PartnerList from './features/partners/PartnerList';
+import PartnerAdmin from './features/partners/PartnerAdmin';
+import PartnerDetails from './features/partners/PartnerDetails';
+import CatalogDetails from './features/catalogs/CatalogDetail';
 
 import './index.scss';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
-    <AppProvider>
+    <AppProvider store={store}>
       <Header />
-      <ExamplePage />
+      <main id="main">
+        <Switch>
+          <Route exact path="/" component={PartnerList} />
+          <Route exact path="/:partnerSlug" component={PartnerDetails} />
+          <Route exact path="/:partnerSlug/admin" component={PartnerAdmin} />
+          <Route
+            exact
+            path="/:partnerSlug/admin/catalog/:catalogUuid"
+            component={CatalogDetails}
+          />
+        </Switch>
+      </main>
       <Footer />
     </AppProvider>,
     document.getElementById('root'),
@@ -31,6 +48,7 @@ subscribe(APP_INIT_ERROR, (error) => {
 });
 
 initialize({
+  requireAuthenticatedUser: true,
   messages: [
     appMessages,
     headerMessages,
