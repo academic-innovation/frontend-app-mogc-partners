@@ -1,16 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Container, Stack } from '@edx/paragon';
+import {
+  ActionRow, Button, Container, Form, ModalDialog, Stack, useToggle,
+} from '@edx/paragon';
+import { Add } from '@edx/paragon/icons';
 import { fetchPartners, selectPartnerById } from './partnersSlice';
 import CatalogList from '../catalogs/CatalogList';
-import AddCatalogForm from '../catalogs/AddCatalogForm';
+import { addCatalog } from '../catalogs/catalogsSlice';
 
 export default function PartnerDetails() {
   const dispatch = useDispatch();
   const { partnerSlug } = useParams();
   const partnersStatus = useSelector((state) => state.partners.status);
   const partner = useSelector((state) => selectPartnerById(state, partnerSlug));
+  const [isOpen, open, close] = useToggle(false);
+  const [name, setName] = useState('');
+
+  const onNameChanged = (e) => setName(e.target.value);
+
+  const canCreateCatalog = name.length > 0;
+  const createCatalog = async () => {
+    if (canCreateCatalog) {
+      try {
+        await dispatch(addCatalog({ name, partner: partnerSlug }));
+        setName('');
+        close();
+      } catch (err) {
+        console.error(err); // eslint-disable-line no-console
+      }
+    }
+  };
 
   useEffect(() => {
     if (partnersStatus === 'idle') {
@@ -29,19 +49,43 @@ export default function PartnerDetails() {
         </Container>
       </section>
 
-      <section className="p-3 pt-5">
+      <section className="p-3 py-5">
         <Container size="lg">
           <h2>Available Catalogs</h2>
           <CatalogList partnerSlug={partnerSlug} />
+          <div>
+            <Button iconBefore={Add} onClick={open}>Add catalog</Button>
+          </div>
         </Container>
       </section>
 
-      <section className="p-3 pb-5">
-        <Container size="lg">
-          <h2>Add Catalog</h2>
-          <AddCatalogForm partnerSlug={partnerSlug} />
-        </Container>
-      </section>
+      <ModalDialog
+        title="Add new catalog"
+        isOpen={isOpen}
+        onClose={close}
+      >
+        <ModalDialog.Header>
+          <ModalDialog.Title>Add new catalog</ModalDialog.Title>
+        </ModalDialog.Header>
+        <ModalDialog.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Catalog name</Form.Label>
+              <Form.Control value={name} onChange={onNameChanged} />
+            </Form.Group>
+          </Form>
+        </ModalDialog.Body>
+        <ModalDialog.Footer>
+          <ActionRow>
+            <ModalDialog.CloseButton variant="tertiary">
+              Cancel
+            </ModalDialog.CloseButton>
+            <Button onClick={createCatalog} disabled={!canCreateCatalog}>
+              Create
+            </Button>
+          </ActionRow>
+        </ModalDialog.Footer>
+      </ModalDialog>
     </>
   );
 }
