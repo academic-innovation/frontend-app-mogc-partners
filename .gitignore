@@ -17,3 +17,8 @@ temp/babel-plugin-react-intl
 *~
 /temp
 /.vscode
+
+### Tutor ###
+# This file is included as a part of tutor-mfe
+# https://github.com/overhangio/tutor-mfe/blob/master/tutormfe/templates/mfe/apps/mfe/webpack.dev.config.js
+webpack.dev.config.js
