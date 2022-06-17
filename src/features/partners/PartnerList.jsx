@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { AppContext } from '@edx/frontend-platform/react';
 import { Container } from '@edx/paragon';
 import { fetchPartners, selectAllPartners } from './partnersSlice';
@@ -16,6 +16,14 @@ export default function PartnerList() {
     }
   }, [partnersStatus, dispatch]);
 
+  if (partnersStatus === 'fufilled' && partners.length === 0) {
+    return <Redirect to={config.LMS_BASE_URL} />;
+  }
+
+  if (partnersStatus === 'fufilled' && partners.length === 1) {
+    return <Redirect to={`/${partners[0].slug}`} />;
+  }
+
   const partnerLinks = partners.map(
     (partner) => <li><Link to={`/${partner.slug}`}>{partner.name}</Link></li>,
   );
@@ -25,7 +33,7 @@ export default function PartnerList() {
       <Container size="lg">
         <p>
           Select a partner to view, or go directly
-          to <a href={`${config.LMS_BASE_URL}`}>Michigan Online Global Classroom</a>.
+          to <a href={config.LMS_BASE_URL}>Michigan Online Global Classroom</a>.
         </p>
         <ul>
           {partnerLinks}
