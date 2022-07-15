@@ -70,5 +70,5 @@ AddOfferingModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   catalog: PropTypes.string.isRequired,
-  partnerOfferings: PropTypes.arrayOf(PropTypes.string).isRequired,
+  partnerOfferings: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
