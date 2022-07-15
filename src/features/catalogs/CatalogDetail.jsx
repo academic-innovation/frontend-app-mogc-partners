@@ -8,7 +8,6 @@ import { selectCatalogById } from './catalogsSlice';
 import { selectPartnerById } from '../partners/partnersSlice';
 import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
-import AddMemberForm from '../members/AddMemberForm';
 import AddOfferingModal from '../offerings/AddOfferingModal';
 
 export default function CatalogDetails() {
@@ -56,7 +55,6 @@ export default function CatalogDetails() {
 
           <MemberList catalog={catalog.uuid} />
 
-          <AddMemberForm catalog={catalog.uuid} />
         </Container>
       </section>
     </>
