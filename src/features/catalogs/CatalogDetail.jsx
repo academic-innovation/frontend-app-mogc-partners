@@ -8,11 +8,13 @@ import { selectCatalogById } from './catalogsSlice';
 import { selectPartnerById } from '../partners/partnersSlice';
 import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
+import AddMemberModal from '../members/AddMemberModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
 
 export default function CatalogDetails() {
   const { partnerSlug, catalogUuid } = useParams();
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
+  const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
   const catalog = useSelector(state => selectCatalogById(state, catalogUuid));
   const partner = useSelector(state => selectPartnerById(state, catalog.partner));
 
@@ -55,8 +57,15 @@ export default function CatalogDetails() {
 
           <MemberList catalog={catalog.uuid} />
 
+          <Button onClick={openAddMember} className="mt-3">Add member</Button>
         </Container>
       </section>
+
+      <AddMemberModal
+        isOpen={isAddMemberOpen}
+        onClose={closeAddMember}
+        catalog={catalog.uuid}
+      />
     </>
   );
 }
