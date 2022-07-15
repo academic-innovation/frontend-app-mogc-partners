@@ -17,7 +17,7 @@ export default function OfferingList({ catalog }) {
   }, [offeringsStatus, dispatch]);
 
   const offeringCards = offerings.filter(offering => offering.catalog === catalog).map(
-    offering => <AdminOfferingCard offeringId={offering.id} />,
+    offering => <AdminOfferingCard key={offering.id} offeringId={offering.id} />,
   );
 
   return (
