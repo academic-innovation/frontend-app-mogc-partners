@@ -16,6 +16,10 @@ export default function MemberList({ catalog }) {
     }
   }, [memberStatus, dispatch]);
 
+  if (!catalogMembers.length) {
+    return <p>No members have been invited to this catalog.</p>;
+  }
+
   const memberData = catalogMembers.map(member => ({
     email: member.email,
     status: member.user ? 'Registered' : 'Invited',
