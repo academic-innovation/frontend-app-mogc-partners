@@ -8,6 +8,9 @@ import {
 import { Info } from '@edx/paragon/icons';
 import { selectCatalogById, deleteCatalog, updateCatalog } from './catalogsSlice';
 
+import CatalogMemberCount from '../members/CatalogMemberCount';
+import CatalogOfferingCount from '../offerings/CatalogOfferingCount';
+
 export default function CatalogListItem({ uuid }) {
   const dispatch = useDispatch();
   const catalog = useSelector(state => selectCatalogById(state, uuid));
@@ -40,10 +43,14 @@ export default function CatalogListItem({ uuid }) {
   return (
     <>
       <Card orientation="horizontal" className="mb-4">
-        <Card.Body>
-          <Card.Header title={catalog.name} />
-        </Card.Body>
-        <Card.Footer className="justify-content-end">
+        <Card.Section>
+          <h3>{catalog.name}</h3>
+          <p>
+            <CatalogOfferingCount catalog={catalog.uuid} />{' '}
+            <CatalogMemberCount catalog={catalog.uuid} />
+          </p>
+        </Card.Section>
+        <Card.Footer className="justify-content-end w-auto">
           <Link
             to={`/${catalog.partner}/admin/catalog/${catalog.uuid}`}
             className="btn btn-primary"
