@@ -20,6 +20,10 @@ export default function OfferingList({ catalog }) {
     offering => <AdminOfferingCard key={offering.id} offeringId={offering.id} />,
   );
 
+  if (!offeringCards.length) {
+    return <p>No courses have been added to this catalog.</p>;
+  }
+
   return (
     <CardGrid>
       {offeringCards}
