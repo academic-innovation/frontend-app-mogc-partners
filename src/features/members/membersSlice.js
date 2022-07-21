@@ -10,12 +10,17 @@ const membersAdapter = createEntityAdapter({
 
 const initialState = membersAdapter.getInitialState({
   status: 'idle',
+  currentRequestId: undefined,
   error: null,
 });
 
 export const fetchMembers = createAsyncThunk(
   'members/fetchMembers',
-  async () => {
+  async (arg, { getState, requestId }) => {
+    const { currentRequestId, status } = getState().members;
+    if (status !== 'loading' || requestId !== currentRequestId) {
+      return undefined;
+    }
     const client = getAuthenticatedHttpClient();
     const baseUrl = getConfig().LMS_BASE_URL;
     const response = await client.get(`${baseUrl}/api/partnerships/v0/memberships/`);
@@ -43,16 +48,31 @@ const membersSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchMembers.pending, (state) => {
-        state.status = 'loading';
+      .addCase(fetchMembers.pending, (state, action) => {
+        if (state.status === 'idle') {
+          state.status = 'loading';
+          state.currentRequestId = action.meta.requestId;
+        }
       })
       .addCase(fetchMembers.fulfilled, (state, action) => {
-        state.status = 'success';
-        membersAdapter.upsertMany(state, action.payload);
+        const { requestId } = action.meta;
+        if (
+          state.status === 'loading'
+          && state.currentRequestId === requestId
+        ) {
+          state.status = 'success';
+          membersAdapter.upsertMany(state, action.payload);
+        }
       })
       .addCase(fetchMembers.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        const { requestId } = action.meta;
+        if (
+          state.status === 'loading'
+          && state.currentRequestId === requestId
+        ) {
+          state.status = 'failed';
+          state.error = action.error.message;
+        }
       })
       .addCase(addMember.fulfilled, membersAdapter.addOne);
   },
