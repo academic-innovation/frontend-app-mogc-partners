@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
-import { selectAllMembers, fetchMembers } from './membersSlice';
+import useMembers from './useMembers';
 
 export default function MemberList({ catalog }) {
-  const dispatch = useDispatch();
-  const memberStatus = useSelector(state => state.members.status);
-  const allMembers = useSelector(selectAllMembers);
+  const [allMembers] = useMembers();
   const catalogMembers = allMembers.filter(member => member.catalog === catalog);
-
-  useEffect(() => {
-    if (memberStatus === 'idle') {
-      dispatch(fetchMembers());
-    }
-  }, [memberStatus, dispatch]);
 
   if (!catalogMembers.length) {
     return <p>No members have been invited to this catalog.</p>;

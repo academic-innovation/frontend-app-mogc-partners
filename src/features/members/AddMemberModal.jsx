@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ActionRow, Button, Form, ModalDialog,
 } from '@edx/paragon';
-import { selectAllMembers, addMember } from './membersSlice';
+import { addMember } from './membersSlice';
+import useMembers from './useMembers';
 
 export default function AddMemberModal({ isOpen, onClose, catalog }) {
   const dispatch = useDispatch();
-  const allMembers = useSelector(selectAllMembers);
+  const [allMembers] = useMembers();
   const catalogMemberEmails = allMembers
     .filter(member => member.catalog === catalog)
     .map(member => member.email);
