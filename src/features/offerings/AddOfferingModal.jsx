@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ActionRow, Button, Form, ModalDialog,
 } from '@edx/paragon';
-import { selectAllOfferings, addOffering } from './offeringsSlice';
+import { addOffering } from './offeringsSlice';
+import useOfferings from './useOfferings';
 
 export default function AddOfferingModal({
   isOpen, onClose, catalog, partnerOfferings,
 }) {
   const dispatch = useDispatch();
-  const offerings = useSelector(selectAllOfferings);
+  const [offerings] = useOfferings();
   const catalogOfferings = offerings
     .filter((offering) => offering.catalog === catalog)
     .map((offering) => offering.offering);
