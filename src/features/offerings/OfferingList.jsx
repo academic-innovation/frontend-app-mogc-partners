@@ -1,21 +1,11 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { CardGrid } from '@edx/paragon';
-import { fetchOfferings, selectAllOfferings } from './offeringsSlice';
 import AdminOfferingCard from './AdminOfferingCard';
+import useOfferings from './useOfferings';
 
 export default function OfferingList({ catalog }) {
-  const dispatch = useDispatch();
-  const offerings = useSelector(selectAllOfferings);
-  const offeringsStatus = useSelector(state => state.offerings.status);
-
-  useEffect(() => {
-    if (offeringsStatus === 'idle') {
-      dispatch(fetchOfferings());
-    }
-  }, [offeringsStatus, dispatch]);
-
+  const [offerings] = useOfferings();
   const offeringCards = offerings.filter(offering => offering.catalog === catalog).map(
     offering => <AdminOfferingCard key={offering.id} offeringId={offering.id} />,
   );
