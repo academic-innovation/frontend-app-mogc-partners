@@ -24,7 +24,7 @@ export default function PartnerDetails() {
     <>
       <section className="px-3 py-5 bg-primary">
         <Container size="lg">
-          <Stack direction="horizontal" gap={3}>
+          <Stack direction="horizontal" gap={3} className="justify-content-between">
             <h1 className="text-white">{partner?.name}</h1>
             {
               partner?.isManager
