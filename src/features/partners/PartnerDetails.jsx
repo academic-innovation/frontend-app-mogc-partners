@@ -5,6 +5,7 @@ import { Button, Container, Stack } from '@edx/paragon';
 
 import { fetchPartners, selectPartnerById } from './partnersSlice';
 
+import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import PartnerOfferingList from '../offerings/PartnerOfferingList';
 import EnrolledOfferingList from '../offerings/EnrolledOfferingList';
 
@@ -37,6 +38,12 @@ export default function PartnerDetails() {
 
       <section className="p-3 pt-5">
         <Container size="lg">
+          <ResponsiveBreadcrumb
+            links={[
+              { label: 'Partners', url: '/partners' },
+            ]}
+            activeLabel={partner?.name}
+          />
           <h2>Keep Learning</h2>
           <EnrolledOfferingList partnerSlug={partner?.slug} />
         </Container>
