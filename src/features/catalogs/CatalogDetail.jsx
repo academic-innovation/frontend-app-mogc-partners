@@ -4,8 +4,10 @@ import { useParams } from 'react-router';
 import {
   Button, Container, Stack, useToggle,
 } from '@edx/paragon';
+
 import { selectCatalogById } from './catalogsSlice';
 import { selectPartnerById } from '../partners/partnersSlice';
+import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
@@ -31,6 +33,14 @@ export default function CatalogDetails() {
 
       <section className="p-3">
         <Container size="lg">
+          <ResponsiveBreadcrumb
+            links={[
+              { label: 'Partners', url: '/partners' },
+              { label: partner?.name, url: `/partners/${partnerSlug}` },
+              { label: 'Catalogs', url: `/partners/${partnerSlug}/admin` },
+            ]}
+            activeLabel={catalog.name}
+          />
           <h1>{catalog.name}</h1>
         </Container>
       </section>

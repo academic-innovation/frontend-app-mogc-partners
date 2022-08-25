@@ -5,7 +5,9 @@ import {
   ActionRow, Button, Container, Form, ModalDialog, Stack, useToggle,
 } from '@edx/paragon';
 import { Add } from '@edx/paragon/icons';
+
 import { fetchPartners, selectPartnerById } from './partnersSlice';
+import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import CatalogList from '../catalogs/CatalogList';
 import { addCatalog } from '../catalogs/catalogsSlice';
 
@@ -51,6 +53,13 @@ export default function PartnerDetails() {
 
       <section className="p-3 py-5">
         <Container size="lg">
+          <ResponsiveBreadcrumb
+            links={[
+              { label: 'Partners', url: '/partners' },
+              { label: partner?.name, url: `/partners/${partnerSlug}` },
+            ]}
+            activeLabel="Catalogs"
+          />
           <h2>Available Catalogs</h2>
           <CatalogList partnerSlug={partnerSlug} />
           <div>
