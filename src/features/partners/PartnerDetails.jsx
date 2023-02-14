@@ -40,7 +40,7 @@ export default function PartnerDetails() {
         <Container size="lg">
           <ResponsiveBreadcrumb
             links={[
-              { label: 'Partners', url: '/partners' },
+              { label: 'Partners', url: '' },
             ]}
             activeLabel={partner?.name}
           />

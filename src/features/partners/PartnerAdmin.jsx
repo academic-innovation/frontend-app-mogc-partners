@@ -55,8 +55,8 @@ export default function PartnerDetails() {
         <Container size="lg">
           <ResponsiveBreadcrumb
             links={[
-              { label: 'Partners', url: '/partners' },
-              { label: partner?.name, url: `/partners/${partnerSlug}` },
+              { label: 'Partners', url: '' },
+              { label: partner?.name, url: `/${partnerSlug}` },
             ]}
             activeLabel="Catalogs"
           />
