@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Container, Stack } from '@edx/paragon';
+import { Container, Stack } from '@edx/paragon';
 
 import { fetchPartners, selectPartnerById } from './partnersSlice';
 
@@ -29,7 +30,7 @@ export default function PartnerDetails() {
             <h1 className="text-white">{partner?.name}</h1>
             {
               partner?.isManager
-                ? <Button variant="inverse-outline-primary" href={`/${partnerSlug}/admin`}>Manage</Button>
+                ? <Link className="btn btn-inverse-outline-primary" to={`/${partnerSlug}/admin`}>Manage</Link>
                 : null
             }
           </Stack>
