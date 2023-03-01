@@ -5,6 +5,7 @@ import catalogsReducer from '../features/catalogs/catalogsSlice';
 import offeringsReducer from '../features/offerings/offeringsSlice';
 import membersReducer from '../features/members/membersSlice';
 import enrollmentsReducer from '../features/enrollments/enrollmentsSlice';
+import recordsReducer from '../features/enrollments/recordsSlice';
 
 export default configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export default configureStore({
     offerings: offeringsReducer,
     members: membersReducer,
     enrollments: enrollmentsReducer,
+    records: recordsReducer,
   },
 });
