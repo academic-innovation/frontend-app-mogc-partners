@@ -10,12 +10,17 @@ const recordsAdapter = createEntityAdapter({
 
 const initialState = recordsAdapter.getInitialState({
   status: 'idle',
+  currentRequestId: undefined,
   error: null,
 });
 
 export const fetchRecords = createAsyncThunk(
   'records/fetchRecords',
-  async () => {
+  async (arg, { getState, requestId }) => {
+    const { currentRequestId, status } = getState().records;
+    if (status !== 'loading' || requestId !== currentRequestId) {
+      return undefined;
+    }
     const client = getAuthenticatedHttpClient();
     const baseUrl = getConfig().LMS_BASE_URL;
     const response = await client.get(`${baseUrl}/api/partnerships/v0/records/`);
@@ -29,16 +34,25 @@ const recordsSlice = createSlice({
   initialState,
   extraReducers(builder) {
     builder
-      .addCase(fetchRecords.pending, (state) => {
-        state.status = 'loading';
+      .addCase(fetchRecords.pending, (state, action) => {
+        if (state.status === 'idle') {
+          state.status = 'loading';
+          state.currentRequestId = action.meta.requestId;
+        }
       })
       .addCase(fetchRecords.fulfilled, (state, action) => {
-        state.status = 'success';
-        recordsAdapter.upsertMany(state, action.payload);
+        const { requestId } = action.meta;
+        if (state.status === 'loading' && state.currentRequestId === requestId) {
+          state.status = 'success';
+          recordsAdapter.upsertMany(state, action.payload);
+        }
       })
       .addCase(fetchRecords.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        const { requestId } = action.meta;
+        if (state.status === 'loading' && state.currentRequestId === requestId) {
+          state.status = 'failed';
+          state.error = action.error.message;
+        }
       });
   },
 });
