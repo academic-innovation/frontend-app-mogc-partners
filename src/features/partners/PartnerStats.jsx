@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import MemberStatsCard from '../members/MemberStatCard';
 import EnrollmentStatsCard from '../enrollments/EnrollmentStatCard';
+import CourseEnrollmentList from '../enrollments/CourseEnrollmentList';
 import usePartner from './usePartner';
 import StatCard from './StatCard';
 
@@ -35,6 +36,13 @@ export default function PartnerStats() {
             <EnrollmentStatsCard partner={partnerSlug} />
             <EnrollmentStatsCard partner={partnerSlug} onlyComplete />
           </Stack>
+        </Container>
+      </section>
+
+      <section className="p-3 py-5">
+        <Container size="lg">
+          <h2>Course Details</h2>
+          <CourseEnrollmentList offerings={partner?.offerings ?? []} />
         </Container>
       </section>
     </>
