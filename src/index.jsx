@@ -17,6 +17,7 @@ import appMessages from './i18n';
 import PartnerList from './features/partners/PartnerList';
 import PartnerAdmin from './features/partners/PartnerAdmin';
 import PartnerDetails from './features/partners/PartnerDetails';
+import PartnerStats from './features/partners/PartnerStats';
 import CatalogDetails from './features/catalogs/CatalogDetail';
 
 import './index.scss';
@@ -30,6 +31,7 @@ subscribe(APP_READY, () => {
           <Route exact path="/" component={PartnerList} />
           <Route exact path="/:partnerSlug" component={PartnerDetails} />
           <Route exact path="/:partnerSlug/admin" component={PartnerAdmin} />
+          <Route exact path="/:partnerSlug/admin/stats" component={PartnerStats} />
           <Route
             exact
             path="/:partnerSlug/admin/catalog/:catalogUuid"
