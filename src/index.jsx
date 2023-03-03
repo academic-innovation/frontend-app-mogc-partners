@@ -31,7 +31,7 @@ subscribe(APP_READY, () => {
           <Route exact path="/" component={PartnerList} />
           <Route exact path="/:partnerSlug" component={PartnerDetails} />
           <Route exact path="/:partnerSlug/admin" component={PartnerAdmin} />
-          <Route exact path="/:partnerSlug/admin/stats" component={PartnerStats} />
+          <Route exact path="/:partnerSlug/admin/insights" component={PartnerStats} />
           <Route
             exact
             path="/:partnerSlug/admin/catalog/:catalogUuid"
