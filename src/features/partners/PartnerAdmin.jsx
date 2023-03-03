@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   ActionRow, Button, Container, Form, ModalDialog, Stack, useToggle,
@@ -11,6 +10,7 @@ import { fetchPartners, selectPartnerById } from './partnersSlice';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import CatalogList from '../catalogs/CatalogList';
 import { addCatalog } from '../catalogs/catalogsSlice';
+import ManagementMenu from './ManagementMenu';
 
 export default function PartnerDetails() {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ export default function PartnerDetails() {
         <Container size="lg">
           <Stack direction="horizontal" gap={3} className="justify-content-between">
             <h1 className="text-white">{partner?.name}</h1>
-            <Link className="btn btn-inverse-outline-primary" to={`/${partnerSlug}`}>View</Link>
+            <ManagementMenu partner={partnerSlug} />
           </Stack>
         </Container>
       </section>

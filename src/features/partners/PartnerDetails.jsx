@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Stack } from '@edx/paragon';
 
 import { fetchPartners, selectPartnerById } from './partnersSlice';
+import ManagementMenu from './ManagementMenu';
 
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import PartnerOfferingList from '../offerings/PartnerOfferingList';
@@ -30,7 +30,7 @@ export default function PartnerDetails() {
             <h1 className="text-white">{partner?.name}</h1>
             {
               partner?.isManager
-                ? <Link className="btn btn-inverse-outline-primary" to={`/${partnerSlug}/admin`}>Manage</Link>
+                ? <ManagementMenu partner={partnerSlug} />
                 : null
             }
           </Stack>

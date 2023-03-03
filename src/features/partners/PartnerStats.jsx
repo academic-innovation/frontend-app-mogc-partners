@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Stack } from '@edx/paragon';
-import { Link } from 'react-router-dom';
 
 import MemberStatsCard from '../members/MemberStatCard';
 import EnrollmentStatsCard from '../enrollments/EnrollmentStatCard';
@@ -9,6 +8,7 @@ import MemberEnrollmentList from '../enrollments/MemberEnrollmentList';
 import MembershipProvider from '../members/MembershipProvider';
 import usePartner from './usePartner';
 import StatCard from './StatCard';
+import ManagementMenu from './ManagementMenu';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
@@ -22,9 +22,7 @@ export default function PartnerStats() {
         <Container size="lg">
           <Stack direction="horizontal" gap={3} className="justify-content-between">
             <h1 className="text-white">{partner?.name}</h1>
-            <Link className="btn btn-inverse-outline-primary" to={`/${partnerSlug}/admin`}>
-              Manage
-            </Link>
+            <ManagementMenu partner={partnerSlug} />
           </Stack>
         </Container>
       </section>
