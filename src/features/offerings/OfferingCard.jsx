@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { getConfig } from '@edx/frontend-platform';
 import {
   ActionRow, Button, Card, ModalDialog, useToggle,
 } from '@edx/paragon';
-import { selectOfferingById, enrollInOffering } from './offeringsSlice';
+import { selectOfferingById, enrollInCourse } from './offeringsSlice';
 
 export default function OfferingCard({ offeringId }) {
   const offering = useSelector((state) => selectOfferingById(state, offeringId));
+  const baseUrl = getConfig().LMS_BASE_URL;
+
   const handleEnrollment = async () => {
-    const response = await enrollInOffering(offering.id);
-    window.location = response.courseHomeUrl;
+    await enrollInCourse(offering.details.courseKey);
+    window.location = `${baseUrl}${offering.continueLearningUrl}`;
   };
+
   const [isOpen, open, close] = useToggle(false);
 
   return (

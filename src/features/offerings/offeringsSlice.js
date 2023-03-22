@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import {
-  ensureConfig, getConfig, camelCaseObject,
+  ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 
@@ -16,11 +16,14 @@ const initialState = offeringsAdapter.getInitialState({
   error: null,
 });
 
-export async function enrollInOffering(offeringId) {
+export async function enrollInCourse(courseId) {
   const client = getAuthenticatedHttpClient();
   const baseUrl = getConfig().LMS_BASE_URL;
+  const enrollmentData = {
+    courseDetails: { courseId },
+  };
   const response = await client.post(
-    `${baseUrl}/api/partnerships/v0/offerings/${offeringId}/enroll/`,
+    `${baseUrl}/api/enrollment/v1/enrollment`, snakeCaseObject(enrollmentData),
   );
   return camelCaseObject(response.data);
 }
