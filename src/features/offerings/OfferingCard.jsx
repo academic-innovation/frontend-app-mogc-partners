@@ -27,7 +27,9 @@ export default function OfferingCard({ offeringId }) {
         </Card.Section>
         <Card.Footer>
           <ActionRow>
-            <Button onClick={open} variant="tertiary">More details</Button>
+            {offering.details.description ? (
+              <Button onClick={open} variant="tertiary">More details</Button>
+            ) : null }
             <Button onClick={handleEnrollment}>Enroll</Button>
           </ActionRow>
         </Card.Footer>
