@@ -46,8 +46,8 @@ export default function CatalogListItem({ uuid }) {
         <Card.Section>
           <h3>{catalog.name}</h3>
           <p>
-            <CatalogOfferingCount catalog={catalog.uuid} />{' '}
-            <CatalogMemberCount catalog={catalog.uuid} />
+            <CatalogOfferingCount cohort={catalog.uuid} />{' '}
+            <CatalogMemberCount cohort={catalog.uuid} />
           </p>
         </Card.Section>
         <Card.Footer className="justify-content-end w-auto">

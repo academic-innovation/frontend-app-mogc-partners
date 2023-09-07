@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
 import useMembers from './useMembers';
 
-export default function MemberList({ catalog }) {
+export default function MemberList({ cohort }) {
   const [allMembers] = useMembers();
-  const catalogMembers = allMembers.filter(member => member.catalog === catalog);
+  const catalogMembers = allMembers.filter(member => member.cohort === cohort);
 
   if (!catalogMembers.length) {
-    return <p>No members have been invited to this catalog.</p>;
+    return <p>No members have been invited to this cohort.</p>;
   }
 
   const memberData = catalogMembers.map(member => ({
@@ -49,5 +49,5 @@ export default function MemberList({ catalog }) {
 }
 
 MemberList.propTypes = {
-  catalog: PropTypes.string.isRequired,
+  cohort: PropTypes.string.isRequired,
 };

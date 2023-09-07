@@ -13,7 +13,7 @@ export default function AddOfferingModal({
   const dispatch = useDispatch();
   const [offerings] = useOfferings();
   const catalogOfferings = offerings
-    .filter((offering) => offering.catalog === catalog)
+    .filter((offering) => offering.cohort === catalog)
     .map((offering) => offering.offering);
   const availableOfferings = partnerOfferings.filter(
     (offering) => !catalogOfferings.includes(offering.id),

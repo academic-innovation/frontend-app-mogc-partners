@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import useOfferings from './useOfferings';
 
-export default function CatalogOfferingCount({ catalog }) {
+export default function CatalogOfferingCount({ cohort }) {
   const [offerings] = useOfferings();
-  const count = offerings.filter(offering => offering.catalog === catalog).length;
+  const count = offerings.filter(offering => offering.cohort === cohort).length;
   return <span>{count} course offering{count === 1 ? '' : 's'}.</span>;
 }
 
 CatalogOfferingCount.propTypes = {
-  catalog: PropTypes.string.isRequired,
+  cohort: PropTypes.string.isRequired,
 };

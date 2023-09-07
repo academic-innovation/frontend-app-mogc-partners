@@ -11,7 +11,7 @@ export default function AddMemberModal({ isOpen, onClose, catalog }) {
   const dispatch = useDispatch();
   const [allMembers] = useMembers();
   const catalogMemberEmails = allMembers
-    .filter(member => member.catalog === catalog)
+    .filter(member => member.cohort === catalog)
     .map(member => member.email);
 
   const [email, setEmail] = useState('');
