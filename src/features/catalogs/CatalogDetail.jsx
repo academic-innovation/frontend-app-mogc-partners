@@ -48,7 +48,7 @@ export default function CatalogDetails() {
       <section className="p-3">
         <Container size="lg">
           <h2>Courses</h2>
-          <OfferingList catalog={catalog.uuid} admin />
+          <OfferingList cohort={catalog.uuid} admin />
 
           <Button onClick={openAddCourse}>Add course</Button>
         </Container>
@@ -65,7 +65,7 @@ export default function CatalogDetails() {
         <Container size="lg">
           <h2>Members</h2>
 
-          <MemberList catalog={catalog.uuid} />
+          <MemberList cohort={catalog.uuid} />
 
           <Button onClick={openAddMember} className="mt-3">Add member</Button>
         </Container>
