@@ -38,7 +38,7 @@
     "@edx/brand": "npm:@edx/brand-openedx@1.1.0",
     "@edx/frontend-component-footer": "10.1.6",
     "@edx/frontend-component-header": "^2.4.6",
-    "@edx/frontend-platform": "1.14.9",
+    "@edx/frontend-platform": "^1.15.6",
     "@edx/paragon": "19.6.0",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-brands-svg-icons": "5.15.4",
@@ -58,12 +58,13 @@
     "regenerator-runtime": "0.13.9"
   },
   "devDependencies": {
-    "@edx/frontend-build": "8.2.0",
+    "@edx/frontend-build": "^9.1.4",
     "codecov": "3.8.3",
     "es-check": "5.2.4",
     "glob": "7.2.0",
     "husky": "7.0.4",
     "jest": "27.5.1",
+    "postcss-loader": "^6.1.1",
     "reactifex": "1.1.1"
   }
 }
