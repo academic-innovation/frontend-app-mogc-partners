@@ -11,6 +11,8 @@ export default function OfferingCard({ offeringId }) {
   const offering = useSelector((state) => selectOfferingById(state, offeringId));
   const baseUrl = getConfig().LMS_BASE_URL;
 
+  const aboutUrl = `${baseUrl}/courses/${offering.details.courseKey}/about`;
+
   const handleEnrollment = async () => {
     await enrollInCourse(offering.details.courseKey);
     window.location = `${baseUrl}${offering.continueLearningUrl}`;
@@ -30,7 +32,8 @@ export default function OfferingCard({ offeringId }) {
             {offering.details.description ? (
               <Button onClick={open} variant="tertiary">More details</Button>
             ) : null }
-            <Button onClick={handleEnrollment}>Enroll</Button>
+            { /* <Button onClick={handleEnrollment}>Enroll</Button> */ }
+            <Button href={aboutUrl}>Learn more</Button>
           </ActionRow>
         </Card.Footer>
       </Card>
