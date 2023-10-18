@@ -33,22 +33,30 @@ export default function PartnerOfferingList({ partnerSlug }) {
     offering => !offering.isEnrolled,
   );
 
-  if (!partnerOfferings.length || !availableOfferings.length) {
-    const descriptor = !partnerOfferings.length
-      ? 'is not yet offering any courses.'
-      : 'has no other courses available.';
+  const Header = () => <h2>Available Courses</h2>;
+  if (!partnerOfferings.length) {
     return (
-      <p>
-        <PartnerName slug={partnerSlug} /> {` ${descriptor}`}
-      </p>
+      <>
+        <Header />
+        <p>
+          <PartnerName slug={partnerSlug} /> {' is not yet offering any courses.'}
+        </p>
+      </>
     );
+  }
+  if (!availableOfferings.length) {
+    return null;
   }
 
   const offeringCards = availableOfferings.map(
     offering => <OfferingCard offeringId={offering.id} key={offering.id} />,
   );
-
-  return <CardGrid>{offeringCards}</CardGrid>;
+  return (
+    <>
+      <Header />
+      <CardGrid>{offeringCards}</CardGrid>
+    </>
+  );
 }
 
 PartnerOfferingList.propTypes = {
