@@ -15,6 +15,7 @@ export default function PartnerList() {
       dispatch(fetchPartners());
     }
   }, [partnersStatus, dispatch]);
+
   if (partnersStatus === 'fufilled' && partners.length === 0) {
     window.location = config.LMS_BASE_URL;
     return null;
