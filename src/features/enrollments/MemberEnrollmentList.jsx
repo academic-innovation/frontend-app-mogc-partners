@@ -24,7 +24,7 @@ export default function MemberEnrollmentList({ offerings }) {
   );
 
   const { entities } = useContext(EntityContext);
-  const members = uniqBy(entities, 'user');
+  const members = uniqBy(entities, 'email');
   const data = members.map(member => ({
     name: member.name,
     email: member.email,
