@@ -27,20 +27,25 @@ export default function PartnerOfferingList({ partnerSlug }) {
   }
 
   const partnerOfferings = uniqOfferings.filter(
-    offering => offering.partner === partnerSlug && !offering.isEnrolled,
+    offering => offering.partner === partnerSlug,
+  );
+  const availableOfferings = partnerOfferings.filter(
+    offering => !offering.isEnrolled,
   );
 
-  if (!partnerOfferings.length) {
+  if (!partnerOfferings.length || !availableOfferings.length) {
+    const descriptor = !partnerOfferings.length
+      ? 'is not yet offering any courses.'
+      : 'has no other courses available.';
     return (
       <p>
-        <PartnerName slug={partnerSlug} /> {' '}
-        is not yet offering any courses.
+        <PartnerName slug={partnerSlug} /> {` ${descriptor}`}
       </p>
     );
   }
 
-  const offeringCards = partnerOfferings.map(
-    offering => <OfferingCard offeringId={offering.id} />,
+  const offeringCards = availableOfferings.map(
+    offering => <OfferingCard offeringId={offering.id} key={offering.id} />,
   );
 
   return <CardGrid>{offeringCards}</CardGrid>;
