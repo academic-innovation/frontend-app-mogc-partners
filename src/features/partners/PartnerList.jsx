@@ -17,7 +17,8 @@ export default function PartnerList() {
   }, [partnersStatus, dispatch]);
 
   if (partnersStatus === 'fufilled' && partners.length === 0) {
-    return <Redirect to={config.LMS_BASE_URL} />;
+    window.location = config.LMS_BASE_URL;
+    return null;
   }
 
   if (partnersStatus === 'fufilled' && partners.length === 1) {
