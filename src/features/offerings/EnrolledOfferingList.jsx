@@ -21,12 +21,16 @@ export default function EnrolledOfferingList({ partnerSlug }) {
     offering => offering.partner === partnerSlug && offering.isEnrolled,
   );
 
+  const Header = () => <h2>Keep Learning</h2>;
   if (!partnerOfferings.length) {
     return (
-      <p>
-        You are not currently enrolled in any {' '}
-        <PartnerName slug={partnerSlug} /> offerings.
-      </p>
+      <>
+        <Header />
+        <p>
+          You are not currently enrolled in any {' '}
+          <PartnerName slug={partnerSlug} /> offerings.
+        </p>
+      </>
     );
   }
 
@@ -34,7 +38,12 @@ export default function EnrolledOfferingList({ partnerSlug }) {
     offering => <EnrolledOfferingCard offeringId={offering.id} />,
   );
 
-  return <Stack gap={3}>{offeringCards}</Stack>;
+  return (
+    <>
+      <Header />
+      <Stack gap={3}>{offeringCards}</Stack>
+    </>
+  );
 }
 
 EnrolledOfferingList.propTypes = {

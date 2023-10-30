@@ -45,17 +45,17 @@ export default function PartnerDetails() {
             ]}
             activeLabel={partner?.name}
           />
-          <h2>Keep Learning</h2>
           <EnrolledOfferingList partnerSlug={partner?.slug} />
         </Container>
       </section>
 
-      <section className="p-3 pb-5">
-        <Container size="lg">
-          <h2>Available Courses</h2>
-          <PartnerOfferingList partnerSlug={partner?.slug} />
-        </Container>
-      </section>
+      {partner && (
+        <section className="p-3 pb-5">
+          <Container size="lg">
+            <PartnerOfferingList partnerSlug={partner.slug} />
+          </Container>
+        </section>
+      )}
     </>
   );
 }

@@ -27,23 +27,36 @@ export default function PartnerOfferingList({ partnerSlug }) {
   }
 
   const partnerOfferings = uniqOfferings.filter(
-    offering => offering.partner === partnerSlug && !offering.isEnrolled,
+    offering => offering.partner === partnerSlug,
+  );
+  const availableOfferings = partnerOfferings.filter(
+    offering => !offering.isEnrolled,
   );
 
+  const Header = () => <h2>Available Courses</h2>;
   if (!partnerOfferings.length) {
     return (
-      <p>
-        <PartnerName slug={partnerSlug} /> {' '}
-        is not yet offering any courses.
-      </p>
+      <>
+        <Header />
+        <p>
+          <PartnerName slug={partnerSlug} /> {' is not yet offering any courses.'}
+        </p>
+      </>
     );
   }
+  if (!availableOfferings.length) {
+    return null;
+  }
 
-  const offeringCards = partnerOfferings.map(
-    offering => <OfferingCard offeringId={offering.id} />,
+  const offeringCards = availableOfferings.map(
+    offering => <OfferingCard offeringId={offering.id} key={offering.id} />,
   );
-
-  return <CardGrid>{offeringCards}</CardGrid>;
+  return (
+    <>
+      <Header />
+      <CardGrid>{offeringCards}</CardGrid>
+    </>
+  );
 }
 
 PartnerOfferingList.propTypes = {
