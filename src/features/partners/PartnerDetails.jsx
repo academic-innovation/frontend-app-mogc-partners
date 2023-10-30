@@ -52,7 +52,7 @@ export default function PartnerDetails() {
       {partner && (
         <section className="p-3 pb-5">
           <Container size="lg">
-            <PartnerOfferingList partnerSlug={partner?.slug} />
+            <PartnerOfferingList partnerSlug={partner.slug} />
           </Container>
         </section>
       )}
