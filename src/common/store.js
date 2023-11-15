@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import partnersReducer from '../features/partners/partnersSlice';
-import catalogsReducer from '../features/catalogs/catalogsSlice';
+import cohortsReducer from '../features/cohorts/cohortsSlice';
 import offeringsReducer from '../features/offerings/offeringsSlice';
 import membersReducer from '../features/members/membersSlice';
 import enrollmentsReducer from '../features/enrollments/enrollmentsSlice';
@@ -10,7 +10,7 @@ import recordsReducer from '../features/enrollments/recordsSlice';
 export default configureStore({
   reducer: {
     partners: partnersReducer,
-    catalogs: catalogsReducer,
+    cohorts: cohortsReducer,
     offerings: offeringsReducer,
     members: membersReducer,
     enrollments: enrollmentsReducer,

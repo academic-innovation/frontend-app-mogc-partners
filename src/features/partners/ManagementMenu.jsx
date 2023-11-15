@@ -11,7 +11,7 @@ function MenuLink({ to, children }) {
 export default function ManagementMenu({ partner }) {
   return (
     <DropdownButton variant="inverse-outline-primary" id="management-menu" title="Manage">
-      <MenuLink to={`/${partner}/admin`}>Catalogs</MenuLink>
+      <MenuLink to={`/${partner}/admin`}>Cohorts</MenuLink>
       <MenuLink to={`/${partner}/admin/insights`}>Insights</MenuLink>
       <MenuLink to={`/${partner}`}>Learner view</MenuLink>
     </DropdownButton>
