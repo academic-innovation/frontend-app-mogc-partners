@@ -83,7 +83,7 @@ export default function CohortListItem({ uuid }) {
             </p>
           </Alert>
 
-          <p>Please type <strong>DELETE</strong> to confirm.</p>
+          <p>Please type <strong>{CONFIRM_TEXT}</strong> to confirm.</p>
 
           <Form>
             <Form.Group>
