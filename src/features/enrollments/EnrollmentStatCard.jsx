@@ -6,7 +6,9 @@ import useRecords from './useRecords';
 
 export default function EnrollmentStatsCard({ partner, onlyComplete }) {
   const singleUnit = onlyComplete ? 'Completion' : 'Enrollment';
+  const singleUnitText = `Total ${singleUnit}`;
   const pluralUnit = onlyComplete ? 'Completions' : 'Enrollments';
+  const pluralUnitText = `Total ${pluralUnit}`;
   const [enrollments, status] = useRecords();
   if (status !== 'success') {
     return <StatCard value="--" unit="Enrollments" />;
@@ -17,7 +19,7 @@ export default function EnrollmentStatsCard({ partner, onlyComplete }) {
     }
     return onlyComplete ? enrollment.isComplete : true;
   }).length;
-  const unit = enrollmentTotal === 1 ? singleUnit : pluralUnit;
+  const unit = enrollmentTotal === 1 ? singleUnitText : pluralUnitText;
 
   return <StatCard value={enrollmentTotal} unit={unit} />;
 }

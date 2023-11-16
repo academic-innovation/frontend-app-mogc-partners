@@ -15,6 +15,7 @@ export default function PartnerStats() {
 
   const courseCount = partner?.offerings.length;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';
+  const courseUnitText = `Total ${courseUnit}`;
 
   return (
     <>
@@ -31,7 +32,7 @@ export default function PartnerStats() {
         <Container size="lg">
           <h2 className="text-center mb-5">Organizational Totals</h2>
           <Stack direction="horizontal" gap={3}>
-            <StatCard value={courseCount} unit={courseUnit} />
+            <StatCard value={courseCount} unit={courseUnitText} />
             <MemberStatsCard partner={partnerSlug} />
             <EnrollmentStatsCard partner={partnerSlug} />
             <EnrollmentStatsCard partner={partnerSlug} onlyComplete />

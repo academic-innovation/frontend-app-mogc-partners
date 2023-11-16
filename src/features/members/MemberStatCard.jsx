@@ -13,8 +13,9 @@ export default function MemberStatsCard({ partner }) {
   const partnerMemberEmails = new Set(partnerMembers.map(member => member.email));
   const memberTotal = partnerMemberEmails.size;
   const unit = memberTotal === 1 ? 'Member' : 'Members';
+  const unitText = `Total ${unit}`;
 
-  return <StatCard value={partnerMemberEmails.size} unit={unit} />;
+  return <StatCard value={partnerMemberEmails.size} unit={unitText} />;
 }
 
 MemberStatsCard.propTypes = {
