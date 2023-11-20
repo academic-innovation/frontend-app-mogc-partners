@@ -16,9 +16,9 @@ export default function CohortList({ partnerSlug }) {
   }, [cohortsStatus, dispatch]);
 
   const cohortItems = cohorts
-    .filter(cohort => cohorts.partner === partnerSlug)
+    .filter(cohort => cohort.partner === partnerSlug)
     .map(cohort => (
-      <CohortListItem key={cohorts.uuid} uuid={cohorts.uuid} />
+      <CohortListItem key={cohort.uuid} uuid={cohort.uuid} />
     ));
 
   return (

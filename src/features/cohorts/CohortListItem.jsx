@@ -19,7 +19,7 @@ export default function CohortListItem({ uuid }) {
   const [isOpen, open, close] = useToggle(false);
   const [deleteIsOpen, openDelete, closeDelete] = useToggle(false);
 
-  const CONFIRM_TEXT = "DELETE"
+  const CONFIRM_TEXT = 'DELETE';
 
   const onCohortDeletionConfirmed = () => {
     dispatch(deleteCohort(uuid));
@@ -77,7 +77,9 @@ export default function CohortListItem({ uuid }) {
 
         <ModalDialog.Body>
           <Alert variant="danger" icon={Info}>
-            <Alert.Heading>You are about to permanently delete this cohort.</Alert.Heading>
+            <Alert.Heading>
+              You are about to permanently delete this cohort.
+            </Alert.Heading>
             <p>
               Deleting a cohort deletes all memberships and offerings within it.
             </p>
