@@ -8,8 +8,8 @@ import { Add } from '@edx/paragon/icons';
 
 import { fetchPartners, selectPartnerById } from './partnersSlice';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
-import CatalogList from '../catalogs/CatalogList';
-import { addCatalog } from '../catalogs/catalogsSlice';
+import CohortList from '../cohorts/CohortList';
+import { addCohort } from '../cohorts/cohortsSlice';
 import ManagementMenu from './ManagementMenu';
 
 export default function PartnerDetails() {
@@ -22,11 +22,11 @@ export default function PartnerDetails() {
 
   const onNameChanged = (e) => setName(e.target.value);
 
-  const canCreateCatalog = name.length > 0;
-  const createCatalog = async () => {
-    if (canCreateCatalog) {
+  const canCreateCohort = name.length > 0;
+  const createCohort = async () => {
+    if (canCreateCohort) {
       try {
-        await dispatch(addCatalog({ name, partner: partnerSlug }));
+        await dispatch(addCohort({ name, partner: partnerSlug }));
         setName('');
         close();
       } catch (err) {
@@ -59,28 +59,28 @@ export default function PartnerDetails() {
               { label: 'Partners', url: '' },
               { label: partner?.name, url: `/${partnerSlug}` },
             ]}
-            activeLabel="Catalogs"
+            activeLabel="Cohort"
           />
-          <h2>Available Catalogs</h2>
-          <CatalogList partnerSlug={partnerSlug} />
+          <h2>Available Cohorts</h2>
+          <CohortList partnerSlug={partnerSlug} />
           <div>
-            <Button iconBefore={Add} onClick={open}>Add catalog</Button>
+            <Button iconBefore={Add} onClick={open}>Add cohort</Button>
           </div>
         </Container>
       </section>
 
       <ModalDialog
-        title="Add new catalog"
+        title="Add new cohort"
         isOpen={isOpen}
         onClose={close}
       >
         <ModalDialog.Header>
-          <ModalDialog.Title>Add new catalog</ModalDialog.Title>
+          <ModalDialog.Title>Add new cohort</ModalDialog.Title>
         </ModalDialog.Header>
         <ModalDialog.Body>
           <Form>
             <Form.Group>
-              <Form.Label>Catalog name</Form.Label>
+              <Form.Label>Cohort name</Form.Label>
               <Form.Control value={name} onChange={onNameChanged} />
             </Form.Group>
           </Form>
@@ -90,7 +90,7 @@ export default function PartnerDetails() {
             <ModalDialog.CloseButton variant="tertiary">
               Cancel
             </ModalDialog.CloseButton>
-            <Button onClick={createCatalog} disabled={!canCreateCatalog}>
+            <Button onClick={createCohort} disabled={!canCreateCohort}>
               Create
             </Button>
           </ActionRow>

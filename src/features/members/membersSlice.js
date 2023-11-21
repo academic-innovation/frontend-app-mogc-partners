@@ -30,11 +30,11 @@ export const fetchMembers = createAsyncThunk(
 
 export const addMember = createAsyncThunk(
   'members/addMember',
-  async ({ catalog, email }) => {
+  async ({ cohort, email }) => {
     const client = getAuthenticatedHttpClient();
     const baseUrl = getConfig().LMS_BASE_URL;
     const response = await client.post(
-      `${baseUrl}/api/partnerships/v0/memberships/${catalog}/`,
+      `${baseUrl}/api/partnerships/v0/memberships/${cohort}/`,
       { email },
     );
     return camelCaseObject(response.data);
