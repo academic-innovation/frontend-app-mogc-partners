@@ -15,7 +15,6 @@ export default function PartnerStats() {
 
   const courseCount = partner?.offerings.length;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';
-  const isTotal = true;
 
   return (
     <>
