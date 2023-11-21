@@ -5,10 +5,9 @@ import StatCard from '../partners/StatCard';
 import useRecords from './useRecords';
 
 export default function EnrollmentStatsCard({ partner, onlyComplete }) {
+  const unitText = 'Total Course';
   const singleUnit = onlyComplete ? 'Completion' : 'Enrollment';
-  const singleUnitText = `Course ${singleUnit}`;
   const pluralUnit = onlyComplete ? 'Completions' : 'Enrollments';
-  const pluralUnitText = `Course ${pluralUnit}`;
   const [enrollments, status] = useRecords();
   if (status !== 'success') {
     return <StatCard value="--" unit="Enrollments" />;
@@ -19,9 +18,9 @@ export default function EnrollmentStatsCard({ partner, onlyComplete }) {
     }
     return onlyComplete ? enrollment.isComplete : true;
   }).length;
-  const unit = enrollmentTotal === 1 ? singleUnitText : pluralUnitText;
+  const unit = enrollmentTotal === 1 ? singleUnit : pluralUnit;
 
-  return <StatCard value={enrollmentTotal} unit={unit} isTotal />;
+  return <StatCard value={enrollmentTotal} unit={unitText} secondary={unit} />;
 }
 
 EnrollmentStatsCard.propTypes = {

@@ -12,9 +12,10 @@ export default function MemberStatsCard({ partner }) {
   const partnerMembers = members.filter(member => member.partner === partner);
   const partnerMemberEmails = new Set(partnerMembers.map(member => member.email));
   const memberTotal = partnerMemberEmails.size;
-  const unit = memberTotal === 1 ? 'Member' : 'Members';
+  const unit = memberTotal === 1 ? 'Learner' : 'Learners';
+  const unitText = `Total ${unit}`;
 
-  return <StatCard value={partnerMemberEmails.size} unit={unit} isTotal />;
+  return <StatCard value={partnerMemberEmails.size} unit={'Total'} secondary={unit} />;
 }
 
 MemberStatsCard.propTypes = {

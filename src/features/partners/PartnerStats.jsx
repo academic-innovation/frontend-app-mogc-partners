@@ -31,7 +31,7 @@ export default function PartnerStats() {
         <Container size="lg">
           <h2 className="text-center mb-5">Organizational Totals</h2>
           <Stack direction="horizontal" gap={3}>
-            <StatCard value={courseCount} unit={courseUnit} isTotal />
+            <StatCard value={courseCount} unit={'Total'} secondary={courseUnit} />
             <MemberStatsCard partner={partnerSlug} />
             <EnrollmentStatsCard partner={partnerSlug} />
             <EnrollmentStatsCard partner={partnerSlug} onlyComplete />
