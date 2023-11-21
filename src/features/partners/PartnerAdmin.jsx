@@ -49,6 +49,10 @@ export default function PartnerDetails() {
             <h1 className="text-white">{partner?.name}</h1>
             <ManagementMenu partner={partnerSlug} />
           </Stack>
+          <p className="text-white">
+            Welcome! We are very excited to offer this learning opportunity
+            through a collaboration with the University of Michigan.
+          </p>
         </Container>
       </section>
 

@@ -34,6 +34,10 @@ export default function PartnerDetails() {
                 : null
             }
           </Stack>
+          <p className="text-white">
+            Welcome! We are very excited to offer this learning opportunity
+            through a collaboration with the University of Michigan.
+          </p>
         </Container>
       </section>
 
