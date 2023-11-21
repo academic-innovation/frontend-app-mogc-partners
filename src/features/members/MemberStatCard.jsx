@@ -14,7 +14,7 @@ export default function MemberStatsCard({ partner }) {
   const memberTotal = partnerMemberEmails.size;
   const unit = memberTotal === 1 ? 'Learner' : 'Learners';
 
-  return <StatCard value={partnerMemberEmails.size} unit={'Total'} secondary=unit />;
+  return <StatCard value={partnerMemberEmails.size} unit="Total" secondary={unit} />;
 }
 
 MemberStatsCard.propTypes = {
