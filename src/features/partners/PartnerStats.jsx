@@ -13,7 +13,7 @@ import ManagementMenu from './ManagementMenu';
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
 
-  const courseCount = partner?.offerings.length;
+  const courseCount = partner?.offerings.length || 0;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';
 
   return (
