@@ -11,6 +11,7 @@ import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import CatalogList from '../catalogs/CatalogList';
 import { addCatalog } from '../catalogs/catalogsSlice';
 import ManagementMenu from './ManagementMenu';
+import ManagementToolbar from './ManagementToolbar';
 
 export default function PartnerDetails() {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ export default function PartnerDetails() {
 
       <section className="p-3 py-5">
         <Container size="lg">
+          <ManagementToolbar partner={partnerSlug} />
           <ResponsiveBreadcrumb
             links={[
               { label: 'Partners', url: '' },

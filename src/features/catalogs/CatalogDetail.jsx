@@ -12,6 +12,7 @@ import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
+import ManagementToolbar from '../partners/ManagementToolbar';
 
 export default function CatalogDetails() {
   const { partnerSlug, catalogUuid } = useParams();
@@ -33,6 +34,7 @@ export default function CatalogDetails() {
 
       <section className="p-3">
         <Container size="lg">
+          <ManagementToolbar partner={partnerSlug} />
           <ResponsiveBreadcrumb
             links={[
               { label: 'Partners', url: '' },
