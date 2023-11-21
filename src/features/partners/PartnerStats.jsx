@@ -9,6 +9,7 @@ import MembershipProvider from '../members/MembershipProvider';
 import usePartner from './usePartner';
 import StatCard from './StatCard';
 import ManagementMenu from './ManagementMenu';
+import ManagementTabs from './ManagementTabs';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
@@ -30,6 +31,7 @@ export default function PartnerStats() {
       <section className="p-3 py-5 bg-gray-100">
         <Container size="lg">
           <h2 className="text-center mb-5">Organizational Totals</h2>
+          <ManagementTabs partner={partnerSlug} />
           <Stack direction="horizontal" gap={3}>
             <StatCard value={courseCount} unit={courseUnit} />
             <MemberStatsCard partner={partnerSlug} />
