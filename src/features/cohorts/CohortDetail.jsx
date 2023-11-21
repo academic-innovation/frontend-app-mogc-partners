@@ -5,7 +5,7 @@ import {
   Button, Container, Stack, useToggle,
 } from '@edx/paragon';
 
-import { selectCatalogById } from './catalogsSlice';
+import { selectCohortById } from './cohortsSlice';
 import { selectPartnerById } from '../partners/partnersSlice';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import OfferingList from '../offerings/OfferingList';
@@ -13,12 +13,12 @@ import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
 
-export default function CatalogDetails() {
-  const { partnerSlug, catalogUuid } = useParams();
+export default function CohortDetails() {
+  const { partnerSlug, cohortUuid } = useParams();
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
   const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
-  const catalog = useSelector(state => selectCatalogById(state, catalogUuid));
-  const partner = useSelector(state => selectPartnerById(state, catalog.partner));
+  const cohort = useSelector(state => selectCohortById(state, cohortUuid));
+  const partner = useSelector(state => selectPartnerById(state, cohort.partner));
 
   return (
     <>
@@ -37,18 +37,18 @@ export default function CatalogDetails() {
             links={[
               { label: 'Partners', url: '' },
               { label: partner?.name, url: `/${partnerSlug}` },
-              { label: 'Catalogs', url: `/${partnerSlug}/admin` },
+              { label: 'Cohorts', url: `/${partnerSlug}/admin` },
             ]}
-            activeLabel={catalog.name}
+            activeLabel={cohort.name}
           />
-          <h1>{catalog.name}</h1>
+          <h1>{cohort.name}</h1>
         </Container>
       </section>
 
       <section className="p-3">
         <Container size="lg">
           <h2>Courses</h2>
-          <OfferingList cohort={catalog.uuid} admin />
+          <OfferingList cohort={cohort.uuid} admin />
 
           <Button onClick={openAddCourse}>Add course</Button>
         </Container>
@@ -57,7 +57,7 @@ export default function CatalogDetails() {
       <AddOfferingModal
         isOpen={isAddCourseOpen}
         onClose={closeAddCourse}
-        catalog={catalog.uuid}
+        cohort={cohort.uuid}
         partnerOfferings={partner.offerings}
       />
 
@@ -65,7 +65,7 @@ export default function CatalogDetails() {
         <Container size="lg">
           <h2>Members</h2>
 
-          <MemberList cohort={catalog.uuid} />
+          <MemberList cohort={cohort.uuid} />
 
           <Button onClick={openAddMember} className="mt-3">Add member</Button>
         </Container>
@@ -74,7 +74,7 @@ export default function CatalogDetails() {
       <AddMemberModal
         isOpen={isAddMemberOpen}
         onClose={closeAddMember}
-        catalog={catalog.uuid}
+        cohort={cohort.uuid}
       />
     </>
   );

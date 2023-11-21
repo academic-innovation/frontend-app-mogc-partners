@@ -7,19 +7,19 @@ import {
 import { addMember } from './membersSlice';
 import useMembers from './useMembers';
 
-export default function AddMemberModal({ isOpen, onClose, catalog }) {
+export default function AddMemberModal({ isOpen, onClose, cohort }) {
   const dispatch = useDispatch();
   const [allMembers] = useMembers();
-  const catalogMemberEmails = allMembers
-    .filter(member => member.cohort === catalog)
+  const cohortMemberEmails = allMembers
+    .filter(member => member.cohort === cohort)
     .map(member => member.email);
 
   const [email, setEmail] = useState('');
   const onEmailChange = (e) => setEmail(e.target.value);
-  const canAddEmail = email.length && !catalogMemberEmails.includes(email);
+  const canAddEmail = email.length && !cohortMemberEmails.includes(email);
 
   const onAddMemberClicked = async () => {
-    await dispatch(addMember({ catalog, email }));
+    await dispatch(addMember({ cohort, email }));
     setEmail('');
     onClose();
   };
@@ -58,5 +58,5 @@ export default function AddMemberModal({ isOpen, onClose, catalog }) {
 AddMemberModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  catalog: PropTypes.string.isRequired,
+  cohort: PropTypes.string.isRequired,
 };
