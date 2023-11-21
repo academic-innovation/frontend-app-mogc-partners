@@ -61,7 +61,7 @@ export default function PartnerDetails() {
             ]}
             activeLabel="Cohort"
           />
-          <h2>Available Cohort</h2>
+          <h2>Available Cohorts</h2>
           <CohortList partnerSlug={partnerSlug} />
           <div>
             <Button iconBefore={Add} onClick={open}>Add cohort</Button>
