@@ -12,7 +12,7 @@ import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
-import CohortHeading from './CohortHeading';
+import PartnerHeading from '../partners/PartnerHeading';
 
 export default function CohortDetails() {
   const { partnerSlug, cohortUuid } = useParams();
@@ -23,9 +23,9 @@ export default function CohortDetails() {
 
   return (
     <>
-      <CohortHeading partner={partner}>
+      <PartnerHeading partner={partner}>
         <Button variant="inverse-outline-primary" href={`/${partnerSlug}`}>View</Button>
-      </CohortHeading>
+      </PartnerHeading>
 
       <section className="p-3">
         <Container size="lg">
