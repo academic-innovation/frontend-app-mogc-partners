@@ -9,6 +9,7 @@ import ManagementMenu from './ManagementMenu';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import PartnerOfferingList from '../offerings/PartnerOfferingList';
 import EnrolledOfferingList from '../offerings/EnrolledOfferingList';
+import PartnerHeading from './PartnerHeading';
 
 export default function PartnerDetails() {
   const dispatch = useDispatch();
@@ -24,22 +25,11 @@ export default function PartnerDetails() {
 
   return (
     <>
-      <section className="px-3 py-5 bg-primary">
-        <Container size="lg">
-          <Stack direction="horizontal" gap={3} className="justify-content-between">
-            <h1 className="text-white">{partner?.name}</h1>
-            {
-              partner?.isManager
-                ? <ManagementMenu partner={partnerSlug} />
-                : null
-            }
-          </Stack>
-          <p className="text-white">
-            Welcome! We are very excited to offer this learning opportunity
-            through a collaboration with the University of Michigan.
-          </p>
-        </Container>
-      </section>
+      <PartnerHeading partnerName={partner?.name}>
+        {
+          partner?.isManager && <ManagementMenu partner={partnerSlug} />
+        }
+      </PartnerHeading>
 
       <section className="p-3 pt-5">
         <Container size="lg">

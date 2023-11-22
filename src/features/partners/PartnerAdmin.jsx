@@ -11,6 +11,7 @@ import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import CohortList from '../cohorts/CohortList';
 import { addCohort } from '../cohorts/cohortsSlice';
 import ManagementMenu from './ManagementMenu';
+import PartnerHeading from './PartnerHeading';
 
 export default function PartnerDetails() {
   const dispatch = useDispatch();
@@ -43,18 +44,9 @@ export default function PartnerDetails() {
 
   return (
     <>
-      <section className="px-3 py-5 bg-primary">
-        <Container size="lg">
-          <Stack direction="horizontal" gap={3} className="justify-content-between">
-            <h1 className="text-white">{partner?.name}</h1>
-            <ManagementMenu partner={partnerSlug} />
-          </Stack>
-          <p className="text-white">
-            Welcome! We are very excited to offer this learning opportunity
-            through a collaboration with the University of Michigan.
-          </p>
-        </Container>
-      </section>
+      <PartnerHeading partnerName={partner?.name}>
+        <ManagementMenu partner={partnerSlug} />
+      </PartnerHeading>
 
       <section className="p-3 py-5">
         <Container size="lg">

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import {
-  Button, Container, Stack, useToggle,
+  Button, Container, useToggle,
 } from '@edx/paragon';
 
 import { selectCohortById } from './cohortsSlice';
@@ -12,6 +12,7 @@ import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
+import CohortHeading from './CohortHeading';
 
 export default function CohortDetails() {
   const { partnerSlug, cohortUuid } = useParams();
@@ -22,14 +23,9 @@ export default function CohortDetails() {
 
   return (
     <>
-      <section className="px-3 py-5 bg-primary">
-        <Container size="lg">
-          <Stack direction="horizontal" gap={3}>
-            <h1 className="text-white">{partner?.name}</h1>
-            <Button variant="inverse-outline-primary" href={`/${partnerSlug}`}>View</Button>
-          </Stack>
-        </Container>
-      </section>
+      <CohortHeading partner={partner}>
+        <Button variant="inverse-outline-primary" href={`/${partnerSlug}`}>View</Button>
+      </CohortHeading>
 
       <section className="p-3">
         <Container size="lg">
