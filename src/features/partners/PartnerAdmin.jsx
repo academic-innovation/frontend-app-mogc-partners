@@ -10,7 +10,6 @@ import { fetchPartners, selectPartnerById } from './partnersSlice';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import CatalogList from '../catalogs/CatalogList';
 import { addCatalog } from '../catalogs/catalogsSlice';
-import ManagementMenu from './ManagementMenu';
 import ManagementToolbar from './ManagementToolbar';
 
 export default function PartnerDetails() {

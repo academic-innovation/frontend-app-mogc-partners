@@ -8,7 +8,6 @@ import MemberEnrollmentList from '../enrollments/MemberEnrollmentList';
 import MembershipProvider from '../members/MembershipProvider';
 import usePartner from './usePartner';
 import StatCard from './StatCard';
-import ManagementMenu from './ManagementMenu';
 import ManagementToolbar from './ManagementToolbar';
 
 export default function PartnerStats() {
