@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Stack } from '@edx/paragon';
+import { Container } from '@edx/paragon';
 
 import { fetchPartners, selectPartnerById } from './partnersSlice';
 import ManagementMenu from './ManagementMenu';

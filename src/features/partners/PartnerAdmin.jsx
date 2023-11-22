@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  ActionRow, Button, Container, Form, ModalDialog, Stack, useToggle,
+  ActionRow, Button, Container, Form, ModalDialog, useToggle,
 } from '@edx/paragon';
 import { Add } from '@edx/paragon/icons';
 
