@@ -6,35 +6,37 @@ import {
   ActionRow, Alert, Card, Button, Form, ModalDialog, useToggle,
 } from '@edx/paragon';
 import { Info } from '@edx/paragon/icons';
-import { selectCatalogById, deleteCatalog, updateCatalog } from './catalogsSlice';
+import { selectCohortById, deleteCohort, updateCohort } from './cohortsSlice';
 
-import CatalogMemberCount from '../members/CatalogMemberCount';
-import CatalogOfferingCount from '../offerings/CatalogOfferingCount';
+import CohortMemberCount from '../members/CohortMemberCount';
+import CohortOfferingCount from '../offerings/CohortOfferingCount';
 
-export default function CatalogListItem({ uuid }) {
+export default function CohortListItem({ uuid }) {
   const dispatch = useDispatch();
-  const catalog = useSelector(state => selectCatalogById(state, uuid));
-  const [catalogName, setCatalogName] = useState(catalog.name);
-  const [catalogConfirmation, setCatalogConfirmation] = useState('');
+  const cohort = useSelector(state => selectCohortById(state, uuid));
+  const [cohortName, setCohortName] = useState(cohort.name);
+  const [cohortConfirmation, setCohortConfirmation] = useState('');
   const [isOpen, open, close] = useToggle(false);
   const [deleteIsOpen, openDelete, closeDelete] = useToggle(false);
 
-  const onCatalogDeletionConfirmed = () => {
-    dispatch(deleteCatalog(uuid));
-    setCatalogConfirmation('');
+  const CONFIRM_TEXT = 'DELETE';
+
+  const onCohortDeletionConfirmed = () => {
+    dispatch(deleteCohort(uuid));
+    setCohortConfirmation('');
     closeDelete();
   };
 
-  const onCatalogNameChanged = (e) => setCatalogName(e.target.value);
+  const onCohortNameChanged = (e) => setCohortName(e.target.value);
 
-  const onCatalogConfirmationChanged = (e) => setCatalogConfirmation(e.target.value);
+  const onCohortConfirmationChanged = (e) => setCohortConfirmation(e.target.value);
 
-  const canDelete = catalogConfirmation === catalog.name;
+  const canDelete = cohortConfirmation === CONFIRM_TEXT;
 
   const onUpdateSubmitted = async () => {
     await dispatch(
-      updateCatalog({
-        uuid, catalogUpdates: { partner: catalog.partner, name: catalogName },
+      updateCohort({
+        uuid, cohortUpdates: { partner: cohort.partner, name: cohortName },
       }),
     );
     close();
@@ -44,15 +46,15 @@ export default function CatalogListItem({ uuid }) {
     <>
       <Card orientation="horizontal" className="mb-4">
         <Card.Section>
-          <h3>{catalog.name}</h3>
+          <h3>{cohort.name}</h3>
           <p>
-            <CatalogOfferingCount cohort={catalog.uuid} />{' '}
-            <CatalogMemberCount cohort={catalog.uuid} />
+            <CohortOfferingCount cohort={cohort.uuid} />{' '}
+            <CohortMemberCount cohort={cohort.uuid} />
           </p>
         </Card.Section>
         <Card.Footer className="justify-content-end w-auto">
           <Link
-            to={`/${catalog.partner}/admin/catalog/${catalog.uuid}`}
+            to={`/${cohort.partner}/admin/catalog/${cohort.uuid}`}
             className="btn btn-primary"
           >
             View
@@ -63,34 +65,36 @@ export default function CatalogListItem({ uuid }) {
       </Card>
 
       <ModalDialog
-        title="Delete catalog"
+        title="Delete cohort"
         isOpen={deleteIsOpen}
         onClose={closeDelete}
       >
         <ModalDialog.Header>
           <ModalDialog.Title>
-            Delete {catalog.name}
+            Delete {cohort.name}
           </ModalDialog.Title>
         </ModalDialog.Header>
 
         <ModalDialog.Body>
           <Alert variant="danger" icon={Info}>
-            <Alert.Heading>Warning: This is a destructive action!</Alert.Heading>
+            <Alert.Heading>
+              You are about to permanently delete this cohort.
+            </Alert.Heading>
             <p>
-              Deleting a catalog is permanent,
-              and deletes all memberships and offerings within the catalog.
+              Deleting a cohort deletes all memberships and offerings within it.
             </p>
           </Alert>
 
-          <p>Please type <strong>{catalog.name}</strong> to confirm.</p>
+          <p>Please type <strong>{CONFIRM_TEXT}</strong> to confirm.</p>
 
           <Form>
             <Form.Group>
               <Form.Control
                 type="text"
-                value={catalogConfirmation}
-                onChange={onCatalogConfirmationChanged}
-                aria-label="Type in the name of the catalog to confirm that you want to delete this catalog."
+                value={cohortConfirmation}
+                onChange={onCohortConfirmationChanged}
+                placeholder="Type confirmation here"
+                aria-label="Type confirmation here"
               />
             </Form.Group>
           </Form>
@@ -102,7 +106,7 @@ export default function CatalogListItem({ uuid }) {
               Cancel
             </ModalDialog.CloseButton>
             <Button
-              onClick={onCatalogDeletionConfirmed}
+              onClick={onCohortDeletionConfirmed}
               variant="danger"
               disabled={!canDelete}
             >
@@ -119,18 +123,18 @@ export default function CatalogListItem({ uuid }) {
       >
         <ModalDialog.Header>
           <ModalDialog.Title>
-            Rename {catalog.name}
+            Rename {cohort.name}
           </ModalDialog.Title>
         </ModalDialog.Header>
 
         <ModalDialog.Body>
           <Form>
             <Form.Group>
-              <Form.Label>Catalog Name</Form.Label>
+              <Form.Label>Cohort Name</Form.Label>
               <Form.Control
                 type="text"
-                value={catalogName}
-                onChange={onCatalogNameChanged}
+                value={cohortName}
+                onChange={onCohortNameChanged}
               />
             </Form.Group>
           </Form>
@@ -151,6 +155,6 @@ export default function CatalogListItem({ uuid }) {
   );
 }
 
-CatalogListItem.propTypes = {
+CohortListItem.propTypes = {
   uuid: PropTypes.string.isRequired,
 };

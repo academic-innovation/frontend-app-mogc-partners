@@ -18,7 +18,7 @@ import PartnerList from './features/partners/PartnerList';
 import PartnerAdmin from './features/partners/PartnerAdmin';
 import PartnerDetails from './features/partners/PartnerDetails';
 import PartnerStats from './features/partners/PartnerStats';
-import CatalogDetails from './features/catalogs/CatalogDetail';
+import CohortDetails from './features/cohorts/CohortDetail';
 
 import './index.scss';
 
@@ -34,8 +34,8 @@ subscribe(APP_READY, () => {
           <Route exact path="/:partnerSlug/admin/insights" component={PartnerStats} />
           <Route
             exact
-            path="/:partnerSlug/admin/catalog/:catalogUuid"
-            component={CatalogDetails}
+            path="/:partnerSlug/admin/catalog/:cohortUuid"
+            component={CohortDetails}
           />
         </Switch>
       </main>
