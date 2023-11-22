@@ -8,15 +8,9 @@ import { Add } from '@edx/paragon/icons';
 
 import { fetchPartners, selectPartnerById } from './partnersSlice';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
-<<<<<<< HEAD
-import CatalogList from '../catalogs/CatalogList';
-import { addCatalog } from '../catalogs/catalogsSlice';
-import ManagementToolbar from './ManagementToolbar';
-=======
 import CohortList from '../cohorts/CohortList';
 import { addCohort } from '../cohorts/cohortsSlice';
-import ManagementMenu from './ManagementMenu';
->>>>>>> master
+import ManagementToolbar from './ManagementToolbar';
 
 export default function PartnerDetails() {
   const dispatch = useDispatch();
