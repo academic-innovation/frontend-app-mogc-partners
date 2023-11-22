@@ -23,13 +23,13 @@ export default function PartnerStats() {
         <Container size="lg">
           <Stack direction="horizontal" gap={3} className="justify-content-between">
             <h1 className="text-white">{partner?.name}</h1>
-            <ManagementMenu partner={partnerSlug} />
           </Stack>
         </Container>
       </section>
 
       <section className="p-3 py-5 bg-gray-100">
         <Container size="lg">
+          <ManagementToolbar partner={partnerSlug} />
           <h2 className="text-center mb-5">Organizational Totals</h2>
           <Stack direction="horizontal" gap={3}>
             <StatCard value={courseCount} unit={courseUnit} />
@@ -42,7 +42,6 @@ export default function PartnerStats() {
 
       <section className="p-3 py-5">
         <Container size="lg">
-          <ManagementToolbar partner={partnerSlug} />
           <h2>Course Details</h2>
           <CourseEnrollmentList offerings={partner?.offerings ?? []} />
         </Container>

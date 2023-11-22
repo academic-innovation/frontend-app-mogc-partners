@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function ManagementToolbar({ partner }) {
   const url = new URL(window.location);
-  const isInsights = url.pathname.includes("insights");
+  const isInsights = url.pathname.includes('insights');
   return (
     <div className="row">
       <div className="col col-9">

@@ -48,7 +48,6 @@ export default function PartnerDetails() {
         <Container size="lg">
           <Stack direction="horizontal" gap={3} className="justify-content-between">
             <h1 className="text-white">{partner?.name}</h1>
-            <ManagementMenu partner={partnerSlug} />
           </Stack>
         </Container>
       </section>
