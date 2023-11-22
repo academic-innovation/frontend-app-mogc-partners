@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Stack } from '@edx/paragon';
 
 import { fetchPartners, selectPartnerById } from './partnersSlice';
-import ManagementMenu from './ManagementMenu';
 
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import PartnerOfferingList from '../offerings/PartnerOfferingList';
@@ -22,17 +22,16 @@ export default function PartnerDetails() {
     }
   }, [partnersStatus, dispatch]);
 
+  if (partner?.isManager) {
+    return <Redirect to={`${partner.slug}/admin`} />;
+  }
+
   return (
     <>
       <section className="px-3 py-5 bg-primary">
         <Container size="lg">
           <Stack direction="horizontal" gap={3} className="justify-content-between">
             <h1 className="text-white">{partner?.name}</h1>
-            {
-              partner?.isManager
-                ? <ManagementMenu partner={partnerSlug} />
-                : null
-            }
           </Stack>
         </Container>
       </section>
