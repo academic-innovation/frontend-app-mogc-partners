@@ -9,10 +9,10 @@ export default function ManagementToolbar({ partner, selectedTab }) {
       <div className="col col-9">
         <ButtonToolbar>
           <ButtonGroup>
-            <Button as={Link} to={`/${partner}/admin`} style={{ background: selectedTab === 'cohorts' ? 'red' : 'white' }}>
+            <Button as={Link} to={`/${partner}/admin`} className={{ background: selectedTab === 'cohorts' ? 'red' : 'white' }}>
               Cohorts
             </Button>
-            <Button as={Link} to={`/${partner}/admin/insights`} style={{ background: selectedTab === 'insights' ? 'red' : 'white' }}>
+            <Button as={Link} to={`/${partner}/admin/insights`} className={{ background: selectedTab === 'insights' ? 'red' : 'white' }}>
               Insights
             </Button>
           </ButtonGroup>
