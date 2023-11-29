@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ButtonToolbar, ButtonGroup, Button } from '@edx/paragon';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function ManagementToolbar({ partner, selectedTab }) {
   return (
@@ -9,20 +9,18 @@ export default function ManagementToolbar({ partner, selectedTab }) {
       <div className="col col-9">
         <ButtonToolbar>
           <ButtonGroup>
-            <Button style={{ background: selectedTab === 'cohorts' ? 'red' : 'white' }}>
-              <NavLink to={`/${partner}/admin`} style={{ color: selectedTab === 'cohorts' ? 'white' : 'red' }}>
-                Cohorts
-              </NavLink>
+            <Button as={Link} to={`/${partner}/admin`} style={{ background: selectedTab === 'cohorts' ? 'red' : 'white' }}>
+              Cohorts
             </Button>
-            <Button style={{ background: selectedTab === 'insights' ? 'red' : 'white' }}>
-              <NavLink to={`/${partner}/admin/insights`} style={{ color: selectedTab === 'insights' ? 'white' : 'red' }}>Insights</NavLink>
+            <Button as={Link} to={`/${partner}/admin/insights`} style={{ background: selectedTab === 'insights' ? 'red' : 'white' }}>
+              Insights
             </Button>
           </ButtonGroup>
         </ButtonToolbar>
       </div>
       <div className="col col-3">
-        <Button>
-          <NavLink to={`/${partner}`}>Preview As Learner</NavLink>
+        <Button as={Link} to={`/${partner}`}>
+          Preview As Learner
         </Button>
       </div>
     </div>
