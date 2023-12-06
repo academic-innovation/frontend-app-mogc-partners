@@ -57,7 +57,7 @@ export default function PartnerDetails() {
           <ResponsiveBreadcrumb
             links={[
               { label: 'Partners', url: '' },
-              { label: partner?.name, url: `/${partnerSlug}` },
+              { label: partner?.name, url: `/${partnerSlug}/details` },
             ]}
             activeLabel="Cohort"
           />
