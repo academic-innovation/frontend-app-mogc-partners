@@ -24,7 +24,7 @@ export default function CohortDetails() {
 
   return (
     <>
-      <PartnerHeading partner={partner}>
+      <PartnerHeading partnerName={partner?.name}>
         <Button variant="inverse-outline-primary" href={`/${partnerSlug}`}>View</Button>
       </PartnerHeading>
 
