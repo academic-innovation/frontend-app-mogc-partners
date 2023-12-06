@@ -4,17 +4,22 @@ import ButtonLink from '../../common/ButtonLink';
 import ButtonLinkGroup from '../../common/ButtonLinkGroup';
 
 export default function ManagementToolbar({ partner, selectedTab }) {
-  const btnGroup = [
-    { text: 'Cohorts', link: `/${partner}/admin`, props: { className: selectedTab === 'cohorts' ? 'btn btn-dark' : 'btn btn-outline-dark' } },
-    { text: 'Insights', link: `/${partner}/admin/insights`, props: { className: selectedTab === 'insights' ? 'btn btn-dark' : 'btn btn-outline-dark' } },
-  ];
   return (
     <div className="row">
       <div className="col col-9">
-        <ButtonLinkGroup links={btnGroup} />
+        <ButtonLinkGroup>
+          <ButtonLink className={selectedTab === 'cohorts' ? 'btn btn-dark' : 'btn btn-outline-dark'} link={`/${partner}/admin`}>
+            Cohorts
+          </ButtonLink>
+          <ButtonLink className={selectedTab === 'insights' ? 'btn btn-dark' : 'btn btn-outline-dark'} link={`/${partner}/admin/insights`}>
+            Insights
+          </ButtonLink>
+        </ButtonLinkGroup>
       </div>
       <div className="col col-3">
-        <ButtonLink className="btn btn-primary" link={`/${partner}`} text="Preview As Learner" />
+        <ButtonLink className="btn btn-primary" link={`/${partner}`}>
+          Preview As Learner
+        </ButtonLink>
       </div>
     </div>
   );
