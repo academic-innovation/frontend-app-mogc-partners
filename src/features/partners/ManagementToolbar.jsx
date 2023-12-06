@@ -1,27 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ButtonToolbar, ButtonGroup, Button } from '@edx/paragon';
-import { Link } from 'react-router-dom';
+import ButtonLink from '../../common/ButtonLink';
+import ButtonLinkGroup from '../../common/ButtonLinkGroup';
 
 export default function ManagementToolbar({ partner, selectedTab }) {
+  const btnGroup = [
+    { text: 'Cohorts', link: `/${partner}/admin`, props: { className: selectedTab === 'cohorts' ? 'btn btn-dark' : 'btn btn-outline-dark' } },
+    { text: 'Insights', link: `/${partner}/admin/insights`, props: { className: selectedTab === 'insights' ? 'btn btn-dark' : 'btn btn-outline-dark' } },
+  ];
   return (
     <div className="row">
       <div className="col col-9">
-        <ButtonToolbar>
-          <ButtonGroup>
-            <Button as={Link} to={`/${partner}/admin`} className={selectedTab === 'cohorts' ? 'btn-dark' : 'btn-outline-dark'}>
-              Cohorts
-            </Button>
-            <Button as={Link} to={`/${partner}/admin/insights`} className={selectedTab === 'insights' ? 'btn-dark' : 'btn-outline-dark'}>
-              Insights
-            </Button>
-          </ButtonGroup>
-        </ButtonToolbar>
+        <ButtonLinkGroup links={btnGroup} />
       </div>
       <div className="col col-3">
-        <Button as={Link} to={`/${partner}`}>
-          Preview As Learner
-        </Button>
+        <ButtonLink className="btn btn-primary" link={`/${partner}`} text="Preview As Learner" />
       </div>
     </div>
   );
