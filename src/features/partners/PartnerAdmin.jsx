@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  ActionRow, Button, Container, Form, ModalDialog, Stack, useToggle,
+  ActionRow, Button, Container, Form, ModalDialog, useToggle,
 } from '@edx/paragon';
 import { Add } from '@edx/paragon/icons';
 
@@ -11,6 +11,7 @@ import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import CohortList from '../cohorts/CohortList';
 import { addCohort } from '../cohorts/cohortsSlice';
 import ManagementToolbar from './ManagementToolbar';
+import PartnerHeading from './PartnerHeading';
 
 export default function PartnerDetails() {
   const dispatch = useDispatch();
@@ -43,13 +44,7 @@ export default function PartnerDetails() {
 
   return (
     <>
-      <section className="px-3 py-5 bg-primary">
-        <Container size="lg">
-          <Stack direction="horizontal" gap={3} className="justify-content-between">
-            <h1 className="text-white">{partner?.name}</h1>
-          </Stack>
-        </Container>
-      </section>
+      <PartnerHeading partnerName={partner?.name} />
 
       <section className="p-3 py-5">
         <Container size="lg">
@@ -57,7 +52,7 @@ export default function PartnerDetails() {
           <ResponsiveBreadcrumb
             links={[
               { label: 'Partners', url: '' },
-              { label: partner?.name, url: `/${partnerSlug}` },
+              { label: partner?.name, url: `/${partnerSlug}/details` },
             ]}
             activeLabel="Cohort"
           />

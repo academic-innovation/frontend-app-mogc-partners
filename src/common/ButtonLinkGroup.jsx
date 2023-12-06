@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export default function ButtonLinkGroup({ children, ...props }) {
   return (
@@ -9,6 +8,10 @@ export default function ButtonLinkGroup({ children, ...props }) {
   );
 }
 
+ButtonLinkGroup.defaultProps = {
+  children: {},
+};
+
 ButtonLinkGroup.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: React.ReactNode,
 };

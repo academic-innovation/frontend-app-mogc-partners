@@ -9,6 +9,7 @@ import MembershipProvider from '../members/MembershipProvider';
 import usePartner from './usePartner';
 import StatCard from './StatCard';
 import ManagementToolbar from './ManagementToolbar';
+import PartnerHeading from './PartnerHeading';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
@@ -18,13 +19,7 @@ export default function PartnerStats() {
 
   return (
     <>
-      <section className="px-3 py-5 bg-primary">
-        <Container size="lg">
-          <Stack direction="horizontal" gap={3} className="justify-content-between">
-            <h1 className="text-white">{partner?.name}</h1>
-          </Stack>
-        </Container>
-      </section>
+      <PartnerHeading partnerName={partner?.name} />
 
       <section className="p-3 py-5 bg-gray-100">
         <Container size="lg">
