@@ -17,7 +17,7 @@ export default function ManagementToolbar({ partner, selectedTab }) {
         </ButtonLinkGroup>
       </div>
       <div className="col col-3">
-        <ButtonLink className="btn btn-primary" link={`/${partner}`}>
+        <ButtonLink className="btn btn-primary" link={`/${partner}/details`}>
           Preview As Learner
         </ButtonLink>
       </div>
