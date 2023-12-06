@@ -1,19 +1,32 @@
 import React from 'react';
 import { Container, Stack } from '@edx/paragon';
 
+import uniqBy from 'lodash.uniqby';
+
 import MemberStatsCard from '../members/MemberStatCard';
 import EnrollmentStatsCard from '../enrollments/EnrollmentStatCard';
 import CourseEnrollmentList from '../enrollments/CourseEnrollmentList';
 import MemberEnrollmentList from '../enrollments/MemberEnrollmentList';
 import MembershipProvider from '../members/MembershipProvider';
+import useCohorts from '../cohorts/useCohorts';
 import usePartner from './usePartner';
+import useOfferings from '../offerings/useOfferings';
 import StatCard from './StatCard';
 import ManagementMenu from './ManagementMenu';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
+  const [offerings, offeringStatus] = useOfferings();
+  const [cohorts] = useCohorts();
 
-  const courseCount = partner?.offerings.length;
+  const uniqOfferings = uniqBy(offerings, 'details.courseKey');
+  const partnerOfferings = offeringStatus === 'success'
+    ? uniqOfferings.filter(
+        offering => offering.partner === partnerSlug
+      )
+    : [];
+
+  const courseCount = partnerOfferings.length;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';
 
   return (
@@ -42,7 +55,7 @@ export default function PartnerStats() {
       <section className="p-3 py-5">
         <Container size="lg">
           <h2>Course Details</h2>
-          <CourseEnrollmentList offerings={partner?.offerings ?? []} />
+          <CourseEnrollmentList offerings={partnerOfferings ?? []} cohorts={cohorts} />
         </Container>
       </section>
 
@@ -50,7 +63,7 @@ export default function PartnerStats() {
         <Container size="lg">
           <h2>User Details</h2>
           <MembershipProvider>
-            <MemberEnrollmentList offerings={partner?.offerings ?? []} />
+            <MemberEnrollmentList offerings={partnerOfferings ?? []} cohorts={cohorts} />
           </MembershipProvider>
         </Container>
       </section>

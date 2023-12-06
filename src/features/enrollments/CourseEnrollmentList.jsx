@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable } from '@edx/paragon';
+import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
 import useRecords from './useRecords';
+
+import { getCohortFilterOptions } from "../../utils/forms.js";
 
 function courseEnrollments(courseKey) {
   return enrollment => enrollment.offering.courseKey === courseKey;
@@ -13,20 +15,35 @@ function courseCompletions(courseKey) {
   );
 }
 
-export default function CourseEnrollmentList({ offerings }) {
+export default function CourseEnrollmentList({ offerings, cohorts }) {
   const [enrollments] = useRecords();
 
   const data = offerings.map(offering => ({
-    title: offering.title,
-    courseKey: offering.courseKey,
-    enrollments: enrollments.filter(courseEnrollments(offering.courseKey)).length,
-    completions: enrollments.filter(courseCompletions(offering.courseKey)).length,
+    title: offering.details.title,
+    courseKey: offering.details.courseKey,
+    cohort: offering.cohort,
+    enrollments: enrollments.filter(courseEnrollments(offering.details.courseKey)).length,
+    completions: enrollments.filter(courseCompletions(offering.details.courseKey)).length,
   }));
+
+  const cohortFilterOptions = getCohortFilterOptions(cohorts);
+
   return (
     <DataTable
+      isFilterable
+      enableHiding
+      initialState={{ hiddenColumns: ['cohort'] }}
       data={data}
+      defaultColumnValues={{ Filter: TextFilter }}
       itemCount={data.length}
       columns={[
+        {
+          Header: 'Filter by cohort',
+          accessor: 'cohort',
+          Filter: DropdownFilter,
+          filter: 'equals',
+          filterChoices: cohortFilterOptions
+        },
         { Header: 'Title', accessor: 'title' },
         { Header: 'Enrollments', accessor: 'enrollments' },
         { Header: 'Completions', accessor: 'completions' },
