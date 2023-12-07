@@ -44,7 +44,7 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
       enableHiding
       initialState={{ pageSize: 20, hiddenColumns: ['cohort'] }}
       defaultColumnValues={{ Filter: TextFilter }}
-      numBreakoutFilters={0}
+      numBreakoutFilters={1}
       data={data}
       itemCount={data.length}
       columns={[
