@@ -23,8 +23,8 @@ export default function PartnerStats() {
   const uniqOfferings = uniqBy(offerings, 'details.courseKey');
   const partnerOfferings = offeringStatus === 'success'
     ? uniqOfferings.filter(
-        offering => offering.partner === partnerSlug
-      )
+      offering => offering.partner === partnerSlug,
+    )
     : [];
 
   const courseCount = partnerOfferings.length;
@@ -51,7 +51,10 @@ export default function PartnerStats() {
       <section className="p-3 py-5">
         <Container size="lg">
           <h2>Course Details</h2>
-          <CourseEnrollmentList offerings={partnerOfferings ?? []} cohorts={cohorts} />
+          <CourseEnrollmentList
+            offerings={partnerOfferings ?? []}
+            cohorts={cohorts}
+          />
         </Container>
       </section>
 
@@ -59,7 +62,10 @@ export default function PartnerStats() {
         <Container size="lg">
           <h2>User Details</h2>
           <MembershipProvider>
-            <MemberEnrollmentList offerings={partnerOfferings ?? []} cohorts={cohorts} />
+            <MemberEnrollmentList
+              offerings={partnerOfferings ?? []}
+              cohorts={cohorts}
+            />
           </MembershipProvider>
         </Container>
       </section>

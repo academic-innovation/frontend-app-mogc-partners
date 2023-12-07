@@ -6,7 +6,7 @@ import uniqBy from 'lodash.uniqby';
 import EntityContext from '../../common/EntityContext';
 import useRecords from './useRecords';
 
-import { getCohortFilterOptions } from "../../utils/forms.js";
+import { getCohortFilterOptions } from '../../utils/forms';
 
 function memberEnrollments(user) {
   return enrollment => enrollment.user === user;
@@ -48,11 +48,11 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
       data={data}
       itemCount={data.length}
       columns={[
-        { 
-          Header: 'Filter by cohort', 
-          accessor: 'cohort', 
-          Filter: DropdownFilter, 
-          filter: 'equals', 
+        {
+          Header: 'Filter by cohort',
+          accessor: 'cohort',
+          Filter: DropdownFilter,
+          filter: 'equals',
           filterChoices: cohortFilterOptions,
           canFilter: true,
         },
@@ -72,4 +72,5 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
 
 MemberEnrollmentList.propTypes = {
   offerings: PropTypes.arrayOf(PropTypes.object).isRequired,
+  cohorts: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

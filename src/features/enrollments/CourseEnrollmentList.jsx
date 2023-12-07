@@ -1,17 +1,18 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { DataTable, DropdownFilter, TextFilter } from "@edx/paragon";
-import useRecords from "./useRecords";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
+import useRecords from './useRecords';
 
-import { getCohortFilterOptions } from "../../utils/forms";
+import { getCohortFilterOptions } from '../../utils/forms';
 
 function courseEnrollments(courseKey) {
   return (enrollment) => enrollment.offering.courseKey === courseKey;
 }
 
 function courseCompletions(courseKey) {
-  return (enrollment) =>
-    enrollment.isComplete && enrollment.offering.courseKey === courseKey;
+  return (enrollment) => (
+    enrollment.isComplete && enrollment.offering.courseKey === courseKey
+  );
 }
 
 export default function CourseEnrollmentList({ offerings, cohorts }) {
@@ -22,10 +23,10 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
     courseKey: offering.details.courseKey,
     cohort: offering.cohort,
     enrollments: enrollments.filter(
-      courseEnrollments(offering.details.courseKey)
+      courseEnrollments(offering.details.courseKey),
     ).length,
     completions: enrollments.filter(
-      courseCompletions(offering.details.courseKey)
+      courseCompletions(offering.details.courseKey),
     ).length,
   }));
 
@@ -35,21 +36,21 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
     <DataTable
       isFilterable
       enableHiding
-      initialState={{ hiddenColumns: ["cohort"] }}
+      initialState={{ hiddenColumns: ['cohort'] }}
       data={data}
       defaultColumnValues={{ Filter: TextFilter }}
       itemCount={data.length}
       columns={[
         {
-          Header: "Filter by cohort",
-          accessor: "cohort",
+          Header: 'Filter by cohort',
+          accessor: 'cohort',
           Filter: DropdownFilter,
-          filter: "equals",
+          filter: 'equals',
           filterChoices: cohortFilterOptions,
         },
-        { Header: "Title", accessor: "title" },
-        { Header: "Enrollments", accessor: "enrollments" },
-        { Header: "Completions", accessor: "completions" },
+        { Header: 'Title', accessor: 'title' },
+        { Header: 'Enrollments', accessor: 'enrollments' },
+        { Header: 'Completions', accessor: 'completions' },
       ]}
     >
       <DataTable.TableControlBar />

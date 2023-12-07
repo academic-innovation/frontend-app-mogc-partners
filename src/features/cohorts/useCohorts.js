@@ -12,4 +12,4 @@ export default function useCohorts() {
     }
   }, [status, dispatch]);
   return [cohorts, status];
-};
+}
