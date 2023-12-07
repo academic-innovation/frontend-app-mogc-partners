@@ -8,7 +8,8 @@ import EnrolledOfferingCard from './EnrolledOfferingCard';
 import useOfferings from './useOfferings';
 
 export default function EnrolledOfferingList({ partnerSlug }) {
-  const [partnerOfferings, offeringsStatus] = useOfferings(partnerSlug, true);
+  const [allPartnerOfferings, offeringsStatus] = useOfferings(partnerSlug);
+  const partnerOfferings = allPartnerOfferings.filter(offering => offering.isEnrolled);
 
   if (offeringsStatus === 'loading') {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;

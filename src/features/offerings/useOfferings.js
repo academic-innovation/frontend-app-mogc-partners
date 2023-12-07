@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOfferings, selectAllOfferings, selectOfferingsByPartnerSlug } from './offeringsSlice';
 
-export default function useOfferings(partnerSlug = null, checkIsEnrolled = false) {
+export default function useOfferings(partnerSlug = null) {
   const dispatch = useDispatch();
   const offerings = partnerSlug
     ? useSelector(
-      (state) => selectOfferingsByPartnerSlug(state, partnerSlug, checkIsEnrolled),
+      (state) => selectOfferingsByPartnerSlug(state, partnerSlug),
     )
     : useSelector(selectAllOfferings);
   const status = useSelector(state => state.offerings.status);

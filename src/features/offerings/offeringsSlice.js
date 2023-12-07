@@ -97,30 +97,6 @@ const offeringsSlice = createSlice({
       .addCase(addOffering.fulfilled, offeringsAdapter.addOne);
   },
 });
-
-export const selectOfferingsByPartnerSlug = createSelector(
-  [
-    (state) => state.offerings.entities,
-    (state, partner) => partner,
-  ],
-  (offerings, partner, checkIsEntrolled = false) => {
-    const offeringIds = Object.keys(offerings).filter(
-      offeringId => offerings[offeringId].partner === partner,
-    );
-    if (!offeringIds) {
-      return [];
-    }
-    const allPartnerOfferings = offeringIds.reduce((partnerOfferings, offeringId) => {
-      const offering = offerings[offeringId];
-      if (checkIsEntrolled && !offering.isEnrolled) {
-        return partnerOfferings;
-      }
-      partnerOfferings.push(offering);
-      return partnerOfferings;
-    }, []);
-    return uniqBy(allPartnerOfferings, 'details.courseKey');
-  },
-);
 /* eslint-enable */
 
 export const {
@@ -128,5 +104,25 @@ export const {
   selectById: selectOfferingById,
   selectIds: selectOfferingIds,
 } = offeringsAdapter.getSelectors(state => state.offerings);
+
+export const selectOfferingsByPartnerSlug = createSelector(
+  [
+    selectAllOfferings,
+    (_, partner) => partner,
+  ],
+  (offerings, partner) => {
+    const offeringIds = Object.keys(offerings).filter(
+      offeringId => offerings[offeringId].partner === partner,
+    );
+    if (!offeringIds) {
+      return [];
+    }
+    const allPartnerOfferings = offeringIds.reduce((partnerOfferings, offeringId) => {
+      partnerOfferings.push(offerings[offeringId]);
+      return partnerOfferings;
+    }, []);
+    return uniqBy(allPartnerOfferings, 'details.courseKey');
+  },
+);
 
 export default offeringsSlice.reducer;
