@@ -11,5 +11,5 @@ export default function useCohorts() {
       dispatch(fetchCohorts());
     }
   }, [status, dispatch]);
-  return [cohorts, status]
-}
+  return [cohorts, status];
+};

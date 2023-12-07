@@ -15,6 +15,7 @@ import { Route, Switch } from 'react-router';
 import store from './common/store';
 import appMessages from './i18n';
 import PartnerList from './features/partners/PartnerList';
+import PartnerRedirect from './features/partners/PartnerRedirect';
 import PartnerAdmin from './features/partners/PartnerAdmin';
 import PartnerDetails from './features/partners/PartnerDetails';
 import PartnerStats from './features/partners/PartnerStats';
@@ -29,7 +30,8 @@ subscribe(APP_READY, () => {
       <main id="main">
         <Switch>
           <Route exact path="/" component={PartnerList} />
-          <Route exact path="/:partnerSlug" component={PartnerDetails} />
+          <Route exact path="/:partnerSlug" component={PartnerRedirect} />
+          <Route exact path="/:partnerSlug/details" component={PartnerDetails} />
           <Route exact path="/:partnerSlug/admin" component={PartnerAdmin} />
           <Route exact path="/:partnerSlug/admin/insights" component={PartnerStats} />
           <Route

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useCohorts from './useCohorts.js';
+import useCohorts from './useCohorts';
 import CohortListItem from './CohortListItem';
 
 export default function CohortList({ partnerSlug }) {

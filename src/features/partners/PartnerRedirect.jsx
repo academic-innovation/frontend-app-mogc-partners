@@ -13,7 +13,7 @@ export default function PartnerRedirect() {
 
   useEffect(() => {
     if (partnersStatus === 'idle') {
-    dispatch(fetchPartners());
+      dispatch(fetchPartners());
     }
   }, [partnersStatus, dispatch]);
 

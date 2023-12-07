@@ -13,6 +13,7 @@ import usePartner from './usePartner';
 import useOfferings from '../offerings/useOfferings';
 import StatCard from './StatCard';
 import ManagementMenu from './ManagementMenu';
+import PartnerHeading from './PartnerHeading';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
@@ -31,14 +32,9 @@ export default function PartnerStats() {
 
   return (
     <>
-      <section className="px-3 py-5 bg-primary">
-        <Container size="lg">
-          <Stack direction="horizontal" gap={3} className="justify-content-between">
-            <h1 className="text-white">{partner?.name}</h1>
-            <ManagementMenu partner={partnerSlug} />
-          </Stack>
-        </Container>
-      </section>
+      <PartnerHeading partnerName={partner?.name}>
+        <ManagementMenu partner={partnerSlug} />
+      </PartnerHeading>
 
       <section className="p-3 py-5 bg-gray-100">
         <Container size="lg">
