@@ -1,8 +1,14 @@
-import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createSelector,
+  createAsyncThunk,
+  createEntityAdapter,
+} from '@reduxjs/toolkit';
 import {
   ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import uniqBy from 'lodash.uniqby';
 
 ensureConfig(['LMS_BASE_URL'], 'Partnership API services');
 
@@ -91,6 +97,30 @@ const offeringsSlice = createSlice({
       .addCase(addOffering.fulfilled, offeringsAdapter.addOne);
   },
 });
+
+export const selectOfferingsByPartnerSlug = createSelector(
+  [
+    (state) => state.offerings.entities,
+    (state, partner) => partner,
+  ],
+  (offerings, partner, checkIsEntrolled = false) => {
+    const offeringIds = Object.keys(offerings).filter(
+      offeringId => offerings[offeringId].partner === partner,
+    );
+    if (!offeringIds) {
+      return [];
+    }
+    const allPartnerOfferings = offeringIds.reduce((partnerOfferings, offeringId) => {
+      const offering = offerings[offeringId];
+      if (checkIsEntrolled && !offering.isEnrolled) {
+        return partnerOfferings;
+      }
+      partnerOfferings.push(offering);
+      return partnerOfferings;
+    }, []);
+    return uniqBy(allPartnerOfferings, 'details.courseKey');
+  },
+);
 /* eslint-enable */
 
 export const {

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Container, Stack } from '@edx/paragon';
 
-import uniqBy from 'lodash.uniqby';
-
 import MemberStatsCard from '../members/MemberStatCard';
 import EnrollmentStatsCard from '../enrollments/EnrollmentStatCard';
 import CourseEnrollmentList from '../enrollments/CourseEnrollmentList';
@@ -17,17 +15,10 @@ import PartnerHeading from './PartnerHeading';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
-  const [offerings, offeringStatus] = useOfferings();
+  const [partnerOfferings] = useOfferings();
   const [cohorts] = useCohorts();
 
-  const uniqOfferings = uniqBy(offerings, 'details.courseKey');
-  const partnerOfferings = offeringStatus === 'success'
-    ? uniqOfferings.filter(
-      offering => offering.partner === partnerSlug,
-    )
-    : [];
-
-  const courseCount = partnerOfferings.length;
+  const courseCount = partnerOfferings?.length;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';
 
   return (

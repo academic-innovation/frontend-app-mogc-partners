@@ -3,23 +3,16 @@ import PropTypes from 'prop-types';
 
 import { Spinner, Stack } from '@edx/paragon';
 
-import uniqBy from 'lodash.uniqby';
-
 import PartnerName from '../partners/PartnerName';
 import EnrolledOfferingCard from './EnrolledOfferingCard';
 import useOfferings from './useOfferings';
 
 export default function EnrolledOfferingList({ partnerSlug }) {
-  const [offerings, offeringsStatus] = useOfferings();
-  const uniqOfferings = uniqBy(offerings, 'details.courseKey');
+  const [partnerOfferings, offeringsStatus] = useOfferings(partnerSlug, true);
 
   if (offeringsStatus === 'loading') {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
   }
-
-  const partnerOfferings = uniqOfferings.filter(
-    offering => offering.partner === partnerSlug && offering.isEnrolled,
-  );
 
   const Header = () => <h2>Keep Learning</h2>;
   if (!partnerOfferings.length) {
