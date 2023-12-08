@@ -105,24 +105,22 @@ export const {
   selectIds: selectOfferingIds,
 } = offeringsAdapter.getSelectors(state => state.offerings);
 
+const selectOfferingSlug = (state, partner) => partner;
+const filterByEnrolled = (offerings) => offerings.filter(
+  offering => offering.isEnrolled,
+);
+const filterBySlug = (offerings, partner) => offerings.filter(
+  offering => offering.partner === partner,
+);
+const uniqueOfferings = (offerings) => uniqBy(offerings, 'details.courseKey');
+
 export const selectOfferingsByPartnerSlug = createSelector(
-  [
-    selectAllOfferings,
-    (_, partner) => partner,
-  ],
-  (offerings, partner) => {
-    const offeringIds = Object.keys(offerings).filter(
-      offeringId => offerings[offeringId].partner === partner,
-    );
-    if (!offeringIds) {
-      return [];
-    }
-    const allPartnerOfferings = offeringIds.reduce((partnerOfferings, offeringId) => {
-      partnerOfferings.push(offerings[offeringId]);
-      return partnerOfferings;
-    }, []);
-    return uniqBy(allPartnerOfferings, 'details.courseKey');
-  },
+  [selectAllOfferings, selectOfferingSlug],
+  (offerings, partner) => uniqueOfferings(filterBySlug(offerings, partner)),
 );
 
+export const selectEnrolledOfferingsByPartnerSlug = createSelector(
+  [selectOfferingsByPartnerSlug],
+  filterByEnrolled,
+);
 export default offeringsSlice.reducer;
