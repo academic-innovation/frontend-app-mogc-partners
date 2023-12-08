@@ -16,7 +16,7 @@ function courseCompletions(courseKey) {
 }
 
 export default function CourseEnrollmentList({ offerings, cohorts }) {
-  const [enrollments] = useRecords();
+  const [enrollments, enrollmentsStatus] = useRecords();
 
   const data = offerings.map((offering) => ({
     title: offering.details.title,
@@ -35,6 +35,7 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
   return (
     <DataTable
       isFilterable
+      isLoading={enrollmentsStatus !== 'success'}
       enableHiding
       initialState={{ hiddenColumns: ['cohort'] }}
       data={data}
@@ -48,9 +49,9 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
           filter: 'equals',
           filterChoices: cohortFilterOptions,
         },
-        { Header: 'Title', accessor: 'title' },
-        { Header: 'Enrollments', accessor: 'enrollments' },
-        { Header: 'Completions', accessor: 'completions' },
+        { Header: 'Title', accessor: 'title', disableFilters: true },
+        { Header: 'Enrollments', accessor: 'enrollments', disableFilters: true },
+        { Header: 'Completions', accessor: 'completions', disableFilters: true },
       ]}
     >
       <DataTable.TableControlBar />

@@ -19,7 +19,7 @@ function memberCompletions(user) {
 }
 
 export default function MemberEnrollmentList({ offerings, cohorts }) {
-  const [enrollments] = useRecords();
+  const [enrollments, enrollmentsStatus] = useRecords();
   const courseKeys = offerings.map(offering => offering.details.courseKey);
   const offeringEnrollments = enrollments.filter(
     enrollment => courseKeys.includes(enrollment.offering.courseKey),
@@ -41,10 +41,11 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
     <DataTable
       isFilterable
       isPaginated
+      isLoading={enrollmentsStatus !== 'success'}
       enableHiding
       initialState={{ pageSize: 20, hiddenColumns: ['cohort'] }}
       defaultColumnValues={{ Filter: TextFilter }}
-      numBreakoutFilters={1}
+      numBreakoutFilters={2}
       data={data}
       itemCount={data.length}
       columns={[
@@ -56,10 +57,10 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
           filterChoices: cohortFilterOptions,
           canFilter: true,
         },
-        { Header: 'Name', accessor: 'name' },
+        { Header: 'Name', accessor: 'name', disableFilters: true },
         { Header: 'Email', accessor: 'email' },
-        { Header: 'Enrollments', accessor: 'enrollments' },
-        { Header: 'Completions', accessor: 'completions' },
+        { Header: 'Enrollments', accessor: 'enrollments', disableFilters: true },
+        { Header: 'Completions', accessor: 'completions', disableFilters: true },
       ]}
     >
       <DataTable.TableControlBar />
