@@ -5,13 +5,13 @@ import useMembers from './useMembers';
 
 export default function MemberList({ cohort }) {
   const [allMembers] = useMembers();
-  const catalogMembers = allMembers.filter(member => member.cohort === cohort);
+  const cohortMembers = allMembers.filter(member => member.cohort === cohort);
 
-  if (!catalogMembers.length) {
+  if (!cohortMembers.length) {
     return <p>No members have been invited to this cohort.</p>;
   }
 
-  const memberData = catalogMembers.map(member => ({
+  const memberData = cohortMembers.map(member => ({
     email: member.email,
     status: member.user ? 'Registered' : 'Invited',
   }));
@@ -21,7 +21,7 @@ export default function MemberList({ cohort }) {
       <DataTable
         isFilterable
         isSortable
-        itemCount={catalogMembers.length}
+        itemCount={cohortMembers.length}
         defaultColumnValues={{ Filter: TextFilter }}
         numBreakoutFilters={2}
         data={memberData}

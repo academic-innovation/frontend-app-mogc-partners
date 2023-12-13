@@ -35,7 +35,7 @@ export default function EnrolledOfferingList({ partnerSlug }) {
   }
 
   const offeringCards = partnerOfferings.map(
-    offering => <EnrolledOfferingCard offeringId={offering.id} />,
+    offering => <EnrolledOfferingCard offeringId={offering.id} key={offering.id} />,
   );
 
   return (

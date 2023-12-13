@@ -8,22 +8,22 @@ import { addOffering } from './offeringsSlice';
 import useOfferings from './useOfferings';
 
 export default function AddOfferingModal({
-  isOpen, onClose, catalog, partnerOfferings,
+  isOpen, onClose, cohort, partnerOfferings,
 }) {
   const dispatch = useDispatch();
   const [offerings] = useOfferings();
-  const catalogOfferings = offerings
-    .filter((offering) => offering.cohort === catalog)
+  const cohortOfferings = offerings
+    .filter((offering) => offering.cohort === cohort)
     .map((offering) => offering.offering);
   const availableOfferings = partnerOfferings.filter(
-    (offering) => !catalogOfferings.includes(offering.id),
+    (offering) => !cohortOfferings.includes(offering.id),
   );
   const [offeringId, setOfferingId] = useState('');
 
   const onCourseChange = (e) => setOfferingId(e.target.value);
 
   const onAddCourseClicked = () => {
-    dispatch(addOffering({ catalog, offering: offeringId }));
+    dispatch(addOffering({ cohort, offering: offeringId }));
     onClose();
   };
 
@@ -70,6 +70,6 @@ export default function AddOfferingModal({
 AddOfferingModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  catalog: PropTypes.string.isRequired,
+  cohort: PropTypes.string.isRequired,
   partnerOfferings: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
