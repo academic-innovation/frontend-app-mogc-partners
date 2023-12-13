@@ -4,7 +4,7 @@ import useCohorts from './useCohorts';
 import CohortListItem from './CohortListItem';
 
 export default function CohortList({ partnerSlug }) {
-  const [cohorts] = useCohorts(partnerSlug);
+  const [cohorts] = useCohorts({ partnerSlug });
 
   const cohortItems = cohorts
     .map(cohort => (

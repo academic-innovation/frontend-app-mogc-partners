@@ -8,7 +8,7 @@ import OfferingCard from './OfferingCard';
 import useOfferings from './useOfferings';
 
 export default function PartnerOfferingList({ partnerSlug }) {
-  const [partnerOfferings, offeringsStatus] = useOfferings(partnerSlug);
+  const [partnerOfferings, offeringsStatus] = useOfferings({ partnerSlug });
 
   if (offeringsStatus === 'loading') {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;

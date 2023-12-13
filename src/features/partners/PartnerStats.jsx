@@ -15,8 +15,8 @@ import PartnerHeading from './PartnerHeading';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
-  const [partnerOfferings] = useOfferings(partnerSlug);
-  const [partnerCohorts] = useCohorts(partnerSlug);
+  const [partnerOfferings] = useOfferings({ partnerSlug });
+  const [partnerCohorts] = useCohorts({ partnerSlug });
 
   const courseCount = partnerOfferings?.length;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';

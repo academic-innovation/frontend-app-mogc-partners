@@ -7,7 +7,12 @@ import {
   selectEnrolledOfferingsByPartnerSlug,
 } from './offeringsSlice';
 
-export default function useOfferings(partnerSlug = null, isEnrolled = null) {
+export default function useOfferings(options = {
+  partnerSlug: null,
+  isEnrolled: null,
+}) {
+  const { partnerSlug, isEnrolled } = options;
+
   const dispatch = useDispatch();
 
   let offerings = [];

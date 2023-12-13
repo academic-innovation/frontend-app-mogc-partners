@@ -8,7 +8,10 @@ import EnrolledOfferingCard from './EnrolledOfferingCard';
 import useOfferings from './useOfferings';
 
 export default function EnrolledOfferingList({ partnerSlug }) {
-  const [partnerOfferings, offeringsStatus] = useOfferings(partnerSlug, true);
+  const [partnerOfferings, offeringsStatus] = useOfferings({
+    partnerSlug,
+    isEnrolled: true,
+  });
 
   if (offeringsStatus === 'loading') {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
