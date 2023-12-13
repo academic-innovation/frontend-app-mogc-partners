@@ -4,6 +4,7 @@ import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
 
 import EntityContext from '../../common/EntityContext';
 import useRecords from './useRecords';
+import useOfferings from '../offerings/useOfferings';
 
 import { getCohortFilterOptions } from '../../utils/forms';
 
@@ -17,12 +18,30 @@ function memberCompletions(user) {
   );
 }
 
+function availableOfferings(memberCohorts, cohortOfferingsMap) {
+  const allAvailableOfferings = memberCohorts.reduce((memberOfferings, cohort) => (
+    memberOfferings.concat(cohortOfferingsMap[cohort])
+  ), []);
+  return new Set(allAvailableOfferings).size;
+}
+
 export default function MemberEnrollmentList({ offerings, cohorts }) {
   const [enrollments, enrollmentsStatus] = useRecords();
+  const [partnerOfferings] = useOfferings();
   const courseKeys = offerings.map(offering => offering.details.courseKey);
   const offeringEnrollments = enrollments.filter(
     enrollment => courseKeys.includes(enrollment.offering.courseKey),
   );
+
+  const cohortOfferingsMap = partnerOfferings.reduce((offeringsMap, offering) => {
+    const offeringKey = offering.cohort;
+    if (Object.keys(offeringsMap).includes(offeringKey)) {
+      offeringsMap[offeringKey].push(offering.details.courseKey);
+    } else {
+      offeringsMap[offeringKey] = [offering.details.courseKey];
+    }
+    return offeringsMap;
+  }, {});
 
   const { entities } = useContext(EntityContext);
   const members = entities.reduce((membersMap, member) => {
@@ -39,7 +58,16 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
     }
     return membersMap;
   }, {});
-  const data = Object.keys(members).map(memberEmail => members[memberEmail]);
+
+  const data = Object.keys(members).map(memberEmail => {
+    const memberData = members[memberEmail];
+    return {
+      ...memberData,
+      offerings: availableOfferings(
+        memberData.cohorts, cohortOfferingsMap,
+      ),
+    };
+  });
 
   const cohortFilterOptions = getCohortFilterOptions(cohorts);
 
@@ -64,6 +92,7 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
         },
         { Header: 'Name', accessor: 'name', disableFilters: true },
         { Header: 'Email', accessor: 'email' },
+        { Header: 'Courses', accessor: 'offerings', disableFilters: true },
         { Header: 'Enrollments', accessor: 'enrollments', disableFilters: true },
         { Header: 'Completions', accessor: 'completions', disableFilters: true },
       ]}

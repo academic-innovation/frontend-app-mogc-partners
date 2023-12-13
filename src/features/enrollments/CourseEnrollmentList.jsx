@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
 import useRecords from './useRecords';
+import useMembers from '../members/useMembers';
 
 import { getCohortFilterOptions } from '../../utils/forms';
 
@@ -17,6 +18,7 @@ function courseCompletions(courseKey) {
 
 export default function CourseEnrollmentList({ offerings, cohorts }) {
   const [enrollments, enrollmentsStatus] = useRecords();
+  const [members] = useMembers();
 
   const offeringsMap = offerings.reduce((offeringsCourseMap, offering) => {
     const offeringCourseKey = offering.details.courseKey;
@@ -39,7 +41,18 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
   }, {});
 
   const data = Object.keys(offeringsMap).map(
-    offeringCourseKey => offeringsMap[offeringCourseKey],
+    offeringCourseKey => {
+      const offeringData = offeringsMap[offeringCourseKey];
+      return {
+        ...offeringData,
+        learners: new Set(members.reduce((courseLearners, member) => {
+          if (offeringData.cohorts.includes(member.cohort)) {
+            courseLearners.push(member.email);
+          }
+          return courseLearners;
+        }, [])).size,
+      };
+    },
   );
 
   const cohortFilterOptions = getCohortFilterOptions(cohorts);
@@ -62,6 +75,7 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
           filterChoices: cohortFilterOptions,
         },
         { Header: 'Title', accessor: 'title', disableFilters: true },
+        { Header: 'Learners', accessor: 'learners', disableFilters: true },
         { Header: 'Enrollments', accessor: 'enrollments', disableFilters: true },
         { Header: 'Completions', accessor: 'completions', disableFilters: true },
       ]}
