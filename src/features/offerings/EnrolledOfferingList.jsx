@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uniqBy from 'lodash.uniqby';
 
 import { Spinner, Stack } from '@edx/paragon';
 
@@ -12,13 +13,14 @@ export default function EnrolledOfferingList({ partnerSlug }) {
     partnerSlug,
     isEnrolled: true,
   });
+  const uniqueOfferings = uniqBy(partnerOfferings, 'details.courseKey');
 
   if (offeringsStatus === 'loading') {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
   }
 
   const Header = () => <h2>Keep Learning</h2>;
-  if (!partnerOfferings.length) {
+  if (!uniqueOfferings.length) {
     return (
       <>
         <Header />
@@ -30,7 +32,7 @@ export default function EnrolledOfferingList({ partnerSlug }) {
     );
   }
 
-  const offeringCards = partnerOfferings.map(
+  const offeringCards = uniqueOfferings.map(
     offering => <EnrolledOfferingCard offeringId={offering.id} key={offering.id} />,
   );
 

@@ -18,17 +18,29 @@ function courseCompletions(courseKey) {
 export default function CourseEnrollmentList({ offerings, cohorts }) {
   const [enrollments, enrollmentsStatus] = useRecords();
 
-  const data = offerings.map((offering) => ({
-    title: offering.details.title,
-    courseKey: offering.details.courseKey,
-    cohort: offering.cohort,
-    enrollments: enrollments.filter(
-      courseEnrollments(offering.details.courseKey),
-    ).length,
-    completions: enrollments.filter(
-      courseCompletions(offering.details.courseKey),
-    ).length,
-  }));
+  const offeringsMap = offerings.reduce((offeringsCourseMap, offering) => {
+    const offeringCourseKey = offering.details.courseKey;
+    if (Object.keys(offeringsCourseMap).includes(offeringCourseKey)) {
+      offeringsCourseMap[offeringCourseKey].cohorts.push(offering.cohort);
+    } else {
+      offeringsCourseMap[offeringCourseKey] = {
+        title: offering.details.title,
+        courseKey: offeringCourseKey,
+        cohorts: [offering.cohort],
+        enrollments: enrollments.filter(
+          courseEnrollments(offeringCourseKey),
+        ).length,
+        completions: enrollments.filter(
+          courseCompletions(offeringCourseKey),
+        ).length,
+      };
+    }
+    return offeringsCourseMap;
+  }, {});
+
+  const data = Object.keys(offeringsMap).map(
+    offeringCourseKey => offeringsMap[offeringCourseKey],
+  );
 
   const cohortFilterOptions = getCohortFilterOptions(cohorts);
 
@@ -37,16 +49,16 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
       isFilterable
       isLoading={enrollmentsStatus !== 'success'}
       enableHiding
-      initialState={{ hiddenColumns: ['cohort'] }}
+      initialState={{ hiddenColumns: ['cohorts'] }}
       data={data}
       defaultColumnValues={{ Filter: TextFilter }}
       itemCount={data.length}
       columns={[
         {
           Header: 'Filter by cohort',
-          accessor: 'cohort',
+          accessor: 'cohorts',
           Filter: DropdownFilter,
-          filter: 'equals',
+          filter: 'includes',
           filterChoices: cohortFilterOptions,
         },
         { Header: 'Title', accessor: 'title', disableFilters: true },

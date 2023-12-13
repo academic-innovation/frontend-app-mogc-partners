@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uniqBy from 'lodash.uniqby';
 
 import { CardGrid, Spinner } from '@edx/paragon';
 
@@ -9,17 +10,18 @@ import useOfferings from './useOfferings';
 
 export default function PartnerOfferingList({ partnerSlug }) {
   const [partnerOfferings, offeringsStatus] = useOfferings({ partnerSlug });
+  const uniqueOfferings = uniqBy(partnerOfferings, 'details.courseKey');
 
   if (offeringsStatus === 'loading') {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
   }
 
-  const availableOfferings = partnerOfferings.filter(
+  const availableOfferings = uniqueOfferings.filter(
     offering => !offering.isEnrolled,
   );
 
   const Header = () => <h2>Available Courses</h2>;
-  if (!partnerOfferings.length) {
+  if (!uniqueOfferings.length) {
     return (
       <>
         <Header />

@@ -61,7 +61,6 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
           Filter: DropdownFilter,
           filter: 'includes',
           filterChoices: cohortFilterOptions,
-          canFilter: true,
         },
         { Header: 'Name', accessor: 'name', disableFilters: true },
         { Header: 'Email', accessor: 'email' },

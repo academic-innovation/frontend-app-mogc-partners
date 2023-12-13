@@ -8,7 +8,6 @@ import {
   ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import uniqBy from 'lodash.uniqby';
 
 ensureConfig(['LMS_BASE_URL'], 'Partnership API services');
 
@@ -111,11 +110,10 @@ const filterByEnrolled = (offerings) => offerings.filter(
 const filterBySlug = (offerings, partner) => offerings.filter(
   offering => offering.partner === partner,
 );
-const uniqueOfferings = (offerings) => uniqBy(offerings, 'details.courseKey');
 
 export const selectOfferingsByPartnerSlug = createSelector(
   [selectAllOfferings, (state, partner) => partner],
-  (offerings, partner) => uniqueOfferings(filterBySlug(offerings, partner)),
+  (offerings, partner) => filterBySlug(offerings, partner),
 );
 
 export const selectEnrolledOfferingsByPartnerSlug = createSelector(
