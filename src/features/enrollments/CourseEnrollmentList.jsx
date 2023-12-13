@@ -40,20 +40,18 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
     return offeringsCourseMap;
   }, {});
 
-  const data = Object.keys(offeringsMap).map(
-    offeringCourseKey => {
-      const offeringData = offeringsMap[offeringCourseKey];
-      return {
-        ...offeringData,
-        learners: new Set(members.reduce((courseLearners, member) => {
-          if (offeringData.cohorts.includes(member.cohort)) {
-            courseLearners.push(member.email);
-          }
-          return courseLearners;
-        }, [])).size,
-      };
-    },
-  );
+  const data = Object.keys(offeringsMap).map(offeringCourseKey => {
+    const offeringData = offeringsMap[offeringCourseKey];
+    return {
+      ...offeringData,
+      learners: new Set(members.reduce((courseLearners, member) => {
+        if (offeringData.cohorts.includes(member.cohort)) {
+          courseLearners.push(member.email);
+        }
+        return courseLearners;
+      }, [])).size,
+    };
+  });
 
   const cohortFilterOptions = getCohortFilterOptions(cohorts);
 
