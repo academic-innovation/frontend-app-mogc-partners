@@ -9,6 +9,9 @@ module.exports = createConfig('eslint', {
       ignoreRegExpLiterals: true,
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
+    }],
+    'no-param-reassign': [2, {
+      props: false
     }]
   },
 });

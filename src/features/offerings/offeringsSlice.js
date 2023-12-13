@@ -105,7 +105,6 @@ export const {
   selectIds: selectOfferingIds,
 } = offeringsAdapter.getSelectors(state => state.offerings);
 
-const selectOfferingSlug = (state, partner) => partner;
 const filterByEnrolled = (offerings) => offerings.filter(
   offering => offering.isEnrolled,
 );
@@ -115,7 +114,7 @@ const filterBySlug = (offerings, partner) => offerings.filter(
 const uniqueOfferings = (offerings) => uniqBy(offerings, 'details.courseKey');
 
 export const selectOfferingsByPartnerSlug = createSelector(
-  [selectAllOfferings, selectOfferingSlug],
+  [selectAllOfferings, (state, partner) => partner],
   (offerings, partner) => uniqueOfferings(filterBySlug(offerings, partner)),
 );
 

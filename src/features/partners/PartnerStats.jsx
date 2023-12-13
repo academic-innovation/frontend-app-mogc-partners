@@ -16,7 +16,7 @@ import PartnerHeading from './PartnerHeading';
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
   const [partnerOfferings] = useOfferings(partnerSlug);
-  const [cohorts] = useCohorts();
+  const [partnerCohorts] = useCohorts(partnerSlug);
 
   const courseCount = partnerOfferings?.length;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';
@@ -44,7 +44,7 @@ export default function PartnerStats() {
           <h2>Course Details</h2>
           <CourseEnrollmentList
             offerings={partnerOfferings ?? []}
-            cohorts={cohorts}
+            cohorts={partnerCohorts}
           />
         </Container>
       </section>
@@ -55,7 +55,7 @@ export default function PartnerStats() {
           <MembershipProvider>
             <MemberEnrollmentList
               offerings={partnerOfferings ?? []}
-              cohorts={cohorts}
+              cohorts={partnerCohorts}
             />
           </MembershipProvider>
         </Container>

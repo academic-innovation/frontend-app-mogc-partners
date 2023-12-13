@@ -38,7 +38,11 @@ export const fetchPartners = createAsyncThunk(
 const partnersSlice = createSlice({
   name: 'partners',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentPartner(state, action) {
+      state.currentPartner = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchPartners.pending, (state) => {
@@ -62,4 +66,5 @@ export const {
   selectIds: selectPartnerIds,
 } = partnersAdapter.getSelectors((state) => state.partners);
 
+export const { setCurrentPartner } = partnersSlice.actions;
 export default partnersSlice.reducer;

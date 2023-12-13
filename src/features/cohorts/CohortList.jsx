@@ -4,10 +4,9 @@ import useCohorts from './useCohorts';
 import CohortListItem from './CohortListItem';
 
 export default function CohortList({ partnerSlug }) {
-  const [cohorts] = useCohorts();
+  const [cohorts] = useCohorts(partnerSlug);
 
   const cohortItems = cohorts
-    .filter(cohort => cohort.partner === partnerSlug)
     .map(cohort => (
       <CohortListItem key={cohort.uuid} uuid={cohort.uuid} />
     ));

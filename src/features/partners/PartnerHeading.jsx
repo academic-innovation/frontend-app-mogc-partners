@@ -23,10 +23,11 @@ export default function PartnerHeading({ partnerName, children }) {
 
 PartnerHeading.defaultProps = {
   children: [],
+  partnerName: '',
 };
 
 PartnerHeading.propTypes = {
-  partnerName: PropTypes.string.isRequired,
+  partnerName: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

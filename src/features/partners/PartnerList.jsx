@@ -26,7 +26,7 @@ export default function PartnerList() {
   }
 
   const partnerLinks = partners.map(
-    (partner) => <li><Link to={`/${partner.slug}`}>{partner.name}</Link></li>,
+    (partner) => <li><Link to={`/${partner.slug}`} key={partner.slug}>{partner.name}</Link></li>,
   );
 
   return (

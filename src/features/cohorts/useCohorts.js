@@ -1,10 +1,17 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCohorts, selectAllCohorts } from './cohortsSlice';
+import { fetchCohorts, selectAllCohorts, selectCohortsByPartnerSlug } from './cohortsSlice';
 
-export default function useCohorts() {
+export default function useCohorts(partnerSlug) {
   const dispatch = useDispatch();
-  const cohorts = useSelector(selectAllCohorts);
+
+  let cohorts = [];
+  if (partnerSlug) {
+    cohorts = useSelector(state => selectCohortsByPartnerSlug(state, partnerSlug));
+  } else {
+    cohorts = useSelector(selectAllCohorts);
+  }
+
   const status = useSelector(state => state.cohorts.status);
   useEffect(() => {
     if (status === 'idle') {

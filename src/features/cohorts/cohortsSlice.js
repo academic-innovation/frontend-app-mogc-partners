@@ -1,4 +1,6 @@
-import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+import {
+  createSlice, createAsyncThunk, createEntityAdapter, createSelector,
+} from '@reduxjs/toolkit';
 import {
   ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
@@ -98,5 +100,13 @@ export const {
   selectById: selectCohortById,
   selectIds: selectCohortIds,
 } = cohortsAdapter.getSelectors(state => state.cohorts);
+
+export const selectCohortsByPartnerSlug = createSelector(
+  [
+    selectAllCohorts,
+    (_, partner) => partner,
+  ],
+  (cohorts, partner) => cohorts.filter(cohort => cohort.partner === partner),
+);
 
 export default cohortsSlice.reducer;

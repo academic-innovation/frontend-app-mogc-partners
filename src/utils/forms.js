@@ -1,8 +1,7 @@
 // eslint-disable-next-line
-export const getCohortFilterOptions = (cohorts) => cohorts.reduce((options, cohort) => {
-  options.push({
+export const getCohortFilterOptions = (cohorts) => (
+  cohorts.map((cohort) => ({
     name: cohort.name,
     value: cohort.uuid,
-  });
-  return options;
-}, []);
+  }))
+);

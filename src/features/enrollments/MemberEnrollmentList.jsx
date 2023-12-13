@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
-import uniqBy from 'lodash.uniqby';
 
 import EntityContext from '../../common/EntityContext';
 import useRecords from './useRecords';
@@ -26,14 +25,21 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
   );
 
   const { entities } = useContext(EntityContext);
-  const members = uniqBy(entities, 'email');
-  const data = members.map(member => ({
-    name: member.name,
-    email: member.email,
-    cohort: member.cohort,
-    enrollments: offeringEnrollments.filter(memberEnrollments(member.user)).length,
-    completions: offeringEnrollments.filter(memberCompletions(member.user)).length,
-  }));
+  const members = entities.reduce((membersMap, member) => {
+    if (Object.keys(membersMap).includes(member.email)) {
+      membersMap[member.email].cohorts.push(member.cohort);
+    } else {
+      membersMap[member.email] = {
+        name: member.name,
+        email: member.email,
+        cohorts: [member.cohort],
+        enrollments: offeringEnrollments.filter(memberEnrollments(member.user)).length,
+        completions: offeringEnrollments.filter(memberCompletions(member.user)).length,
+      };
+    }
+    return membersMap;
+  }, {});
+  const data = Object.keys(members).map(memberEmail => members[memberEmail]);
 
   const cohortFilterOptions = getCohortFilterOptions(cohorts);
 
@@ -43,7 +49,7 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
       isPaginated
       isLoading={enrollmentsStatus !== 'success'}
       enableHiding
-      initialState={{ pageSize: 20, hiddenColumns: ['cohort'] }}
+      initialState={{ pageSize: 20, hiddenColumns: ['cohorts'] }}
       defaultColumnValues={{ Filter: TextFilter }}
       numBreakoutFilters={2}
       data={data}
@@ -51,9 +57,9 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
       columns={[
         {
           Header: 'Filter by cohort',
-          accessor: 'cohort',
+          accessor: 'cohorts',
           Filter: DropdownFilter,
-          filter: 'equals',
+          filter: 'includes',
           filterChoices: cohortFilterOptions,
           canFilter: true,
         },
