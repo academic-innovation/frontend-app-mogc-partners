@@ -12,7 +12,7 @@ export default function usePartner() {
 
   useEffect(() => {
     if (partnersStatus === 'idle') {
-      dispatch(fetchPartners(partnerSlug));
+      dispatch(fetchPartners());
     }
   }, [partnersStatus, dispatch]);
 
