@@ -6,7 +6,7 @@ import usePartner from './usePartner';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import PartnerOfferingList from '../offerings/PartnerOfferingList';
 import EnrolledOfferingList from '../offerings/EnrolledOfferingList';
-import ManagementToolbar from './ManagementToolbar';
+import ManagementMenu from './ManagementMenu';
 import PartnerHeading from './PartnerHeading';
 
 export default function PartnerDetails() {
@@ -18,7 +18,7 @@ export default function PartnerDetails() {
 
       <section className="p-3 pt-5">
         <Container size="lg">
-          {partner?.isManager && <ManagementToolbar partner={partnerSlug} />}
+          {partner?.isManager && <ManagementMenu partner={partnerSlug} />}
           <ResponsiveBreadcrumb
             links={[
               { label: 'Partners', url: '' },

@@ -40,7 +40,7 @@ export default function PartnerDetails() {
 
       <section className="p-3 py-5">
         <Container size="lg">
-          <ManagementToolbar partner={partnerSlug} selectedTab="cohorts" />
+          <ManagementMenu partner={partnerSlug} selectedTab="cohorts" />
           <ResponsiveBreadcrumb
             links={[
               { label: 'Partners', url: '' },
