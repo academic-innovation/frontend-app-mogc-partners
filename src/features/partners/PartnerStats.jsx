@@ -29,7 +29,7 @@ export default function PartnerStats() {
 
       <section className="p-3 py-5 bg-gray-100">
         <Container size="lg">
-          <ManagementToolbar partner={partnerSlug} selectedTab="insights" />
+          <ManagementToolbar partner={partnerSlug} selected={false} />
           <h2 className="text-center mb-5">Organizational Totals</h2>
           <Stack direction="horizontal" gap={3}>
             <StatCard value={courseCount} unit="Total" secondary={courseUnit} />
