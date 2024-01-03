@@ -11,7 +11,7 @@ import useCohorts from '../cohorts/useCohorts';
 import usePartner from './usePartner';
 import useOfferings from '../offerings/useOfferings';
 import StatCard from './StatCard';
-import ManagementMenu from './ManagementMenu';
+import ManagementToolbar from './ManagementToolbar';
 import PartnerHeading from './PartnerHeading';
 
 export default function PartnerStats() {
@@ -29,7 +29,7 @@ export default function PartnerStats() {
 
       <section className="p-3 py-5 bg-gray-100">
         <Container size="lg">
-          <ManagementMenu partner={partnerSlug} selectedTab="insights" />
+          <ManagementToolbar partner={partnerSlug} selectedTab="insights" />
           <h2 className="text-center mb-5">Organizational Totals</h2>
           <Stack direction="horizontal" gap={3}>
             <StatCard value={courseCount} unit="Total" secondary={courseUnit} />
