@@ -13,7 +13,7 @@ import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
-import ManagementToolbar from '../partners/ManagementToolbar';
+import ManagementMenu from '../partners/ManagementMenu';
 import PartnerHeading from '../partners/PartnerHeading';
 
 export default function CohortDetails() {
@@ -32,7 +32,7 @@ export default function CohortDetails() {
 
       <section className="p-3">
         <Container size="lg">
-          <ManagementToolbar partner={partnerSlug} />
+          <ManagementMenu partner={partnerSlug} />
           <ResponsiveBreadcrumb
             links={[
               { label: 'Partners', url: '' },
