@@ -20,6 +20,7 @@ export default function MemberList({ cohort }) {
     <section>
       <DataTable
         isFilterable
+        isPaginated
         isSortable
         itemCount={cohortMembers.length}
         defaultColumnValues={{ Filter: TextFilter }}

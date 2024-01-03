@@ -28,4 +28,5 @@ PartnerHeading.defaultProps = {
 PartnerHeading.propTypes = {
   partnerName: PropTypes.string.isRequired,
   children: PropTypes.node,
+  partnerName: '',
 };

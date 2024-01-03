@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { Container } from '@edx/paragon';
 
-import { fetchPartners, selectPartnerById } from './partnersSlice';
+import usePartner from './usePartner';
 
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import PartnerOfferingList from '../offerings/PartnerOfferingList';
@@ -12,16 +10,7 @@ import ManagementToolbar from './ManagementToolbar';
 import PartnerHeading from './PartnerHeading';
 
 export default function PartnerDetails() {
-  const dispatch = useDispatch();
-  const { partnerSlug } = useParams();
-  const partnersStatus = useSelector((state) => state.partners.status);
-  const partner = useSelector((state) => selectPartnerById(state, partnerSlug));
-
-  useEffect(() => {
-    if (partnersStatus === 'idle') {
-      dispatch(fetchPartners());
-    }
-  }, [partnersStatus, dispatch]);
+  const [partner, partnerSlug] = usePartner();
 
   return (
     <>

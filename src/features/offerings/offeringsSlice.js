@@ -1,4 +1,9 @@
-import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createSelector,
+  createAsyncThunk,
+  createEntityAdapter,
+} from '@reduxjs/toolkit';
 import {
   ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
@@ -99,4 +104,20 @@ export const {
   selectIds: selectOfferingIds,
 } = offeringsAdapter.getSelectors(state => state.offerings);
 
+const filterByEnrolled = (offerings) => offerings.filter(
+  offering => offering.isEnrolled,
+);
+const filterBySlug = (offerings, partner) => offerings.filter(
+  offering => offering.partner === partner,
+);
+
+export const selectOfferingsByPartnerSlug = createSelector(
+  [selectAllOfferings, (state, partner) => partner],
+  (offerings, partner) => filterBySlug(offerings, partner),
+);
+
+export const selectEnrolledOfferingsByPartnerSlug = createSelector(
+  [selectOfferingsByPartnerSlug],
+  filterByEnrolled,
+);
 export default offeringsSlice.reducer;

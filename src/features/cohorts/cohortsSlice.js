@@ -1,4 +1,6 @@
-import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+import {
+  createSlice, createAsyncThunk, createEntityAdapter, createSelector,
+} from '@reduxjs/toolkit';
 import {
   ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
@@ -19,7 +21,7 @@ const initialState = cohortsAdapter.getInitialState({
 export const fetchCohorts = createAsyncThunk('cohorts/fetchCohorts', async () => {
   const client = getAuthenticatedHttpClient();
   const baseUrl = getConfig().LMS_BASE_URL;
-  const response = await client.get(`${baseUrl}/api/partnerships/v0/catalogs/`);
+  const response = await client.get(`${baseUrl}/api/partnerships/v0/cohorts/`);
   return camelCaseObject(response.data);
 });
 
@@ -29,7 +31,7 @@ export const addCohort = createAsyncThunk(
     const client = getAuthenticatedHttpClient();
     const baseUrl = getConfig().LMS_BASE_URL;
     const response = await client.post(
-      `${baseUrl}/api/partnerships/v0/catalogs/`, snakeCaseObject(initialCohort),
+      `${baseUrl}/api/partnerships/v0/cohorts/`, snakeCaseObject(initialCohort),
     );
     return camelCaseObject(response.data);
   },
@@ -41,7 +43,7 @@ export const deleteCohort = createAsyncThunk(
     const client = getAuthenticatedHttpClient();
     const baseUrl = getConfig().LMS_BASE_URL;
     await client.delete(
-      `${baseUrl}/api/partnerships/v0/catalogs/${cohortUuid}`,
+      `${baseUrl}/api/partnerships/v0/cohorts/${cohortUuid}`,
     );
     return cohortUuid;
   },
@@ -53,7 +55,7 @@ export const updateCohort = createAsyncThunk(
     const client = getAuthenticatedHttpClient();
     const baseUrl = getConfig().LMS_BASE_URL;
     const response = await client.put(
-      `${baseUrl}/api/partnerships/v0/catalogs/${uuid}`,
+      `${baseUrl}/api/partnerships/v0/cohorts/${uuid}`,
       snakeCaseObject(cohortUpdates),
     );
     return response.data;
@@ -98,5 +100,13 @@ export const {
   selectById: selectCohortById,
   selectIds: selectCohortIds,
 } = cohortsAdapter.getSelectors(state => state.cohorts);
+
+export const selectCohortsByPartnerSlug = createSelector(
+  [
+    selectAllCohorts,
+    (_, partner) => partner,
+  ],
+  (cohorts, partner) => cohorts.filter(cohort => cohort.partner === partner),
+);
 
 export default cohortsSlice.reducer;

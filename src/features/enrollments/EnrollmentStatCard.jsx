@@ -19,7 +19,7 @@ export default function EnrollmentStatsCard({ partner, onlyComplete }) {
   }).length;
   const unit = enrollmentTotal === 1 ? singleUnit : pluralUnit;
 
-  return <StatCard value={enrollmentTotal} unit={unit} />;
+  return <StatCard value={enrollmentTotal} unit="Total Course" secondary={unit} />;
 }
 
 EnrollmentStatsCard.propTypes = {

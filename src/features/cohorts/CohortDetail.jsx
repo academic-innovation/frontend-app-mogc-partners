@@ -6,7 +6,8 @@ import {
 } from '@edx/paragon';
 
 import { selectCohortById } from './cohortsSlice';
-import { selectPartnerById } from '../partners/partnersSlice';
+import useCohorts from './useCohorts';
+import usePartner from '../partners/usePartner';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
@@ -16,16 +17,17 @@ import ManagementToolbar from '../partners/ManagementToolbar';
 import PartnerHeading from '../partners/PartnerHeading';
 
 export default function CohortDetails() {
-  const { partnerSlug, cohortUuid } = useParams();
+  const { cohortUuid } = useParams();
+  const [partner, partnerSlug] = usePartner();
+  useCohorts();
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
   const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
   const cohort = useSelector(state => selectCohortById(state, cohortUuid));
-  const partner = useSelector(state => selectPartnerById(state, cohort.partner));
 
   return (
     <>
       <PartnerHeading partnerName={partner?.name}>
-        <Button variant="inverse-outline-primary" href={`/${partnerSlug}`}>View</Button>
+        <Button variant="inverse-outline-primary" href={`/${partnerSlug}/details`}>View</Button>
       </PartnerHeading>
 
       <section className="p-3">

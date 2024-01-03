@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   ActionRow, Button, Container, Form, ModalDialog, useToggle,
 } from '@edx/paragon';
 import { Add } from '@edx/paragon/icons';
 
-import { fetchPartners, selectPartnerById } from './partnersSlice';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import CohortList from '../cohorts/CohortList';
-import { addCohort } from '../cohorts/cohortsSlice';
-import ManagementToolbar from './ManagementToolbar';
+import ManagementMenu from './ManagementMenu';
 import PartnerHeading from './PartnerHeading';
 
+import usePartner from './usePartner';
+import { addCohort } from '../cohorts/cohortsSlice';
+
 export default function PartnerDetails() {
+  const [partner, partnerSlug] = usePartner();
   const dispatch = useDispatch();
-  const { partnerSlug } = useParams();
-  const partnersStatus = useSelector((state) => state.partners.status);
-  const partner = useSelector((state) => selectPartnerById(state, partnerSlug));
   const [isOpen, open, close] = useToggle(false);
   const [name, setName] = useState('');
 
@@ -35,12 +33,6 @@ export default function PartnerDetails() {
       }
     }
   };
-
-  useEffect(() => {
-    if (partnersStatus === 'idle') {
-      dispatch(fetchPartners());
-    }
-  }, [partnersStatus, dispatch]);
 
   return (
     <>
