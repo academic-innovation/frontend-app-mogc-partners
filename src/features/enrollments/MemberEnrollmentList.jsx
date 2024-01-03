@@ -4,6 +4,7 @@ import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
 
 import EntityContext from '../../common/EntityContext';
 import useRecords from './useRecords';
+import useOfferings from '../offerings/useOfferings';
 
 import { getCohortFilterOptions } from '../../utils/forms';
 
@@ -17,19 +18,37 @@ function memberCompletions(user) {
   );
 }
 
+function availableOfferings(memberCohorts, cohortOfferingsMap) {
+  const allAvailableOfferings = memberCohorts.reduce((memberOfferings, cohort) => (
+    memberOfferings.concat(cohortOfferingsMap[cohort])
+  ), []);
+  return new Set(allAvailableOfferings).size;
+}
+
 export default function MemberEnrollmentList({ offerings, cohorts }) {
   const [enrollments, enrollmentsStatus] = useRecords();
+  const [partnerOfferings] = useOfferings();
   const courseKeys = offerings.map(offering => offering.details.courseKey);
   const offeringEnrollments = enrollments.filter(
     enrollment => courseKeys.includes(enrollment.offering.courseKey),
   );
 
-  const { entities } = useContext(EntityContext);
-  const members = entities.reduce((membersMap, member) => {
-    if (Object.keys(membersMap).includes(member.email)) {
-      membersMap[member.email].cohorts.push(member.cohort);
+  const cohortOfferingsMap = partnerOfferings.reduce((offeringsMap, offering) => {
+    const offeringKey = offering.cohort;
+    if (Object.keys(offeringsMap).includes(offeringKey)) {
+      offeringsMap[offeringKey].push(offering.details.courseKey);
     } else {
-      membersMap[member.email] = {
+      offeringsMap[offeringKey] = [offering.details.courseKey];
+    }
+    return offeringsMap;
+  }, {});
+
+  const { entities } = useContext(EntityContext);
+  const membersMap = entities.reduce((members, member) => {
+    if (Object.keys(members).includes(member.email)) {
+      members[member.email].cohorts.push(member.cohort);
+    } else {
+      members[member.email] = {
         name: member.name,
         email: member.email,
         cohorts: [member.cohort],
@@ -37,9 +56,18 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
         completions: offeringEnrollments.filter(memberCompletions(member.user)).length,
       };
     }
-    return membersMap;
+    return members;
   }, {});
-  const data = Object.keys(members).map(memberEmail => members[memberEmail]);
+
+  const data = Object.keys(membersMap).map(memberEmail => {
+    const memberData = membersMap[memberEmail];
+    return {
+      ...memberData,
+      offerings: availableOfferings(
+        memberData.cohorts, cohortOfferingsMap,
+      ),
+    };
+  });
 
   const cohortFilterOptions = getCohortFilterOptions(cohorts);
 
@@ -64,6 +92,7 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
         },
         { Header: 'Name', accessor: 'name', disableFilters: true },
         { Header: 'Email', accessor: 'email' },
+        { Header: 'Courses', accessor: 'offerings', disableFilters: true },
         { Header: 'Enrollments', accessor: 'enrollments', disableFilters: true },
         { Header: 'Completions', accessor: 'completions', disableFilters: true },
       ]}
