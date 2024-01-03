@@ -13,7 +13,7 @@ import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
-import ManagementToolbar from '../partners/Toolbar';
+import ManagementToolbar from '../partners/ManagementToolbar';
 import PartnerHeading from '../partners/PartnerHeading';
 
 export default function CohortDetails() {
