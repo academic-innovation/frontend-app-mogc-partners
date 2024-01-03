@@ -1,20 +1,26 @@
 import React from 'react';
 import { Container, Stack } from '@edx/paragon';
+import uniqBy from 'lodash.uniqby';
 
 import MemberStatsCard from '../members/MemberStatCard';
 import EnrollmentStatsCard from '../enrollments/EnrollmentStatCard';
 import CourseEnrollmentList from '../enrollments/CourseEnrollmentList';
 import MemberEnrollmentList from '../enrollments/MemberEnrollmentList';
 import MembershipProvider from '../members/MembershipProvider';
+import useCohorts from '../cohorts/useCohorts';
 import usePartner from './usePartner';
+import useOfferings from '../offerings/useOfferings';
 import StatCard from './StatCard';
 import ManagementMenu from './ManagementMenu';
 import PartnerHeading from './PartnerHeading';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
+  const [partnerOfferings] = useOfferings({ partnerSlug });
+  const [partnerCohorts] = useCohorts({ partnerSlug });
 
-  const courseCount = partner?.offerings.length || 0;
+  const uniqueOfferings = uniqBy(partnerOfferings, 'details.courseKey');
+  const courseCount = uniqueOfferings?.length || 0;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';
 
   return (
@@ -38,7 +44,10 @@ export default function PartnerStats() {
       <section className="p-3 py-5">
         <Container size="lg">
           <h2>Course Details</h2>
-          <CourseEnrollmentList offerings={partner?.offerings ?? []} />
+          <CourseEnrollmentList
+            offerings={partnerOfferings ?? []}
+            cohorts={partnerCohorts}
+          />
         </Container>
       </section>
 
@@ -46,7 +55,10 @@ export default function PartnerStats() {
         <Container size="lg">
           <h2>User Details</h2>
           <MembershipProvider>
-            <MemberEnrollmentList offerings={partner?.offerings ?? []} />
+            <MemberEnrollmentList
+              offerings={partnerOfferings ?? []}
+              cohorts={partnerCohorts}
+            />
           </MembershipProvider>
         </Container>
       </section>

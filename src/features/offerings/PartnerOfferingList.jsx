@@ -1,40 +1,27 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import uniqBy from 'lodash.uniqby';
 
 import { CardGrid, Spinner } from '@edx/paragon';
 
-import uniqBy from 'lodash.uniqby';
-
 import PartnerName from '../partners/PartnerName';
-import { fetchOfferings, selectAllOfferings } from './offeringsSlice';
 import OfferingCard from './OfferingCard';
+import useOfferings from './useOfferings';
 
 export default function PartnerOfferingList({ partnerSlug }) {
-  const dispatch = useDispatch();
-  const offerings = useSelector(selectAllOfferings);
-  const offeringsStatus = useSelector(state => state.offerings.status);
-  const uniqOfferings = uniqBy(offerings, 'details.courseKey');
-
-  useEffect(() => {
-    if (offeringsStatus === 'idle') {
-      dispatch(fetchOfferings());
-    }
-  }, [offeringsStatus, dispatch]);
+  const [partnerOfferings, offeringsStatus] = useOfferings({ partnerSlug });
+  const uniqueOfferings = uniqBy(partnerOfferings, 'details.courseKey');
 
   if (offeringsStatus === 'loading') {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
   }
 
-  const partnerOfferings = uniqOfferings.filter(
-    offering => offering.partner === partnerSlug,
-  );
-  const availableOfferings = partnerOfferings.filter(
+  const availableOfferings = uniqueOfferings.filter(
     offering => !offering.isEnrolled,
   );
 
   const Header = () => <h2>Available Courses</h2>;
-  if (!partnerOfferings.length) {
+  if (!uniqueOfferings.length) {
     return (
       <>
         <Header />

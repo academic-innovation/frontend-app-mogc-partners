@@ -1,22 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchCohorts, selectAllCohorts } from './cohortsSlice';
+import useCohorts from './useCohorts';
 import CohortListItem from './CohortListItem';
 
 export default function CohortList({ partnerSlug }) {
-  const dispatch = useDispatch();
-  const cohorts = useSelector(selectAllCohorts);
-  const cohortsStatus = useSelector(state => state.cohorts.status);
-
-  useEffect(() => {
-    if (cohortsStatus === 'idle') {
-      dispatch(fetchCohorts());
-    }
-  }, [cohortsStatus, dispatch]);
+  const [cohorts] = useCohorts({ partnerSlug });
 
   const cohortItems = cohorts
-    .filter(cohort => cohort.partner === partnerSlug)
     .map(cohort => (
       <CohortListItem key={cohort.uuid} uuid={cohort.uuid} />
     ));
