@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import ButtonLink from '../../common/ButtonLink';
 import ButtonLinkGroup from '../../common/ButtonLinkGroup';
 
-export default function ManagementToolbar({ partner, selectedTab }) {
+export default function ManagementToolbar({ partner, selected }) {
+  const options = ['insights', 'cohorts'];
+  const selectedOpt = selected === null ? false : options[Number(selected)];
+  const cohortClass = `btn btn-${selectedOpt === options[1] ? 'dark' : 'outline-dark'}`;
+  const insightClass = `btn btn-${selectedOpt === options[0] ? 'dark' : 'outline-dark'}`;
   return (
     <div className="row">
       <div className="col col-9">
         <ButtonLinkGroup>
-          <ButtonLink className={selectedTab === 'cohorts' ? 'btn btn-dark' : 'btn btn-outline-dark'} link={`/${partner}/admin`}>
+          <ButtonLink className={cohortClass} link={`/${partner}/admin`}>
             Cohorts
           </ButtonLink>
-          <ButtonLink className={selectedTab === 'insights' ? 'btn btn-dark' : 'btn btn-outline-dark'} link={`/${partner}/admin/insights`}>
+          <ButtonLink className={insightClass} link={`/${partner}/admin/insights`}>
             Insights
           </ButtonLink>
         </ButtonLinkGroup>
@@ -26,10 +30,10 @@ export default function ManagementToolbar({ partner, selectedTab }) {
 }
 
 ManagementToolbar.defaultProps = {
-  selectedTab: null,
+  selected: null,
 };
 
 ManagementToolbar.propTypes = {
   partner: PropTypes.string.isRequired,
-  selectedTab: PropTypes.string,
+  selected: PropTypes.bool,
 };
