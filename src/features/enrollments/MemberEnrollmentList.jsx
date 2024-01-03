@@ -44,11 +44,11 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
   }, {});
 
   const { entities } = useContext(EntityContext);
-  const members = entities.reduce((membersMap, member) => {
-    if (Object.keys(membersMap).includes(member.email)) {
-      membersMap[member.email].cohorts.push(member.cohort);
+  const membersMap = entities.reduce((members, member) => {
+    if (Object.keys(members).includes(member.email)) {
+      members[member.email].cohorts.push(member.cohort);
     } else {
-      membersMap[member.email] = {
+      members[member.email] = {
         name: member.name,
         email: member.email,
         cohorts: [member.cohort],
@@ -56,11 +56,11 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
         completions: offeringEnrollments.filter(memberCompletions(member.user)).length,
       };
     }
-    return membersMap;
+    return members;
   }, {});
 
-  const data = Object.keys(members).map(memberEmail => {
-    const memberData = members[memberEmail];
+  const data = Object.keys(membersMap).map(memberEmail => {
+    const memberData = membersMap[memberEmail];
     return {
       ...memberData,
       offerings: availableOfferings(
