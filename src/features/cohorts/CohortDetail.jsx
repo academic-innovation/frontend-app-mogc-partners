@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import {
-  Button, Container, useToggle,
+  Button, Container, useToggle, Spinner,
 } from '@edx/paragon';
 
 import { selectCohortById } from './cohortsSlice';
@@ -12,16 +12,23 @@ import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
+import ImportMembersModal from '../members/ImportMembersModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
 import PartnerHeading from '../partners/PartnerHeading';
 
 export default function CohortDetails() {
   const { cohortUuid } = useParams();
-  const [partner, partnerSlug] = usePartner();
-  useCohorts();
+  const [partner, partnerSlug, partnersStatus] = usePartner();
+  // eslint-disable-next-line
+  const [_, cohortStatus] = useCohorts();
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
   const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
+  const [isImportMembersOpen, openImportMembers, closeImportMembers] = useToggle(false);
   const cohort = useSelector(state => selectCohortById(state, cohortUuid));
+
+  if (cohortStatus !== 'success' || partnersStatus !== 'fulfilled') {
+    return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
+  }
 
   return (
     <>
@@ -45,10 +52,14 @@ export default function CohortDetails() {
 
       <section className="p-3">
         <Container size="lg">
-          <h2>Courses</h2>
-          <OfferingList cohort={cohort.uuid} admin />
+          <div className="d-flex flex-row">
+            <h2>Courses</h2>
+            <div>
+              <Button onClick={openAddCourse}>Add course</Button>
+            </div>
+          </div>
 
-          <Button onClick={openAddCourse}>Add course</Button>
+          <OfferingList cohort={cohort.uuid} admin />
         </Container>
       </section>
 
@@ -61,17 +72,26 @@ export default function CohortDetails() {
 
       <section className="p-3">
         <Container size="lg">
-          <h2>Members</h2>
-
+          <div className="d-flex flex-row">
+            <h2>Learners</h2>
+            <div>
+              <Button onClick={openAddMember} className="mt-3">Add learner</Button>
+              <Button onClick={openImportMembers} className="mt-3">Import learners</Button>
+            </div>
+          </div>
           <MemberList cohort={cohort.uuid} />
-
-          <Button onClick={openAddMember} className="mt-3">Add member</Button>
         </Container>
       </section>
 
       <AddMemberModal
         isOpen={isAddMemberOpen}
         onClose={closeAddMember}
+        cohort={cohort.uuid}
+      />
+
+      <ImportMembersModal
+        isOpen={isImportMembersOpen}
+        onClose={closeImportMembers}
         cohort={cohort.uuid}
       />
     </>

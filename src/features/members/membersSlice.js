@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
-import { ensureConfig, getConfig, camelCaseObject } from '@edx/frontend-platform';
+import {
+  ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
+} from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 
 ensureConfig(['LMS_BASE_URL'], 'Catalog API services');
@@ -36,6 +38,19 @@ export const addMember = createAsyncThunk(
     const response = await client.post(
       `${baseUrl}/api/partnerships/v0/memberships/${cohort}/`,
       { email },
+    );
+    return camelCaseObject(response.data);
+  },
+);
+
+export const importMembers = createAsyncThunk(
+  'members/importMembers',
+  async ({ cohort, emailList }) => {
+    const client = getAuthenticatedHttpClient();
+    const baseUrl = getConfig().LMS_BASE_URL;
+    const response = await client.post(
+      `${baseUrl}/api/partnerships/v0/memberships/${cohort}/`,
+      snakeCaseObject(emailList.map(email => ({ email }))),
     );
     return camelCaseObject(response.data);
   },
