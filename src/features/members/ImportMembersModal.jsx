@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -9,6 +9,11 @@ import { importMembers } from './membersSlice';
 export default function ImportMembersModal({ isOpen, onClose, cohort }) {
   const dispatch = useDispatch();
   const [emailList, setEmailList] = useState([]);
+
+  const handleOnClose = () => {
+    setEmailList([]);
+    onClose();
+  }
 
   const onFileChange = (inputEvent) => {
     const file = inputEvent.target.files[0];
@@ -26,15 +31,14 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
     if (response.payload.length !== emailList.length) {
       console.log('Result count does not match input count');
     }
-    setEmailList([]);
-    onClose();
+    handleOnClose();
   };
 
   return (
     <ModalDialog
       title="Add a member"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleOnClose}
     >
       <ModalDialog.Header>
         <ModalDialog.Title>Import Learners</ModalDialog.Title>
