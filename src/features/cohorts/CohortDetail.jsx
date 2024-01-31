@@ -54,7 +54,7 @@ export default function CohortDetails() {
         <Container size="lg">
           <div className="d-flex flex-row justify-content-between">
             <h2>Courses</h2>
-            <div className="">
+            <div>
               <Button onClick={openAddCourse} className="ml-3">Add course</Button>
             </div>
           </div>
@@ -74,7 +74,7 @@ export default function CohortDetails() {
         <Container size="lg">
           <div className="d-flex flex-row justify-content-between">
             <h2>Learners</h2>
-            <div className="">
+            <div>
               <Button onClick={openAddMember} className="ml-3">Add learner</Button>
               <Button onClick={openImportMembers} className="ml-3">Import learners</Button>
             </div>
