@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import PropTypes from 'prop-types';
 import {
-  ActionRow, Button, Form, ModalDialog,
+  ActionRow, Alert, Button, Form, ModalDialog,
 } from '@edx/paragon';
 import { importMembers } from './membersSlice';
 
@@ -11,8 +11,11 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
   const dispatch = useDispatch();
   const [emailList, setEmailList] = useState([]);
   const [filename, setFilename] = useState('');
+  const [errorMessage, setError] = useState('');
 
   const handleOnClose = () => {
+    setError('');
+    setFilename('');
     setEmailList([]);
     onClose();
   };
@@ -28,14 +31,22 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
       setEmailList(cleanedEmails);
     };
     reader.readAsText(file);
-  });
+  }, []);
 
   const onImportMembersClicked = async () => {
-    const response = await dispatch(importMembers({ cohort, emailList }));
-    if (response.payload.length !== emailList.length) {
-      console.log('Result count does not match input count');
+    setError('');
+    try {
+      const response = await dispatch(importMembers({ cohort, emailList }));
+      const expectedNumMembers = emailList.length;
+      const numMembersImported = Array.from(response.payload?.members)?.length;
+      if (numMembersImported !== expectedNumMembers) {
+        return setError(`The uploaded list contained duplicates or invalid emails. Added ${numMembersImported} out of ${expectedNumMembers} expected members.`);
+      }
+    } catch (err) {
+      console.error(err);
+      return setError(`Error uploading file: ${err.message}`);
     }
-    handleOnClose();
+    return handleOnClose();
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -51,6 +62,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
         <ModalDialog.Title>Import Learners</ModalDialog.Title>
       </ModalDialog.Header>
       <ModalDialog.Body>
+        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <Form.Label>
           Use a CSV file to import many learners at once.{' '}
           Here is a template to make sure your file is correctly formatted:
