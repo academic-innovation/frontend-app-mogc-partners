@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -13,7 +13,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
   const handleOnClose = () => {
     setEmailList([]);
     onClose();
-  }
+  };
 
   const onFileChange = (inputEvent) => {
     const file = inputEvent.target.files[0];

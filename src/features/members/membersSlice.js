@@ -1,6 +1,8 @@
-import { createSlice, createAsyncThunk, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import {
+  createSlice, createAsyncThunk, createEntityAdapter, createSelector,
+} from '@reduxjs/toolkit';
 import { normalize, schema } from 'normalizr';
-import { uniqueId } from "lodash";
+import { uniqueId } from 'lodash';
 import {
   ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
@@ -59,7 +61,7 @@ export const importMembers = createAsyncThunk(
       snakeCaseObject(emailList.map(email => ({ email }))),
     );
     const newMembers = data.map(member => {
-      member.id = uniqueId("temp-");
+      member.id = uniqueId('temp-');
       return member;
     });
     const normalized = normalize(camelCaseObject(newMembers), memberListSchema);
@@ -112,7 +114,7 @@ const membersSlice = createSlice({
       .addCase(importMembers.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-      })
+      });
   },
 });
 /* eslint-enable */
@@ -128,7 +130,7 @@ export const selectMembersByCohort = createSelector(
     selectAllMembers,
     (_, cohort) => cohort,
   ],
-  (members, cohort) => members.filter(member => member.cohort == cohort),
-)
+  (members, cohort) => members.filter(member => member.cohort === cohort),
+);
 
 export default membersSlice.reducer;
