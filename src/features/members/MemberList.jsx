@@ -15,7 +15,7 @@ export default function MemberList({ cohort }) {
   }));
 
   return (
-    <section>
+    <section className="mt-3">
       <DataTable
         isFilterable
         isPaginated

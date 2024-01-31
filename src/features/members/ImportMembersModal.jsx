@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useDropzone } from 'react-dropzone';
 import PropTypes from 'prop-types';
 import {
   ActionRow, Button, Form, ModalDialog,
@@ -9,14 +10,17 @@ import { importMembers } from './membersSlice';
 export default function ImportMembersModal({ isOpen, onClose, cohort }) {
   const dispatch = useDispatch();
   const [emailList, setEmailList] = useState([]);
+  const [filename, setFilename] = useState('');
 
   const handleOnClose = () => {
     setEmailList([]);
     onClose();
   };
 
-  const onFileChange = (inputEvent) => {
-    const file = inputEvent.target.files[0];
+  const onDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    setFilename(file.name);
+
     const reader = new FileReader();
     reader.onload = (readerEvent) => {
       const result = readerEvent.target.result.split('\n');
@@ -24,7 +28,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
       setEmailList(cleanedEmails);
     };
     reader.readAsText(file);
-  };
+  });
 
   const onImportMembersClicked = async () => {
     const response = await dispatch(importMembers({ cohort, emailList }));
@@ -34,11 +38,14 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
     handleOnClose();
   };
 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <ModalDialog
-      title="Add a member"
+      title="Import members"
       isOpen={isOpen}
       onClose={handleOnClose}
+      width="lg"
     >
       <ModalDialog.Header>
         <ModalDialog.Title>Import Learners</ModalDialog.Title>
@@ -48,7 +55,21 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
           Use a CSV file to import many learners at once.{' '}
           Here is a template to make sure your file is correctly formatted:
         </Form.Label>
-        <Form.Control type="file" onChange={onFileChange} />
+        <div className="mt-3 mb-3">
+          <Button variant="outline-primary">Download template</Button>
+        </div>
+        <div {...getRootProps({ className: `dropzone${isDragActive ? ' active' : ''}` })}>
+          <input {...getInputProps()} />
+          {isDragActive
+            ? <p>Drop CSV file here</p>
+            : (
+              <>
+                <Button variant="outline-dark">Browse</Button>
+                <p className="mt-3">Or drag and drop a CSV file</p>
+              </>
+            )}
+        </div>
+        {emailList.length > 0 && <p className="mt-3">File: {filename}</p>}
       </ModalDialog.Body>
       <ModalDialog.Footer>
         <ActionRow>
