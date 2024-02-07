@@ -7,6 +7,8 @@ import {
 } from '@edx/paragon';
 import { importMembers } from './membersSlice';
 
+const CSV_TEMPLATE_FILENAME = 'email_template.csv';
+
 export default function ImportMembersModal({ isOpen, onClose, cohort }) {
   const dispatch = useDispatch();
   const [emailList, setEmailList] = useState([]);
@@ -51,6 +53,12 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  const generateTemplate = () => {
+    const rows = [...Array(3).keys()].map(n => `email${n}@example.com`);
+    const csvContent = `data:text/csv;charset=utf-8,${rows.join('\n')}`;
+    return encodeURI(csvContent);
+  };
+
   return (
     <ModalDialog
       title="Import members"
@@ -68,7 +76,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
           Here is a template to make sure your file is correctly formatted:
         </Form.Label>
         <div className="mt-3 mb-3">
-          <Button variant="outline-primary">Download template</Button>
+          <Button variant="outline-primary" href={generateTemplate()} download={CSV_TEMPLATE_FILENAME}>Use template</Button>
         </div>
         <div {...getRootProps({ className: `dropzone${isDragActive ? ' active' : ''}` })}>
           <input {...getInputProps()} />
