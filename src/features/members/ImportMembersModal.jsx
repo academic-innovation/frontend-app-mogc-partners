@@ -81,15 +81,14 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
         <div {...getRootProps({ className: `dropzone${isDragActive ? ' active' : ''}` })}>
           <input {...getInputProps()} />
           {isDragActive
-            ? <p>Drop CSV file here</p>
+            ? <p className="mt-3">Drop CSV file here</p>
             : (
               <>
                 <Button variant="outline-dark">Browse</Button>
-                <p className="mt-3">Or drag and drop a CSV file</p>
+                <p className="mt-3">{ emailList.length > 0 ? filename : 'Or drag and drop a CSV file'}</p>
               </>
             )}
         </div>
-        {emailList.length > 0 && <p className="mt-3">File: {filename}</p>}
       </ModalDialog.Body>
       <ModalDialog.Footer>
         <ActionRow>
