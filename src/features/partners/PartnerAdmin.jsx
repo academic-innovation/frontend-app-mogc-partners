@@ -7,7 +7,7 @@ import { Add } from '@edx/paragon/icons';
 
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
 import CohortList from '../cohorts/CohortList';
-import ManagementMenu from './ManagementMenu';
+import ManagementToolbar from './ManagementToolbar';
 import PartnerHeading from './PartnerHeading';
 
 import usePartner from './usePartner';
@@ -36,12 +36,11 @@ export default function PartnerDetails() {
 
   return (
     <>
-      <PartnerHeading partnerName={partner?.name}>
-        <ManagementMenu partner={partnerSlug} />
-      </PartnerHeading>
+      <PartnerHeading partnerName={partner?.name} />
 
       <section className="p-3 py-5">
         <Container size="lg">
+          <ManagementToolbar partner={partnerSlug} selected />
           <ResponsiveBreadcrumb
             links={[
               { label: 'Partners', url: '' },
