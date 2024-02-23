@@ -10,14 +10,14 @@
   padding: 20px;
   border-width: 2px;
   border-radius: 2px;
-  border-color: #eeeeee;
+  border-color: $gray-200;
   border-style: dashed;
-  background-color: #fafafa;
-  color: #bdbdbd;
+  background-color: $light-200;
+  color: $gray-300;
   outline: none;
   transition: border .24s ease-in-out;
 
   .active {
-    border-color: #afafaf;
+    border-color: $light-100;
   }
 }
