@@ -19,8 +19,7 @@ import PartnerHeading from '../partners/PartnerHeading';
 export default function CohortDetails() {
   const { cohortUuid } = useParams();
   const [partner, partnerSlug, partnersStatus] = usePartner();
-  // eslint-disable-next-line
-  const [_, cohortStatus] = useCohorts();
+  const [, cohortStatus] = useCohorts();
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
   const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
   const [isImportMembersOpen, openImportMembers, closeImportMembers] = useToggle(false);

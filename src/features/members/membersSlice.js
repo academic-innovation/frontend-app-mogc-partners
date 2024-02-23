@@ -1,12 +1,11 @@
 import {
   createSlice, createAsyncThunk, createEntityAdapter, createSelector,
 } from '@reduxjs/toolkit';
-import { normalize, schema } from 'normalizr';
-import { uniqueId } from 'lodash';
 import {
   ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { noralizeSliceData } from '../../utils/normalize';
 
 ensureConfig(['LMS_BASE_URL'], 'Catalog API services');
 
@@ -19,9 +18,6 @@ const initialState = membersAdapter.getInitialState({
   currentRequestId: undefined,
   error: null,
 });
-
-export const memberSchema = new schema.Entity('members');
-export const memberListSchema = new schema.Array(memberSchema);
 
 export const fetchMembers = createAsyncThunk(
   'members/fetchMembers',
@@ -60,11 +56,7 @@ export const importMembers = createAsyncThunk(
       `${baseUrl}/api/partnerships/v0/memberships/${cohort}/`,
       snakeCaseObject(emailList.map(email => ({ email }))),
     );
-    const newMembers = data.map(member => {
-      member.id = uniqueId('temp-');
-      return member;
-    });
-    const normalized = normalize(camelCaseObject(newMembers), memberListSchema);
+    const normalized = noralizeSliceData(camelCaseObject(data), 'members');
     return normalized.entities;
   },
 );

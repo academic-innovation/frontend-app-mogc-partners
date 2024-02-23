@@ -39,8 +39,11 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
     setError('');
     try {
       const response = await dispatch(importMembers({ cohort, emailList }));
+      const newMembers = response.payload?.members;
+      const numMembersImported = Object.keys(newMembers).map(
+        memberId => newMembers[memberId],
+      ).length;
       const expectedNumMembers = emailList.length;
-      const numMembersImported = Array.from(response.payload?.members)?.length;
       if (numMembersImported !== expectedNumMembers) {
         return setError(`The uploaded list contained duplicates or invalid emails. Added ${numMembersImported} out of ${expectedNumMembers} expected members.`);
       }
@@ -95,7 +98,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
           <ModalDialog.CloseButton variant="tertiary">
             Cancel
           </ModalDialog.CloseButton>
-          <Button onClick={onImportMembersClicked} disabled={false}>
+          <Button onClick={onImportMembersClicked}>
             Import
           </Button>
         </ActionRow>
