@@ -45,7 +45,7 @@ const partnersSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchPartners.fulfilled, (state, action) => {
-        state.status = 'fufilled';
+        state.status = 'fulfilled';
         partnersAdapter.upsertMany(state, action.payload);
       })
       .addCase(fetchPartners.rejected, (state, action) => {

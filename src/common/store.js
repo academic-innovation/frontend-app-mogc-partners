@@ -16,4 +16,5 @@ export default configureStore({
     enrollments: enrollmentsReducer,
     records: recordsReducer,
   },
+  devTools: process.env.NODE_ENV !== 'production',
 });

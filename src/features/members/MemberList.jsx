@@ -4,9 +4,7 @@ import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
 import useMembers from './useMembers';
 
 export default function MemberList({ cohort }) {
-  const [allMembers] = useMembers();
-  const cohortMembers = allMembers.filter(member => member.cohort === cohort);
-
+  const [cohortMembers] = useMembers({ cohort });
   if (!cohortMembers.length) {
     return <p>No members have been invited to this cohort.</p>;
   }
@@ -17,7 +15,7 @@ export default function MemberList({ cohort }) {
   }));
 
   return (
-    <section>
+    <section className="mt-3">
       <DataTable
         isFilterable
         isPaginated
