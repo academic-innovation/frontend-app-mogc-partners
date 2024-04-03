@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import { AppContext } from '@edx/frontend-platform/react';
 import { Container } from '@edx/paragon';
 import { fetchPartners, selectAllPartners } from './partnersSlice';
@@ -22,7 +22,7 @@ export default function PartnerList() {
   }
 
   if (partnersStatus === 'fufilled' && partners.length === 1) {
-    return <Redirect to={`/${partners[0].slug}`} />;
+    return redirect(`/${partners[0].slug}`);
   }
 
   const partnerLinks = partners.map(
