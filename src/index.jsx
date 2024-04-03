@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import store from './common/store';
 import appMessages from './i18n';
@@ -28,7 +28,7 @@ subscribe(APP_READY, () => {
     <AppProvider store={store}>
       <Header />
       <main id="main">
-        <Switch>
+        <Routes>
           <Route exact path="/" component={PartnerList} />
           <Route exact path="/:partnerSlug" component={PartnerRedirect} />
           <Route exact path="/:partnerSlug/details" component={PartnerDetails} />
@@ -39,7 +39,7 @@ subscribe(APP_READY, () => {
             path="/:partnerSlug/admin/catalog/:cohortUuid"
             component={CohortDetails}
           />
-        </Switch>
+        </Routes>
       </main>
       <Footer />
     </AppProvider>,

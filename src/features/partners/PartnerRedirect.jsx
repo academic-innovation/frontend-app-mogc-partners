@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 import usePartner from './usePartner';
 
@@ -11,6 +11,6 @@ export default function PartnerRedirect() {
   }
 
   return partner.isManager
-    ? <Redirect to={`${partnerSlug}/admin`} />
-    : <Redirect to={`${partnerSlug}/details`} />;
+    ? redirect(`${partnerSlug}/admin`)
+    : redirect(`${partnerSlug}/details`);
 }
