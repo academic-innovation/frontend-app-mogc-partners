@@ -1,7 +1,7 @@
 const { createConfig } = require('@edx/frontend-build');
 
 module.exports = createConfig('eslint', {
-  ignorePatterns: ["module.config.js"],
+  ignorePatterns: ['module.config.js'],
   rules: {
     'max-len': ['error', 88, 2, {
       ignoreUrls: true,
@@ -11,7 +11,8 @@ module.exports = createConfig('eslint', {
       ignoreTemplateLiterals: true,
     }],
     'no-param-reassign': [2, {
-      props: false
-    }]
+      props: false,
+    }],
+    'react/function-component-definition': 'off',
   },
 });

@@ -20,11 +20,10 @@ export default function PartnerOfferingList({ partnerSlug }) {
     offering => !offering.isEnrolled,
   );
 
-  const Header = () => <h2>Available Courses</h2>;
   if (!uniqueOfferings.length) {
     return (
       <>
-        <Header />
+        <h2>Available Courses</h2>
         <p>
           <PartnerName slug={partnerSlug} /> {' is not yet offering any courses.'}
         </p>
@@ -40,7 +39,7 @@ export default function PartnerOfferingList({ partnerSlug }) {
   );
   return (
     <>
-      <Header />
+      <h2>Available Courses</h2>
       <CardGrid>{offeringCards}</CardGrid>
     </>
   );

@@ -63,9 +63,7 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
     const memberData = membersMap[memberEmail];
     return {
       ...memberData,
-      offerings: availableOfferings(
-        memberData.cohorts, cohortOfferingsMap,
-      ),
+      offerings: availableOfferings(memberData.cohorts, cohortOfferingsMap),
     };
   });
 

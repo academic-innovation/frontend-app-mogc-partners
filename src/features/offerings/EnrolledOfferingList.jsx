@@ -19,11 +19,10 @@ export default function EnrolledOfferingList({ partnerSlug }) {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
   }
 
-  const Header = () => <h2>Keep Learning</h2>;
   if (!uniqueOfferings.length) {
     return (
       <>
-        <Header />
+        <h2>Keep Learning</h2>
         <p>
           You are not currently enrolled in any {' '}
           <PartnerName slug={partnerSlug} /> offerings.
@@ -38,7 +37,7 @@ export default function EnrolledOfferingList({ partnerSlug }) {
 
   return (
     <>
-      <Header />
+      <h2>Keep Learning</h2>
       <Stack gap={3}>{offeringCards}</Stack>
     </>
   );

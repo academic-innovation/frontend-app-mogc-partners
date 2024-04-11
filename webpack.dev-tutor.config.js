@@ -1,5 +1,5 @@
 module.exports = {
-    output: {
-        hashFunction: "xxhash64"
-    }
+  output: {
+    hashFunction: 'xxhash64',
+  },
 };
