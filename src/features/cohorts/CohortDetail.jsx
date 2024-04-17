@@ -5,7 +5,7 @@ import {
   Button, Container, useToggle,
 } from '@edx/paragon';
 
-import { selectCohortById } from './cohortsSlice';
+import { selectCohortById, selectAllCohorts } from './cohortsSlice';
 import useCohorts from './useCohorts';
 import usePartner from '../partners/usePartner';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
@@ -19,10 +19,14 @@ import PartnerHeading from '../partners/PartnerHeading';
 export default function CohortDetails() {
   const { cohortUuid } = useParams();
   const [partner, partnerSlug] = usePartner();
-  useCohorts();
+  useCohorts(selectAllCohorts);
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
   const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
   const cohort = useSelector(state => selectCohortById(state, cohortUuid));
+
+  if (!cohort || !partner) {
+    return null;
+  }
 
   return (
     <>
@@ -35,20 +39,20 @@ export default function CohortDetails() {
           <ManagementToolbar partner={partnerSlug} />
           <ResponsiveBreadcrumb
             links={[
-              { label: 'Partners', url: '' },
+              { label: 'Partners', url: '/' },
               { label: partner?.name, url: `/${partnerSlug}` },
               { label: 'Cohorts', url: `/${partnerSlug}/admin` },
             ]}
-            activeLabel={cohort.name}
+            activeLabel={cohort?.name}
           />
-          <h1>{cohort.name}</h1>
+          <h1>{cohort?.name}</h1>
         </Container>
       </section>
 
       <section className="p-3">
         <Container size="lg">
           <h2>Courses</h2>
-          <OfferingList cohort={cohort.uuid} admin />
+          <OfferingList cohort={cohort?.uuid} admin />
 
           <Button onClick={openAddCourse}>Add course</Button>
         </Container>

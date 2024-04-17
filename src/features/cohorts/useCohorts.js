@@ -1,18 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCohorts, selectAllCohorts, selectCohortsByPartnerSlug } from './cohortsSlice';
+import { fetchCohorts } from './cohortsSlice';
 
-export default function useCohorts(options = { partnerSlug: null }) {
-  const { partnerSlug } = options;
-
+export default function useCohorts(selector) {
   const dispatch = useDispatch();
-
-  let cohorts = [];
-  if (partnerSlug) {
-    cohorts = useSelector(state => selectCohortsByPartnerSlug(state, partnerSlug));
-  } else {
-    cohorts = useSelector(selectAllCohorts);
-  }
+  const cohorts = useSelector(selector);
 
   const status = useSelector(state => state.cohorts.status);
   useEffect(() => {

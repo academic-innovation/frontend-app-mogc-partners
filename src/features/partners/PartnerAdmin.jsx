@@ -43,7 +43,7 @@ export default function PartnerDetails() {
           <ManagementToolbar partner={partnerSlug} selected />
           <ResponsiveBreadcrumb
             links={[
-              { label: 'Partners', url: '' },
+              { label: 'Partners', url: '/' },
               { label: partner?.name, url: `/${partnerSlug}/details` },
             ]}
             activeLabel="Cohort"

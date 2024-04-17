@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CardGrid } from '@edx/paragon';
 import AdminOfferingCard from './AdminOfferingCard';
+import { selectAllOfferings } from './offeringsSlice';
 import useOfferings from './useOfferings';
 
 export default function OfferingList({ cohort }) {
-  const [offerings] = useOfferings();
+  const [offerings] = useOfferings(selectAllOfferings);
   const offeringCards = offerings.filter(offering => offering.cohort === cohort).map(
     offering => <AdminOfferingCard key={offering.id} offeringId={offering.id} />,
   );

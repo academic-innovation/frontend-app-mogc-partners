@@ -29,27 +29,27 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
         title: offering.details.title,
         courseKey: offeringCourseKey,
         cohorts: [offering.cohort],
-        enrollments: enrollments.filter(
-          courseEnrollments(offeringCourseKey),
-        ).length,
-        completions: enrollments.filter(
-          courseCompletions(offeringCourseKey),
-        ).length,
+        enrollments: enrollments.filter(courseEnrollments(offeringCourseKey))
+          .length,
+        completions: enrollments.filter(courseCompletions(offeringCourseKey))
+          .length,
       };
     }
     return offeringsCourseMap;
   }, {});
 
-  const data = Object.keys(offeringsMap).map(offeringCourseKey => {
+  const data = Object.keys(offeringsMap).map((offeringCourseKey) => {
     const offeringData = offeringsMap[offeringCourseKey];
     return {
       ...offeringData,
-      learners: new Set(members.reduce((courseLearners, member) => {
-        if (offeringData.cohorts.includes(member.cohort)) {
-          courseLearners.push(member.email);
-        }
-        return courseLearners;
-      }, [])).size,
+      learners: new Set(
+        members.reduce((courseLearners, member) => {
+          if (offeringData.cohorts.includes(member.cohort)) {
+            courseLearners.push(member.email);
+          }
+          return courseLearners;
+        }, []),
+      ).size,
     };
   });
 
@@ -74,8 +74,16 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
         },
         { Header: 'Title', accessor: 'title', disableFilters: true },
         { Header: 'Learners', accessor: 'learners', disableFilters: true },
-        { Header: 'Enrollments', accessor: 'enrollments', disableFilters: true },
-        { Header: 'Completions', accessor: 'completions', disableFilters: true },
+        {
+          Header: 'Enrollments',
+          accessor: 'enrollments',
+          disableFilters: true,
+        },
+        {
+          Header: 'Completions',
+          accessor: 'completions',
+          disableFilters: true,
+        },
       ]}
     >
       <DataTable.TableControlBar />
@@ -87,6 +95,27 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
 }
 
 CourseEnrollmentList.propTypes = {
-  offerings: PropTypes.arrayOf(PropTypes.object).isRequired,
-  cohorts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  offerings: PropTypes.arrayOf(
+    PropTypes.shape({
+      cohort: PropTypes.string,
+      continueLearningUrl: PropTypes.string,
+      details: PropTypes.shape({
+        courseKey: PropTypes.string,
+        description: PropTypes.string,
+        shortDescription: PropTypes.string,
+        title: PropTypes.string,
+      }),
+      id: PropTypes.number,
+      isEnrolled: PropTypes.bool,
+      offering: PropTypes.number,
+      partner: PropTypes.string,
+    }),
+  ).isRequired,
+  cohorts: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      partner: PropTypes.string,
+      uuid: PropTypes.string,
+    }),
+  ).isRequired,
 };

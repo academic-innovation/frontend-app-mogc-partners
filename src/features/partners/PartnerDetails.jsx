@@ -12,6 +12,10 @@ import PartnerHeading from './PartnerHeading';
 export default function PartnerDetails() {
   const [partner, partnerSlug] = usePartner();
 
+  if (!partner) {
+    return null;
+  }
+
   return (
     <>
       <PartnerHeading partnerName={partner?.name} />
@@ -21,7 +25,7 @@ export default function PartnerDetails() {
           {partner?.isManager && <ManagementToolbar partner={partnerSlug} />}
           <ResponsiveBreadcrumb
             links={[
-              { label: 'Partners', url: '' },
+              { label: 'Partners', url: '/' },
             ]}
             activeLabel={partner?.name}
           />

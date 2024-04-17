@@ -33,6 +33,7 @@
   "dependencies": {
     "@edx/brand": "npm:@edx/brand-openedx@1.2.1",
     "@edx/browserslist-config": "^1.2.0",
+    "@edx/frontend-build": "^13.0.14",
     "@edx/frontend-component-footer": "13.0.4",
     "@edx/frontend-component-header": "^5.0.2",
     "@edx/frontend-platform": "^7.1.2",
@@ -57,7 +58,6 @@
     "regenerator-runtime": "0.14.1"
   },
   "devDependencies": {
-    "@edx/frontend-build": "^13.0.14",
     "codecov": "3.8.3",
     "es-check": "7.1.1",
     "glob": "10.3.10",

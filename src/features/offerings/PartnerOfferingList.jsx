@@ -7,17 +7,26 @@ import { CardGrid, Spinner } from '@edx/paragon';
 import PartnerName from '../partners/PartnerName';
 import OfferingCard from './OfferingCard';
 import useOfferings from './useOfferings';
+import { selectEnrolledOfferingsByPartnerSlug } from './offeringsSlice';
 
 export default function PartnerOfferingList({ partnerSlug }) {
-  const [partnerOfferings, offeringsStatus] = useOfferings({ partnerSlug });
+  const [partnerOfferings, offeringsStatus] = useOfferings(
+    (state) => selectEnrolledOfferingsByPartnerSlug(state, partnerSlug),
+  );
   const uniqueOfferings = uniqBy(partnerOfferings, 'details.courseKey');
 
   if (offeringsStatus === 'loading') {
-    return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
+    return (
+      <Spinner
+        animation="border"
+        className="mie-3"
+        screenReaderText="loading"
+      />
+    );
   }
 
   const availableOfferings = uniqueOfferings.filter(
-    offering => !offering.isEnrolled,
+    (offering) => !offering.isEnrolled,
   );
 
   if (!uniqueOfferings.length) {
@@ -25,7 +34,8 @@ export default function PartnerOfferingList({ partnerSlug }) {
       <>
         <h2>Available Courses</h2>
         <p>
-          <PartnerName slug={partnerSlug} /> {' is not yet offering any courses.'}
+          <PartnerName slug={partnerSlug} />{' '}
+          {' is not yet offering any courses.'}
         </p>
       </>
     );
@@ -34,9 +44,9 @@ export default function PartnerOfferingList({ partnerSlug }) {
     return null;
   }
 
-  const offeringCards = availableOfferings.map(
-    offering => <OfferingCard offeringId={offering.id} key={offering.id} />,
-  );
+  const offeringCards = availableOfferings.map((offering) => (
+    <OfferingCard offeringId={offering.id} key={offering.id} />
+  ));
   return (
     <>
       <h2>Available Courses</h2>
