@@ -36,11 +36,11 @@ subscribe(APP_READY, () => {
       <Header />
       <main id="main">
         <Routes>
-          <Route path="/" Component={PartnerList} />
-          <Route path="/:partnerSlug" Component={PartnerRedirect} />
-          <Route path="/:partnerSlug/details" Component={PartnerDetails} />
-          <Route path="/:partnerSlug/admin" Component={PartnerAdmin} />
-          <Route path="/:partnerSlug/admin/insights" Component={PartnerStats} />
+          <Route exact path="/" Component={PartnerList} />
+          <Route exact path="/:partnerSlug" Component={PartnerRedirect} />
+          <Route exact path="/:partnerSlug/details" Component={PartnerDetails} />
+          <Route exact path="/:partnerSlug/admin" Component={PartnerAdmin} />
+          <Route exact path="/:partnerSlug/admin/insights" Component={PartnerStats} />
           <Route
             exact
             path="/:partnerSlug/admin/catalog/:cohortUuid"
@@ -66,7 +66,7 @@ initialize({
     footerMessages,
   ],
   handlers: {
-    config: () => {
+    config: () => (
       mergeConfig({
         SITE_NAME: 'MOGC Partners',
         TERMS_OF_SERVICE_URL: `${getConfig().LMS_BASE_URL}/tos`,
@@ -74,7 +74,7 @@ initialize({
         SUPPORT_EMAIL: 'fix@me.com',
         SUPPORT_URL: 'https://teamdynamix.umich.edu/TDClient/187/Portal/Requests/TicketRequests/NewForm?ID=T0l23Fz2XA4_&RequestorType=Service',
         ENABLE_ACCESSIBILITY_PAGE: 'https://teamdynamix.umich.edu/TDClient/187/Portal/KB/ArticleDet?ID=10934',
-      });
-    },
+      })
+    ),
   },
 });
