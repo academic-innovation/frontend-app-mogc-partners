@@ -2,7 +2,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import {
-  APP_INIT_ERROR, APP_READY, subscribe, initialize, getConfig, mergeConfig,
+  APP_INIT_ERROR, APP_READY, subscribe, initialize, getConfig,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import ReactDOM from 'react-dom';
@@ -65,16 +65,4 @@ initialize({
     headerMessages,
     footerMessages,
   ],
-  handlers: {
-    config: () => (
-      mergeConfig({
-        SITE_NAME: 'MOGC Partners',
-        TERMS_OF_SERVICE_URL: `${getConfig().LMS_BASE_URL}/tos`,
-        PRIVACY_POLICY_URL: `${getConfig().LMS_BASE_URL}/privacy`,
-        SUPPORT_EMAIL: 'fix@me.com',
-        SUPPORT_URL: 'https://teamdynamix.umich.edu/TDClient/187/Portal/Requests/TicketRequests/NewForm?ID=T0l23Fz2XA4_&RequestorType=Service',
-        ENABLE_ACCESSIBILITY_PAGE: 'https://teamdynamix.umich.edu/TDClient/187/Portal/KB/ArticleDet?ID=10934',
-      })
-    ),
-  },
 });
