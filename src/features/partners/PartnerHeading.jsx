@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Stack, Container } from '@edx/paragon';
+import { Stack, Container } from '@openedx/paragon';
 
 export default function PartnerHeading({ partnerName, children }) {
   return (

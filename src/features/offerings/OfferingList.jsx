@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CardGrid } from '@edx/paragon';
+import { CardGrid } from '@openedx/paragon';
 import AdminOfferingCard from './AdminOfferingCard';
 import { selectAllOfferings } from './offeringsSlice';
 import useOfferings from './useOfferings';

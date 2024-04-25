@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
 
-import { CardGrid, Spinner } from '@edx/paragon';
+import { CardGrid, Spinner } from '@openedx/paragon';
 
 import PartnerName from '../partners/PartnerName';
 import OfferingCard from './OfferingCard';

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
+import { DataTable, DropdownFilter, TextFilter } from '@openedx/paragon';
 import { selectAllOfferings } from '../offerings/offeringsSlice';
 import EntityContext from '../../common/EntityContext';
 import useRecords from './useRecords';

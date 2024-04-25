@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Breadcrumb, breakpoints, useMediaQuery } from '@edx/paragon';
+import { Breadcrumb, breakpoints, useMediaQuery } from '@openedx/paragon';
 
 export default function ResponsiveBreadcrumb({ links, ...props }) {
   const isSmall = useMediaQuery({ maxWidth: breakpoints.small.maxWidth });

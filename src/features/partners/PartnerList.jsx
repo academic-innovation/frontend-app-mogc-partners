@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, redirect } from 'react-router-dom';
 import { AppContext } from '@edx/frontend-platform/react';
-import { Container } from '@edx/paragon';
+import { Container } from '@openedx/paragon';
 import { fetchPartners, selectAllPartners } from './partnersSlice';
 
 export default function PartnerList() {

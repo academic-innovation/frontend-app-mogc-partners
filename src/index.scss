@@ -1,8 +1,8 @@
 /* autoprefixer grid: off */
-@import "@edx/brand/paragon/fonts.scss";
-@import "@edx/brand/paragon/variables.scss";
-@import "@edx/paragon/scss/core/core.scss";
-@import "@edx/brand/paragon/overrides.scss";
+@import "@openedx/brand-openedx/paragon/fonts.scss";
+@import "@openedx/brand-openedx/paragon/variables.scss";
+@import "@openedx/paragon/scss/core/core.scss";
+@import "@openedx/brand-openedx/paragon/overrides.scss";
 
 @import './example/index.scss';
 @import './common/index.scss';

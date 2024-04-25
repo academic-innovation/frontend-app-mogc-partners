@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import {
   Button, Container, useToggle,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 
 import { selectCohortById, selectAllCohorts } from './cohortsSlice';
 import useCohorts from './useCohorts';

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ActionRow, Button, Form, ModalDialog,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { addOffering, selectAllOfferings } from './offeringsSlice';
 import useOfferings from './useOfferings';
 

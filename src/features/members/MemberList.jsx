@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
+import { DataTable, DropdownFilter, TextFilter } from '@openedx/paragon';
 import useMembers from './useMembers';
 
 export default function MemberList({ cohort }) {

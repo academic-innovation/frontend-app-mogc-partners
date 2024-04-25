@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash.uniqby';
 
-import { Spinner, Stack } from '@edx/paragon';
+import { Spinner, Stack } from '@openedx/paragon';
 
 import PartnerName from '../partners/PartnerName';
 import EnrolledOfferingCard from './EnrolledOfferingCard';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Stack } from '@edx/paragon';
+import { Container, Stack } from '@openedx/paragon';
 import uniqBy from 'lodash.uniqby';
 
 import MemberStatsCard from '../members/MemberStatCard';
