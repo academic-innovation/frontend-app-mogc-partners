@@ -1,3 +1,23 @@
 .flex-min-content {
   flex-basis: min-content;
 }
+
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: $gray-200;
+  border-style: dashed;
+  background-color: $light-200;
+  color: $gray-300;
+  outline: none;
+  transition: border .24s ease-in-out;
+
+  .active {
+    border-color: $light-100;
+  }
+}

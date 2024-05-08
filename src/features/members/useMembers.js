@@ -1,12 +1,20 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMembers, selectAllMembers } from './membersSlice';
+import { fetchMembers, selectAllMembers, selectMembersByCohort } from './membersSlice';
 
-export default function useMembers() {
+export default function useMembers(options = { cohort: null }) {
+  const { cohort } = options;
+
   const dispatch = useDispatch();
-  const members = useSelector(selectAllMembers);
-  const status = useSelector(state => state.members.status);
 
+  let members = [];
+  if (cohort) {
+    members = useSelector(state => selectMembersByCohort(state, cohort));
+  } else {
+    members = useSelector(selectAllMembers);
+  }
+
+  const status = useSelector(state => state.members.status);
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchMembers());
