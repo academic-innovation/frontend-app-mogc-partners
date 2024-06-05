@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMembers, selectAllMembers } from './membersSlice';
+import { fetchMembers } from './membersSlice';
 
-export default function useMembers() {
+export default function useMembers(selector) {
   const dispatch = useDispatch();
-  const members = useSelector(selectAllMembers);
-  const status = useSelector(state => state.members.status);
+  const members = useSelector(selector);
 
+  const status = useSelector(state => state.members.status);
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchMembers());

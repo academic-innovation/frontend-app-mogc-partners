@@ -16,9 +16,11 @@ export default function OfferingList({ cohort }) {
   }
 
   return (
-    <CardGrid>
-      {offeringCards}
-    </CardGrid>
+    <section className="mt-3">
+      <CardGrid>
+        {offeringCards}
+      </CardGrid>
+    </section>
   );
 }
 

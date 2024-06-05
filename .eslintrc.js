@@ -1,4 +1,5 @@
-const { createConfig } = require('@openedx/frontend-build');
+// eslint-disable-next-line
+const { createConfig } = require('@edx/frontend-build');
 
 module.exports = createConfig('eslint', {
   ignorePatterns: ['module.config.js'],

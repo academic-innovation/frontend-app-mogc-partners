@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, DropdownFilter, TextFilter } from '@openedx/paragon';
 import useRecords from './useRecords';
+import { selectAllMembers } from '../members/membersSlice';
 import useMembers from '../members/useMembers';
 
 import { getCohortFilterOptions } from '../../utils/forms';
@@ -18,7 +19,7 @@ function courseCompletions(courseKey) {
 
 export default function CourseEnrollmentList({ offerings, cohorts }) {
   const [enrollments, enrollmentsStatus] = useRecords();
-  const [members] = useMembers();
+  const [members] = useMembers(selectAllMembers);
 
   const offeringsMap = offerings.reduce((offeringsCourseMap, offering) => {
     const offeringCourseKey = offering.details.courseKey;

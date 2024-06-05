@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, DropdownFilter, TextFilter } from '@openedx/paragon';
+import { selectMembersByCohort } from './membersSlice';
 import useMembers from './useMembers';
 
 export default function MemberList({ cohort }) {
-  const [allMembers] = useMembers();
-  const cohortMembers = allMembers.filter(member => member.cohort === cohort);
-
+  const [cohortMembers] = useMembers(state => selectMembersByCohort(state, cohort));
   if (!cohortMembers.length) {
     return <p>No members have been invited to this cohort.</p>;
   }
@@ -17,7 +16,7 @@ export default function MemberList({ cohort }) {
   }));
 
   return (
-    <section>
+    <section className="mt-3">
       <DataTable
         isFilterable
         isPaginated

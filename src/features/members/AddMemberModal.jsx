@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import {
   ActionRow, Button, Form, ModalDialog,
 } from '@openedx/paragon';
-import { addMember } from './membersSlice';
+import { selectAllMembers, addMember } from './membersSlice';
 import useMembers from './useMembers';
 
 export default function AddMemberModal({ isOpen, onClose, cohort }) {
   const dispatch = useDispatch();
-  const [allMembers] = useMembers();
+  const [allMembers] = useMembers(selectAllMembers);
   const cohortMemberEmails = allMembers
     .filter(member => member.cohort === cohort)
     .map(member => member.email);
