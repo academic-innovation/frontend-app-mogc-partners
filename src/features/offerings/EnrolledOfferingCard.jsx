@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getConfig } from '@edx/frontend-platform';
-import { Button, Card } from '@edx/paragon';
+import { Button, Card } from '@openedx/paragon';
 import { selectOfferingById } from './offeringsSlice';
 
 export default function OfferingCard({ offeringId }) {

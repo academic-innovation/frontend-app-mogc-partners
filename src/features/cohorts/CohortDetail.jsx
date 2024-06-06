@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import {
   Button, Container, useToggle, Spinner,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 
-import { selectCohortById } from './cohortsSlice';
+import { selectCohortById, selectAllCohorts } from './cohortsSlice';
 import useCohorts from './useCohorts';
 import usePartner from '../partners/usePartner';
 import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
@@ -20,7 +20,7 @@ import PartnerHeading from '../partners/PartnerHeading';
 export default function CohortDetails() {
   const { cohortUuid } = useParams();
   const [partner, partnerSlug, partnersStatus] = usePartner();
-  const [, cohortStatus] = useCohorts();
+  const [, cohortStatus] = useCohorts(selectAllCohorts);
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
   const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
   const [isImportMembersOpen, openImportMembers, closeImportMembers] = useToggle(false);
@@ -41,13 +41,13 @@ export default function CohortDetails() {
           <ManagementToolbar partner={partnerSlug} />
           <ResponsiveBreadcrumb
             links={[
-              { label: 'Partners', url: '' },
+              { label: 'Partners', url: '/' },
               { label: partner?.name, url: `/${partnerSlug}` },
               { label: 'Cohorts', url: `/${partnerSlug}/admin` },
             ]}
-            activeLabel={cohort.name}
+            activeLabel={cohort?.name}
           />
-          <h1>{cohort.name}</h1>
+          <h1>{cohort?.name}</h1>
         </Container>
       </section>
 

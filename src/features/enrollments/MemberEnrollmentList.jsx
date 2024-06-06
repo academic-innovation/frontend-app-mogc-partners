@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, DropdownFilter, TextFilter } from '@edx/paragon';
-
+import { DataTable, DropdownFilter, TextFilter } from '@openedx/paragon';
+import { selectAllOfferings } from '../offerings/offeringsSlice';
 import EntityContext from '../../common/EntityContext';
 import useRecords from './useRecords';
 import useOfferings from '../offerings/useOfferings';
@@ -27,7 +27,7 @@ function availableOfferings(memberCohorts, cohortOfferingsMap) {
 
 export default function MemberEnrollmentList({ offerings, cohorts }) {
   const [enrollments, enrollmentsStatus] = useRecords();
-  const [partnerOfferings] = useOfferings();
+  const [partnerOfferings] = useOfferings(selectAllOfferings);
   const courseKeys = offerings.map(offering => offering.details.courseKey);
   const offeringEnrollments = enrollments.filter(
     enrollment => courseKeys.includes(enrollment.offering.courseKey),
@@ -63,9 +63,7 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
     const memberData = membersMap[memberEmail];
     return {
       ...memberData,
-      offerings: availableOfferings(
-        memberData.cohorts, cohortOfferingsMap,
-      ),
+      offerings: availableOfferings(memberData.cohorts, cohortOfferingsMap),
     };
   });
 
@@ -106,6 +104,23 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
 }
 
 MemberEnrollmentList.propTypes = {
-  offerings: PropTypes.arrayOf(PropTypes.object).isRequired,
-  cohorts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  offerings: PropTypes.arrayOf(PropTypes.shape({
+    cohort: PropTypes.string,
+    continueLearningUrl: PropTypes.string,
+    details: PropTypes.shape({
+      courseKey: PropTypes.string,
+      description: PropTypes.string,
+      shortDescription: PropTypes.string,
+      title: PropTypes.string,
+    }),
+    id: PropTypes.number,
+    isEnrolled: PropTypes.bool,
+    offering: PropTypes.number,
+    partner: PropTypes.string,
+  })).isRequired,
+  cohorts: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    partner: PropTypes.string,
+    uuid: PropTypes.string,
+  })).isRequired,
 };

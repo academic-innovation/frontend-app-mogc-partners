@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getConfig } from '@edx/frontend-platform';
 import {
   ActionRow, Button, Card, ModalDialog, useToggle,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { selectOfferingById, enrollInCourse } from './offeringsSlice';
 
 export default function OfferingCard({ offeringId }) {

@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const { createConfig } = require('@edx/frontend-build');
 
 module.exports = createConfig('jest', {

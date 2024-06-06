@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 import StatCard from '../partners/StatCard';
 import useMembers from './useMembers';
+import { selectAllMembers } from './membersSlice';
 
 export default function MemberStatsCard({ partner }) {
-  const [members, status] = useMembers();
+  const [members, status] = useMembers(selectAllMembers);
   if (status !== 'success') {
     return <StatCard value="--" unit="Members" />;
   }

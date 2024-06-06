@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card } from '@edx/paragon';
+import { Card } from '@openedx/paragon';
 import { selectOfferingById } from './offeringsSlice';
 
 export default function AdminOfferingCard({ offeringId }) {

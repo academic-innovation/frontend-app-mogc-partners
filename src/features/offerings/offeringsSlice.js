@@ -27,9 +27,7 @@ export async function enrollInCourse(courseId) {
   const enrollmentData = {
     courseDetails: { courseId },
   };
-  const response = await client.post(
-    `${baseUrl}/api/enrollment/v1/enrollment`, snakeCaseObject(enrollmentData),
-  );
+  const response = await client.post(`${baseUrl}/api/enrollment/v1/enrollment`, snakeCaseObject(enrollmentData));
   return camelCaseObject(response.data);
 }
 

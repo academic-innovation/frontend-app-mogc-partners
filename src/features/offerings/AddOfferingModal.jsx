@@ -3,15 +3,18 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ActionRow, Button, Form, ModalDialog,
-} from '@edx/paragon';
-import { addOffering } from './offeringsSlice';
+} from '@openedx/paragon';
+import { addOffering, selectAllOfferings } from './offeringsSlice';
 import useOfferings from './useOfferings';
 
 export default function AddOfferingModal({
-  isOpen, onClose, cohort, partnerOfferings,
+  isOpen,
+  onClose,
+  cohort,
+  partnerOfferings,
 }) {
   const dispatch = useDispatch();
-  const [offerings] = useOfferings();
+  const [offerings] = useOfferings(selectAllOfferings);
   const cohortOfferings = offerings
     .filter((offering) => offering.cohort === cohort)
     .map((offering) => offering.offering);
@@ -34,11 +37,7 @@ export default function AddOfferingModal({
   ));
 
   return (
-    <ModalDialog
-      title="Add a course"
-      isOpen={isOpen}
-      onClose={onClose}
-    >
+    <ModalDialog title="Add a course" isOpen={isOpen} onClose={onClose}>
       <ModalDialog.Header>
         <ModalDialog.Title>Add a course</ModalDialog.Title>
       </ModalDialog.Header>
@@ -46,7 +45,11 @@ export default function AddOfferingModal({
         <Form>
           <Form.Group>
             <Form.Label>Course</Form.Label>
-            <Form.Control as="select" value={offeringId} onChange={onCourseChange}>
+            <Form.Control
+              as="select"
+              value={offeringId}
+              onChange={onCourseChange}
+            >
               <option value="">Select a course</option>
               {options}
             </Form.Control>
@@ -58,9 +61,7 @@ export default function AddOfferingModal({
           <ModalDialog.CloseButton variant="tertiary">
             Cancel
           </ModalDialog.CloseButton>
-          <Button onClick={onAddCourseClicked}>
-            Add course
-          </Button>
+          <Button onClick={onAddCourseClicked}>Add course</Button>
         </ActionRow>
       </ModalDialog.Footer>
     </ModalDialog>
@@ -71,5 +72,12 @@ AddOfferingModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   cohort: PropTypes.string.isRequired,
-  partnerOfferings: PropTypes.arrayOf(PropTypes.object).isRequired,
+  partnerOfferings: PropTypes.arrayOf(
+    PropTypes.shape({
+      courseKey: PropTypes.string,
+      id: PropTypes.number,
+      partner: PropTypes.string,
+      title: PropTypes.string,
+    }),
+  ).isRequired,
 };

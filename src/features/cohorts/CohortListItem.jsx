@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   ActionRow, Alert, Card, Button, Form, ModalDialog, useToggle,
-} from '@edx/paragon';
-import { Info } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { Info } from '@openedx/paragon/icons';
 import { selectCohortById, deleteCohort, updateCohort } from './cohortsSlice';
 
 import CohortMemberCount from '../members/CohortMemberCount';

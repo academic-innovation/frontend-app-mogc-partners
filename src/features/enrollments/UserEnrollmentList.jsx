@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CardGrid } from '@edx/paragon';
+import { CardGrid } from '@openedx/paragon';
 
 import { fetchEnrollments, selectAllEnrollments } from './enrollmentsSlice';
 import EnrollmentCard from './EnrollmentCard';

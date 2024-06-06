@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Stack } from '@edx/paragon';
+import { Container, Stack } from '@openedx/paragon';
 import uniqBy from 'lodash.uniqby';
 
 import MemberStatsCard from '../members/MemberStatCard';
@@ -13,15 +13,25 @@ import useOfferings from '../offerings/useOfferings';
 import StatCard from './StatCard';
 import ManagementToolbar from './ManagementToolbar';
 import PartnerHeading from './PartnerHeading';
+import { selectCohortsByPartnerSlug } from '../cohorts/cohortsSlice';
+import { selectEnrolledOfferingsByPartnerSlug } from '../offerings/offeringsSlice';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
-  const [partnerOfferings] = useOfferings({ partnerSlug });
-  const [partnerCohorts] = useCohorts({ partnerSlug });
+  const [partnerOfferings] = useOfferings(
+    state => selectEnrolledOfferingsByPartnerSlug(state, partnerSlug),
+  );
+  const [partnerCohorts] = useCohorts(
+    state => selectCohortsByPartnerSlug(state, partnerSlug),
+  );
 
   const uniqueOfferings = uniqBy(partnerOfferings, 'details.courseKey');
   const courseCount = uniqueOfferings?.length || 0;
   const courseUnit = courseCount === 1 ? 'Course' : 'Courses';
+
+  if (!partner) {
+    return null;
+  }
 
   return (
     <>

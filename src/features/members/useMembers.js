@@ -1,18 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMembers, selectAllMembers, selectMembersByCohort } from './membersSlice';
+import { fetchMembers } from './membersSlice';
 
-export default function useMembers(options = { cohort: null }) {
-  const { cohort } = options;
-
+export default function useMembers(selector) {
   const dispatch = useDispatch();
-
-  let members = [];
-  if (cohort) {
-    members = useSelector(state => selectMembersByCohort(state, cohort));
-  } else {
-    members = useSelector(selectAllMembers);
-  }
+  const members = useSelector(selector);
 
   const status = useSelector(state => state.members.status);
   useEffect(() => {
