@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import {
-  Button, Container, useToggle, Spinner,
+  Button, Container, useToggle, Spinner, Alert,
 } from '@openedx/paragon';
 
 import { selectCohortById, selectAllCohorts } from './cohortsSlice';
@@ -24,14 +24,25 @@ export default function CohortDetails() {
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
   const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
   const [isImportMembersOpen, openImportMembers, closeImportMembers] = useToggle(false);
+  const [importResults, setImportResults] = useState(null);
   const cohort = useSelector(state => selectCohortById(state, cohortUuid));
 
   if (cohortStatus !== 'success' || partnersStatus !== 'fulfilled') {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
   }
 
+  const importCallback = (results) => {
+    setImportResults(results);
+    closeImportMembers();
+  };
+
+  const clearResults = () => setImportResults(null);
+
   return (
     <>
+      {importResults && (
+        <Alert variant="success" show dismissible onClose={clearResults}>You successfully imported {importResults} learners.</Alert>
+      )}
       <PartnerHeading partnerName={partner?.name}>
         <Button variant="inverse-outline-primary" href={`/${partnerSlug}/details`}>View</Button>
       </PartnerHeading>
@@ -92,7 +103,7 @@ export default function CohortDetails() {
 
       <ImportMembersModal
         isOpen={isImportMembersOpen}
-        onClose={closeImportMembers}
+        onClose={importCallback}
         cohort={cohort.uuid}
       />
     </>
