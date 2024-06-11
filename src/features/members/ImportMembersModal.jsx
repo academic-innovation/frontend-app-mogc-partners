@@ -15,11 +15,11 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
   const [filename, setFilename] = useState('');
   const [errorMessage, setError] = useState('');
 
-  const handleOnClose = () => {
+  const handleOnClose = (numMembersImported) => {
     setError('');
     setFilename('');
     setEmailList([]);
-    onClose();
+    onClose(numMembersImported);
   };
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -37,10 +37,12 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
 
   const onImportMembersClicked = async () => {
     setError('');
+    let numMembersImported = 0;
     try {
       const response = await dispatch(importMembers({ cohort, emailList }));
       const newMembers = response.payload?.members;
-      const numMembersImported = Object.keys(newMembers).map(
+
+      numMembersImported = Object.keys(newMembers).map(
         memberId => newMembers[memberId],
       ).length;
       const expectedNumMembers = emailList.length;
@@ -51,7 +53,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
       console.error(err);
       return setError(`Error uploading file: ${err.message}`);
     }
-    return handleOnClose();
+    return handleOnClose(numMembersImported);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
