@@ -17,7 +17,6 @@ const initialState = {
 export function RouteProvider({ children }) {
   const [sharedState, setSharedState] = useState(initialState);
 
-  // The value that will be accessible to any descendants of this provider
   const value = useMemo(() => ({ sharedState, setSharedState }), [sharedState]);
 
   return (
