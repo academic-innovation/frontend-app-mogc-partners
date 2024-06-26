@@ -5,11 +5,9 @@ import {
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import {
-  ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
+  camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-
-ensureConfig(['LMS_BASE_URL'], 'Partnership API services');
+import { setupRequest } from '../../utils/requests';
 
 const offeringsAdapter = createEntityAdapter({
   selectId: offering => offering.id,
@@ -22,8 +20,7 @@ const initialState = offeringsAdapter.getInitialState({
 });
 
 export async function enrollInCourse(courseId) {
-  const client = getAuthenticatedHttpClient();
-  const baseUrl = getConfig().LMS_BASE_URL;
+  const { client, baseUrl } = setupRequest();
   const enrollmentData = {
     courseDetails: { courseId },
   };
@@ -38,8 +35,7 @@ export const fetchOfferings = createAsyncThunk(
     if (status !== 'loading' || requestId !== currentRequestId) {
       return undefined;
     }
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const response = await client.get(`${baseUrl}/api/partnerships/v0/offerings/`);
     return camelCaseObject(response.data);
   },
@@ -48,8 +44,7 @@ export const fetchOfferings = createAsyncThunk(
 export const addOffering = createAsyncThunk(
   'offerings/addOffering',
   async ({ cohort, offering }) => {
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const response = await client.post(
       `${baseUrl}/api/partnerships/v0/offerings/${cohort}/`,
       { offering },
