@@ -30,9 +30,7 @@ export const addCohort = createAsyncThunk(
   async (initialCohort) => {
     const client = getAuthenticatedHttpClient();
     const baseUrl = getConfig().LMS_BASE_URL;
-    const response = await client.post(
-      `${baseUrl}/api/partnerships/v0/cohorts/`, snakeCaseObject(initialCohort),
-    );
+    const response = await client.post(`${baseUrl}/api/partnerships/v0/cohorts/`, snakeCaseObject(initialCohort));
     return camelCaseObject(response.data);
   },
 );

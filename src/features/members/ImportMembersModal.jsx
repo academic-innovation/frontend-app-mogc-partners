@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import PropTypes from 'prop-types';
 import {
   ActionRow, Alert, Button, Form, ModalDialog,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { importMembers } from './membersSlice';
 
 const CSV_TEMPLATE_FILENAME = 'email_template.csv';

@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ActionRow, Button, Form, ModalDialog,
-} from '@edx/paragon';
-import { addMember } from './membersSlice';
+} from '@openedx/paragon';
+import { selectAllMembers, addMember } from './membersSlice';
 import useMembers from './useMembers';
 
 export default function AddMemberModal({ isOpen, onClose, cohort }) {
   const dispatch = useDispatch();
-  const [allMembers] = useMembers();
+  const [allMembers] = useMembers(selectAllMembers);
   const cohortMemberEmails = allMembers
     .filter(member => member.cohort === cohort)
     .map(member => member.email);

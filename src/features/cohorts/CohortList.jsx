@@ -2,18 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import useCohorts from './useCohorts';
 import CohortListItem from './CohortListItem';
+import { selectCohortsByPartnerSlug } from './cohortsSlice';
 
 export default function CohortList({ partnerSlug }) {
-  const [cohorts] = useCohorts({ partnerSlug });
-
-  const cohortItems = cohorts
-    .map(cohort => (
-      <CohortListItem key={cohort.uuid} uuid={cohort.uuid} />
-    ));
+  const [cohorts] = useCohorts(state => selectCohortsByPartnerSlug(state, partnerSlug));
 
   return (
     <>
-      {cohortItems}
+      {cohorts.map((cohort) => (
+        <CohortListItem key={cohort.uuid} uuid={cohort.uuid} />
+      ))}
     </>
   );
 }
