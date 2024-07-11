@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import ButtonLink from '../../common/ButtonLink';
 import ButtonLinkGroup from '../../common/ButtonLinkGroup';
 
+import { useRouteContext } from '../../common/RouteContext';
+
 export default function ManagementToolbar({ partner, selected }) {
+  const { sharedState, setSharedState } = useRouteContext();
+
+  const togglePreview = () => setSharedState({ isPreview: !sharedState.isPreview });
+
   const options = ['insights', 'cohorts'];
   const selectedOpt = selected === null ? false : options[Number(selected)];
   const cohortClass = `btn btn-${selectedOpt === options[1] ? 'dark' : 'outline-dark'}`;
@@ -21,7 +27,7 @@ export default function ManagementToolbar({ partner, selected }) {
         </ButtonLinkGroup>
       </div>
       <div className="col col-3">
-        <ButtonLink className="btn btn-primary" link={`/${partner}/details`}>
+        <ButtonLink className="btn btn-primary" link={`/${partner}/details`} onClick={togglePreview}>
           Preview As Learner
         </ButtonLink>
       </div>

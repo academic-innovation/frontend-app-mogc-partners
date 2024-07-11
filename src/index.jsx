@@ -22,6 +22,8 @@ import PartnerDetails from './features/partners/PartnerDetails';
 import PartnerStats from './features/partners/PartnerStats';
 import CohortDetails from './features/cohorts/CohortDetail';
 
+import { RouteProvider } from './common/RouteContext';
+
 import './index.scss';
 
 subscribe(APP_READY, () => {
@@ -35,18 +37,20 @@ subscribe(APP_READY, () => {
       </Helmet>
       <Header />
       <main id="main">
-        <Routes>
-          <Route exact path="/" Component={PartnerList} />
-          <Route exact path="/:partnerSlug" Component={PartnerRedirect} />
-          <Route exact path="/:partnerSlug/details" Component={PartnerDetails} />
-          <Route exact path="/:partnerSlug/admin" Component={PartnerAdmin} />
-          <Route exact path="/:partnerSlug/admin/insights" Component={PartnerStats} />
-          <Route
-            exact
-            path="/:partnerSlug/admin/catalog/:cohortUuid"
-            Component={CohortDetails}
-          />
-        </Routes>
+        <RouteProvider>
+          <Routes>
+            <Route exact path="/" Component={PartnerList} />
+            <Route exact path="/:partnerSlug" Component={PartnerRedirect} />
+            <Route exact path="/:partnerSlug/details" Component={PartnerDetails} />
+            <Route exact path="/:partnerSlug/admin" Component={PartnerAdmin} />
+            <Route exact path="/:partnerSlug/admin/insights" Component={PartnerStats} />
+            <Route
+              exact
+              path="/:partnerSlug/admin/catalog/:cohortUuid"
+              Component={CohortDetails}
+            />
+          </Routes>
+        </RouteProvider>
       </main>
       <Footer />
     </AppProvider>,
