@@ -2,48 +2,63 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
-  DataTable, Button, CheckboxFilter, TextFilter,
+  ActionRow, DataTable, Button, CheckboxFilter, TextFilter, useToggle, ModalDialog,
 } from '@openedx/paragon';
 import { updateMember, selectMembersByCohort } from './membersSlice';
 import { COHORT_MEMBERSHIP_STATUS, COHORT_MEMBERSHIP_STATUS_TYPE_MAP } from '../../utils/constants';
 import useMembers from './useMembers';
 
+function StatusChangeConfirmationModal({
+  isOpen, onClose, onSave, user,
+}) {
+  return (
+    <ModalDialog
+      title="Deactivate member"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <ModalDialog.Header>
+        <ModalDialog.Title>Change member status</ModalDialog.Title>
+      </ModalDialog.Header>
+      <ModalDialog.Body>
+        <p>Are you sure you want to deactivate {user.email}?</p>
+        <p>
+          Deactivating a user will unenroll them in any courses they
+          are currently enrolled in for this cohort.
+        </p>
+      </ModalDialog.Body>
+      <ModalDialog.Footer>
+        <ActionRow>
+          <ModalDialog.CloseButton variant="tertiary">
+            Cancel
+          </ModalDialog.CloseButton>
+          <Button onClick={() => onSave(user)}>Save</Button>
+        </ActionRow>
+      </ModalDialog.Footer>
+    </ModalDialog>
+  );
+}
+
 export default function MemberList({ cohort }) {
   const dispatch = useDispatch();
 
+  const [isModalOpen, openModal, closeModal] = useToggle(false);
+
   const toggleMemberStatus = (member) => {
-    const { id: membershipId, email, status } = member.values;
+    const { id: membershipId, email, status } = member;
 
-    let newStatus;
-    switch (status) {
-      case COHORT_MEMBERSHIP_STATUS_TYPE_MAP[COHORT_MEMBERSHIP_STATUS.active]:
-        newStatus = COHORT_MEMBERSHIP_STATUS.deactivated;
-        break;
-      case COHORT_MEMBERSHIP_STATUS_TYPE_MAP[COHORT_MEMBERSHIP_STATUS.invited]:
-        newStatus = COHORT_MEMBERSHIP_STATUS.deactivated;
-        break;
-      case COHORT_MEMBERSHIP_STATUS_TYPE_MAP[COHORT_MEMBERSHIP_STATUS.deactivated]:
-        newStatus = member.user
-          ? COHORT_MEMBERSHIP_STATUS.activated
-          : COHORT_MEMBERSHIP_STATUS.invited;
-        break;
-      default:
-        newStatus = member.status;
-    }
+    const active = ![
+      COHORT_MEMBERSHIP_STATUS.activated,
+      COHORT_MEMBERSHIP_STATUS.invited,
+    ].includes(status);
+    const payload = { email, active: !active };
 
-    const payload = {
-      email,
-      status: newStatus,
-    };
     dispatch(updateMember({ cohort, membershipId, payload }));
+    closeModal();
   };
 
-  const toggleStatusButtonText = (member) => ([
-    COHORT_MEMBERSHIP_STATUS_TYPE_MAP[COHORT_MEMBERSHIP_STATUS.activated],
-    COHORT_MEMBERSHIP_STATUS_TYPE_MAP[COHORT_MEMBERSHIP_STATUS.invited],
-  ].includes(member.values.status)
-    ? 'Deactivate'
-    : 'Activate'
+  const toggleStatusButtonText = (member) => (
+    member.active ? 'Activate' : 'Deactivate'
   );
 
   const [cohortMembers] = useMembers(state => selectMembersByCohort(state, cohort));
@@ -54,7 +69,7 @@ export default function MemberList({ cohort }) {
   const memberData = cohortMembers.map(member => ({
     id: member.id,
     email: member.email,
-    user: member.user,
+    user: member.user, // undefined??
     status: COHORT_MEMBERSHIP_STATUS_TYPE_MAP[member.status],
   }));
 
@@ -98,13 +113,21 @@ export default function MemberList({ cohort }) {
             Header: 'Action',
             /* eslint-disable */
             Cell: ({ row }) => (
-              <Button
-                variant="link"
-                size="sm"
-                onClick={() => toggleMemberStatus(row)}
-              >
-                {toggleStatusButtonText(row)}
-              </Button>
+              <>
+                <Button
+                  variant="link"
+                  size="sm"
+                  onClick={openModal}
+                >
+                  {toggleStatusButtonText(row.values)}
+                </Button>
+                <StatusChangeConfirmationModal
+                  isOpen={isModalOpen}
+                  onClose={closeModal}
+                  onSave={toggleMemberStatus}
+                  user={row.values}
+                />
+              </>
             ),
             /* eslint-enable */
           },
@@ -121,4 +144,15 @@ export default function MemberList({ cohort }) {
 
 MemberList.propTypes = {
   cohort: PropTypes.string.isRequired,
+};
+
+StatusChangeConfirmationModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    email: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+  }).isRequired,
 };
