@@ -6,6 +6,6 @@ export const COHORT_MEMBERSHIP_STATUS = {
 
 export const COHORT_MEMBERSHIP_STATUS_TYPE_MAP = {
   0: 'Invited',
-  1: 'Registered',
+  1: 'Activated',
   2: 'Deactivated',
 };
