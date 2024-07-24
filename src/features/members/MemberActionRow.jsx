@@ -11,10 +11,6 @@ export default function MemberActionRow({ member, cohort }) {
   const dispatch = useDispatch();
   const [isModalOpen, openModal, closeModal] = useToggle(false);
 
-  if (!member) {
-    return null;
-  }
-
   const toggleMemberStatus = () => {
     const { id: membershipId, active, email } = member;
 
@@ -24,10 +20,6 @@ export default function MemberActionRow({ member, cohort }) {
     closeModal();
   };
 
-  const toggleStatusButtonText = () => (
-    member.active ? 'Deactivate' : 'Activate'
-  );
-
   return (
     <>
       <Button
@@ -35,7 +27,7 @@ export default function MemberActionRow({ member, cohort }) {
         size="sm"
         onClick={openModal}
       >
-        {toggleStatusButtonText(member)}
+        {member.active ? 'Deactivate' : 'Activate'}
       </Button>
       <StatusChangeConfirmationModal
         isOpen={isModalOpen}

@@ -48,12 +48,12 @@ export default function MemberList({ cohort }) {
         initialState={{ hiddenColumns: ['id', 'active'] }}
         itemCount={cohortMembers.length}
         defaultColumnValues={{ Filter: TextFilter }}
-        numBreakoutFilters={2}
+        numBreakoutFilters={1}
         data={memberData}
         columns={[
-          { Header: 'Membership ID', accessor: 'id' },
+          { Header: 'Membership ID', accessor: 'id', disableFilters: true },
           { Header: 'Email', accessor: 'email' },
-          { Header: 'Active', accessor: 'active' },
+          { Header: 'Active', accessor: 'active', disableFilters: true },
           {
             Header: 'Status',
             accessor: 'status',
@@ -61,7 +61,10 @@ export default function MemberList({ cohort }) {
             filter: 'includesValue',
             filterChoices: statusFilterChoices,
           },
+        ]}
+        additionalColumns={[
           {
+            id: 'action',
             Header: 'Action',
             Cell: ({ row }) => (memberActionRows[row.values.id]),
           },
