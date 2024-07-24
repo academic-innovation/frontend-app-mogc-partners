@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
-import { ensureConfig, getConfig, camelCaseObject } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-
-ensureConfig(['LMS_BASE_URL'], 'Partnership API services');
+import { camelCaseObject } from '@edx/frontend-platform';
+import { setupRequest } from '../../utils/requests';
 
 const enrollmentsAdapter = createEntityAdapter({
   selectId: enrollment => enrollment.courseDetails.courseId,
@@ -16,8 +14,7 @@ const initialState = enrollmentsAdapter.getInitialState({
 export const fetchEnrollments = createAsyncThunk(
   'enrollments/fetchEnrollments',
   async () => {
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const response = await client.get(`${baseUrl}/api/enrollment/v1/enrollment`);
     return camelCaseObject(response.data);
   },
