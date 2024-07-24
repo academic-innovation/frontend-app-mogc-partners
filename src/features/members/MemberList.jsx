@@ -19,6 +19,11 @@ export default function MemberList({ cohort }) {
     active: member.active,
   }));
 
+  const memberActionRows = memberData.reduce((componentList, member) => {
+    componentList[member.id] = <MemberActionRow member={member} cohort={cohort} />;
+    return componentList;
+  }, {});
+
   const statusFilterChoices = [
     {
       name: COHORT_MEMBERSHIP_STATUS_TYPE_MAP[COHORT_MEMBERSHIP_STATUS.activated],
@@ -58,11 +63,7 @@ export default function MemberList({ cohort }) {
           },
           {
             Header: 'Action',
-            /* eslint-disable */
-            Cell: ({ row }) => (
-              <MemberActionRow member={row.values} cohort={cohort} />
-            ),
-            /* eslint-enable */
+            Cell: ({ row }) => (memberActionRows[row.values.id]),
           },
         ]}
       >
