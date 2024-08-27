@@ -27,7 +27,7 @@ export default function StatusChangeConfirmationModal({
       </ModalDialog.Header>
       <ModalDialog.Body>
         <p>Are you sure you want to {statusText} {user.email}?</p>
-        <p>{actionDescription}</p>
+        {actionDescription && <p>{actionDescription}</p>}
       </ModalDialog.Body>
       <ModalDialog.Footer>
         <ActionRow>
