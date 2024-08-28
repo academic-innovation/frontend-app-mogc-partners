@@ -14,12 +14,12 @@ import StatCard from './StatCard';
 import ManagementToolbar from './ManagementToolbar';
 import PartnerHeading from './PartnerHeading';
 import { selectCohortsByPartnerSlug } from '../cohorts/cohortsSlice';
-import { selectEnrolledOfferingsByPartnerSlug } from '../offerings/offeringsSlice';
+import { selectOfferingsByPartnerSlug } from '../offerings/offeringsSlice';
 
 export default function PartnerStats() {
   const [partner, partnerSlug] = usePartner();
   const [partnerOfferings] = useOfferings(
-    state => selectEnrolledOfferingsByPartnerSlug(state, partnerSlug),
+    state => selectOfferingsByPartnerSlug(state, partnerSlug),
   );
   const [partnerCohorts] = useCohorts(
     state => selectCohortsByPartnerSlug(state, partnerSlug),
