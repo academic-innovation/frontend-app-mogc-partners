@@ -2,12 +2,10 @@ import {
   createSlice, createAsyncThunk, createEntityAdapter, createSelector,
 } from '@reduxjs/toolkit';
 import {
-  ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
+  camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { noralizeSliceData } from '../../utils/normalize';
-
-ensureConfig(['LMS_BASE_URL'], 'Catalog API services');
+import { setupRequest } from '../../utils/requests';
 
 const membersAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.email.localeCompare(b.email),
@@ -26,8 +24,7 @@ export const fetchMembers = createAsyncThunk(
     if (status !== 'loading' || requestId !== currentRequestId) {
       return undefined;
     }
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const response = await client.get(`${baseUrl}/api/partnerships/v0/memberships/`);
     return camelCaseObject(response.data.results);
   },
@@ -36,11 +33,22 @@ export const fetchMembers = createAsyncThunk(
 export const addMember = createAsyncThunk(
   'members/addMember',
   async ({ cohort, email }) => {
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const response = await client.post(
       `${baseUrl}/api/partnerships/v0/memberships/${cohort}/`,
       { email },
+    );
+    return camelCaseObject(response.data);
+  },
+);
+
+export const updateMember = createAsyncThunk(
+  'members/updateMember',
+  async ({ cohort, membershipId, payload }) => {
+    const { client, baseUrl } = setupRequest();
+    const response = await client.patch(
+      `${baseUrl}/api/partnerships/v0/memberships/${cohort}/${membershipId}/`,
+      payload,
     );
     return camelCaseObject(response.data);
   },
@@ -50,8 +58,7 @@ export const importMembers = createAsyncThunk(
   'members/importMembers',
   async (args) => {
     const { cohort, emailList } = args;
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const { data } = await client.post(
       `${baseUrl}/api/partnerships/v0/memberships/${cohort}/`,
       snakeCaseObject(emailList.map(email => ({ email }))),
@@ -95,6 +102,7 @@ const membersSlice = createSlice({
         }
       })
       .addCase(addMember.fulfilled, membersAdapter.setOne)
+      .addCase(updateMember.fulfilled, membersAdapter.setOne)
       .addCase(importMembers.pending, (state, action) => {
         state.status = 'loading';
         state.currentRequestId = action.meta.requestId;

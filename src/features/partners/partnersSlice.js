@@ -3,14 +3,8 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import {
-  ensureConfig,
-  getConfig,
-  camelCaseObject,
-} from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-
-ensureConfig(['LMS_BASE_URL'], 'Partnership API services');
+import { camelCaseObject } from '@edx/frontend-platform';
+import { setupRequest } from '../../utils/requests';
 
 const partnersAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.name.localeCompare(b),
@@ -25,8 +19,7 @@ const initialState = partnersAdapter.getInitialState({
 export const fetchPartners = createAsyncThunk(
   'partners/fetchPartners',
   async () => {
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const response = await client.get(
       `${baseUrl}/api/partnerships/v0/partners/`,
     );

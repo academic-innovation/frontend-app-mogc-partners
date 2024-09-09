@@ -2,11 +2,9 @@ import {
   createSlice, createAsyncThunk, createEntityAdapter, createSelector,
 } from '@reduxjs/toolkit';
 import {
-  ensureConfig, getConfig, camelCaseObject, snakeCaseObject,
+  camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-
-ensureConfig(['LMS_BASE_URL'], 'Catalog API services');
+import { setupRequest } from '../../utils/requests';
 
 const cohortsAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.name.localeCompare(b),
@@ -19,8 +17,7 @@ const initialState = cohortsAdapter.getInitialState({
 });
 
 export const fetchCohorts = createAsyncThunk('cohorts/fetchCohorts', async () => {
-  const client = getAuthenticatedHttpClient();
-  const baseUrl = getConfig().LMS_BASE_URL;
+  const { client, baseUrl } = setupRequest();
   const response = await client.get(`${baseUrl}/api/partnerships/v0/cohorts/`);
   return camelCaseObject(response.data);
 });
@@ -28,8 +25,7 @@ export const fetchCohorts = createAsyncThunk('cohorts/fetchCohorts', async () =>
 export const addCohort = createAsyncThunk(
   'cohorts/addCohort',
   async (initialCohort) => {
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const response = await client.post(`${baseUrl}/api/partnerships/v0/cohorts/`, snakeCaseObject(initialCohort));
     return camelCaseObject(response.data);
   },
@@ -38,8 +34,7 @@ export const addCohort = createAsyncThunk(
 export const deleteCohort = createAsyncThunk(
   'cohorts/deleteCohort',
   async (cohortUuid) => {
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     await client.delete(
       `${baseUrl}/api/partnerships/v0/cohorts/${cohortUuid}`,
     );
@@ -50,8 +45,7 @@ export const deleteCohort = createAsyncThunk(
 export const updateCohort = createAsyncThunk(
   'cohorts/updateCohort',
   async ({ uuid, cohortUpdates }) => {
-    const client = getAuthenticatedHttpClient();
-    const baseUrl = getConfig().LMS_BASE_URL;
+    const { client, baseUrl } = setupRequest();
     const response = await client.put(
       `${baseUrl}/api/partnerships/v0/cohorts/${uuid}`,
       snakeCaseObject(cohortUpdates),
