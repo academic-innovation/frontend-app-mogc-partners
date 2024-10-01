@@ -31,7 +31,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
       reader.onload = (readerEvent) => {
         const result = readerEvent.target.result.split('\n');
         const cleanedEmails = result
-          .map(email => email.trim().replace('/r', ''))
+          .map(email => email.trim().replace('\r', ''))
           .filter(email => email.length > 0);
         setEmailList(cleanedEmails);
       };
