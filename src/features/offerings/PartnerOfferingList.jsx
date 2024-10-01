@@ -7,11 +7,11 @@ import { CardGrid, Spinner } from '@openedx/paragon';
 import PartnerName from '../partners/PartnerName';
 import OfferingCard from './OfferingCard';
 import useOfferings from './useOfferings';
-import { selectEnrolledOfferingsByPartnerSlug } from './offeringsSlice';
+import { selectOfferingsByPartnerSlug } from './offeringsSlice';
 
 export default function PartnerOfferingList({ partnerSlug }) {
   const [partnerOfferings, offeringsStatus] = useOfferings(
-    (state) => selectEnrolledOfferingsByPartnerSlug(state, partnerSlug),
+    (state) => selectOfferingsByPartnerSlug(state, partnerSlug),
   );
   const uniqueOfferings = uniqBy(partnerOfferings, 'details.courseKey');
 
