@@ -29,7 +29,9 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
     const reader = new FileReader();
     reader.onload = (readerEvent) => {
       const result = readerEvent.target.result.split('\n');
-      const cleanedEmails = result.map(email => email.trim());
+      const cleanedEmails = result
+        .map(email => email.trim().replace('/r', ''))
+        .filter(email => email.length > 0);
       setEmailList(cleanedEmails);
     };
     reader.readAsText(file);
