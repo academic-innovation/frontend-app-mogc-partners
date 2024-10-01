@@ -26,15 +26,20 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
     const file = acceptedFiles[0];
     setFilename(file.name);
 
-    const reader = new FileReader();
-    reader.onload = (readerEvent) => {
-      const result = readerEvent.target.result.split('\n');
-      const cleanedEmails = result
-        .map(email => email.trim().replace('/r', ''))
-        .filter(email => email.length > 0);
-      setEmailList(cleanedEmails);
-    };
-    reader.readAsText(file);
+    try {
+      const reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        const result = readerEvent.target.result.split('\n');
+        const cleanedEmails = result
+          .map(email => email.trim().replace('/r', ''))
+          .filter(email => email.length > 0);
+        setEmailList(cleanedEmails);
+      };
+      reader.readAsText(file);
+    } catch (e) {
+      console.log(e);
+      setError('There was an error reading the uploaded file. Please verify and try again.');
+    }
   }, []);
 
   const onImportMembersClicked = async () => {
@@ -53,7 +58,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
       }
     } catch (err) {
       console.error(err);
-      return setError(`Error uploading file: ${err.message}`);
+      return setError('There was an error reading the uploaded file. Please verify and try again.');
     }
     return handleOnClose(numMembersImported);
   };
