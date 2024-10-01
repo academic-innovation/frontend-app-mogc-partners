@@ -36,8 +36,8 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
         setEmailList(cleanedEmails);
       };
       reader.readAsText(file);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.error(err);
       setError('There was an error reading the uploaded file. Please verify and try again.');
     }
   }, []);
