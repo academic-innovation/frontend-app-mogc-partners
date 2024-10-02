@@ -7,12 +7,12 @@ import { Spinner, Stack } from '@openedx/paragon';
 import PartnerName from '../partners/PartnerName';
 import EnrolledOfferingCard from './EnrolledOfferingCard';
 import useOfferings from './useOfferings';
-import { selectOfferingsByPartnerSlug } from './offeringsSlice';
+import { selectEnrolledOfferingsByPartnerSlug } from './offeringsSlice';
 
 export default function EnrolledOfferingList({ partnerSlug }) {
   const isEnrolled = true;
   const [partnerOfferings, offeringsStatus] = useOfferings(
-    (state) => selectOfferingsByPartnerSlug(state, partnerSlug, isEnrolled),
+    (state) => selectEnrolledOfferingsByPartnerSlug(state, partnerSlug, isEnrolled),
   );
   const uniqueOfferings = uniqBy(partnerOfferings, 'details.courseKey');
 
