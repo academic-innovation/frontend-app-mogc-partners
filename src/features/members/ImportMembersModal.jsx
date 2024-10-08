@@ -15,11 +15,11 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
   const [filename, setFilename] = useState('');
   const [errorMessage, setError] = useState('');
 
-  const handleOnClose = (numMembersImported) => {
+  const handleOnClose = (taskStarted) => {
     setError('');
     setFilename('');
     setEmailList([]);
-    onClose(numMembersImported);
+    onClose(taskStarted);
   };
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -44,23 +44,15 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
 
   const onImportMembersClicked = async () => {
     setError('');
-    let numMembersImported = 0;
+    let taskStarted = false;
     try {
       const response = await dispatch(importMembers({ cohort, emailList }));
-      const newMembers = response.payload?.members;
-
-      numMembersImported = Object.keys(newMembers).map(
-        memberId => newMembers[memberId],
-      ).length;
-      const expectedNumMembers = emailList.length;
-      if (numMembersImported !== expectedNumMembers) {
-        return setError(`The uploaded list contained duplicates or invalid emails. Added ${numMembersImported} out of ${expectedNumMembers} expected members.`);
-      }
+      taskStarted = [200, 201].includes(response.payload.status);
     } catch (err) {
       console.error(err);
-      return setError('There was an error reading the uploaded file. Please verify and try again.');
+      return setError('There was an error importing the list of members. Please verify and try again.');
     }
-    return handleOnClose(numMembersImported);
+    return handleOnClose(taskStarted);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });

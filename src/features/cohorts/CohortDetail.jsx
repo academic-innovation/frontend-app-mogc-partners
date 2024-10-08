@@ -31,8 +31,8 @@ export default function CohortDetails() {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
   }
 
-  const importCallback = (results) => {
-    setImportResults(results);
+  const importCallback = (taskStarted) => {
+    setImportResults(taskStarted);
     closeImportMembers();
   };
 
@@ -41,7 +41,7 @@ export default function CohortDetails() {
   return (
     <>
       {importResults && (
-        <Alert variant="success" show dismissible onClose={clearResults}>You successfully imported {importResults} learners.</Alert>
+        <Alert variant="success" show dismissible onClose={clearResults}>A background task has been initiated to import members. Please check back later.</Alert>
       )}
       <PartnerHeading partnerName={partner?.name}>
         <Button variant="inverse-outline-primary" href={`/${partnerSlug}/details`}>View</Button>
