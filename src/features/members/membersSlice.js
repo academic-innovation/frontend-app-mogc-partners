@@ -4,6 +4,7 @@ import {
 import {
   camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
+import { noralizeSliceData } from '../../utils/normalize';
 import { setupRequest } from '../../utils/requests';
 
 const membersAdapter = createEntityAdapter({
@@ -58,11 +59,12 @@ export const importMembers = createAsyncThunk(
   async (args) => {
     const { cohort, emailList } = args;
     const { client, baseUrl } = setupRequest();
-    const response = await client.post(
+    const { data } = await client.post(
       `${baseUrl}/api/partnerships/v0/memberships/${cohort}/`,
       snakeCaseObject(emailList.map(email => ({ email }))),
     );
-    return response;
+    const normalized = noralizeSliceData(camelCaseObject(data), 'members');
+    return normalized.entities;
   },
 );
 
@@ -105,8 +107,9 @@ const membersSlice = createSlice({
         state.status = 'loading';
         state.currentRequestId = action.meta.requestId;
       })
-      .addCase(importMembers.fulfilled, (state) => {
+      .addCase(importMembers.fulfilled, (state, action) => {
         state.status = 'success';
+        membersAdapter.upsertMany(state, action.payload.members);
       })
       .addCase(importMembers.rejected, (state, action) => {
         state.status = 'failed';
