@@ -5,16 +5,14 @@ import {
 } from '@openedx/paragon';
 import { Add } from '@openedx/paragon/icons';
 
-import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
+import PartnerHeader from './PartnerHeader/PartnerHeader';
 import CohortList from '../cohorts/CohortList';
-import ManagementToolbar from './ManagementToolbar';
-import PartnerHeading from './PartnerHeading';
 
 import usePartner from './usePartner';
 import { addCohort } from '../cohorts/cohortsSlice';
 
 export default function PartnerDetails() {
-  const [partner, partnerSlug] = usePartner();
+  const [, partnerSlug] = usePartner();
   const dispatch = useDispatch();
   const [isOpen, open, close] = useToggle(false);
   const [name, setName] = useState('');
@@ -36,18 +34,10 @@ export default function PartnerDetails() {
 
   return (
     <>
-      <PartnerHeading partnerName={partner?.name} />
+      <PartnerHeader selectedView="partnerAdmin" activeLabel="Cohorts" />
 
       <section className="p-3 py-5">
         <Container size="lg">
-          <ManagementToolbar partner={partnerSlug} selected />
-          <ResponsiveBreadcrumb
-            links={[
-              { label: 'Partners', url: '/' },
-              { label: partner?.name, url: `/${partnerSlug}/details` },
-            ]}
-            activeLabel="Cohort"
-          />
           <h2>Available Cohorts</h2>
           <CohortList partnerSlug={partnerSlug} />
           <div>

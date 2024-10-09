@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ButtonLink from '../../common/ButtonLink';
-import ButtonLinkGroup from '../../common/ButtonLinkGroup';
+import ButtonLink from '../../../common/ButtonLink';
+import ButtonLinkGroup from '../../../common/ButtonLinkGroup';
 
-import { useRouteContext } from '../../common/RouteContext';
+import { useRouteContext } from '../../../common/RouteContext';
 
-export default function ManagementToolbar({ partner, selected }) {
+export default function ManagementToolbar({ partner, selected, showPreview }) {
   const { sharedState, setSharedState } = useRouteContext();
 
   const togglePreview = () => setSharedState({ isPreview: !sharedState.isPreview });
@@ -26,20 +26,24 @@ export default function ManagementToolbar({ partner, selected }) {
           </ButtonLink>
         </ButtonLinkGroup>
       </div>
-      <div className="col col-3">
-        <ButtonLink className="btn btn-primary" link={`/${partner}/details`} onClick={togglePreview}>
-          Preview As Learner
-        </ButtonLink>
-      </div>
+      {showPreview && (
+        <div className="col col-3">
+          <ButtonLink className="btn btn-primary" link={`/${partner}/details`} onClick={togglePreview}>
+            Preview As Learner
+          </ButtonLink>
+        </div>
+      )}
     </div>
   );
 }
 
 ManagementToolbar.defaultProps = {
   selected: null,
+  showPreview: false,
 };
 
 ManagementToolbar.propTypes = {
   partner: PropTypes.string.isRequired,
   selected: PropTypes.bool,
+  showPreview: PropTypes.bool,
 };
