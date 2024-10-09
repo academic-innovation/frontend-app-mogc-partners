@@ -20,12 +20,6 @@ export default function PartnerDetails() {
 
       <section className="p-3 pt-5">
         <Container size="lg">
-          {/* <ResponsiveBreadcrumb
-            links={[
-              { label: 'Partners', url: '/' },
-            ]}
-            activeLabel={partner?.name}
-          /> */}
           <EnrolledOfferingList partnerSlug={partner?.slug} />
         </Container>
       </section>
