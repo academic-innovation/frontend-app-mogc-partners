@@ -8,18 +8,16 @@ import {
 import { selectCohortById, selectAllCohorts } from './cohortsSlice';
 import useCohorts from './useCohorts';
 import usePartner from '../partners/usePartner';
-import ResponsiveBreadcrumb from '../../common/ResponsiveBreadcrumb';
+import PartnerHeader from '../partners/PartnerHeader/PartnerHeader';
 import OfferingList from '../offerings/OfferingList';
 import MemberList from '../members/MemberList';
 import AddMemberModal from '../members/AddMemberModal';
 import ImportMembersModal from '../members/ImportMembersModal';
 import AddOfferingModal from '../offerings/AddOfferingModal';
-import ManagementToolbar from '../partners/ManagementToolbar';
-import PartnerHeading from '../partners/PartnerHeading';
 
 export default function CohortDetails() {
   const { cohortUuid } = useParams();
-  const [partner, partnerSlug, partnersStatus] = usePartner();
+  const [partner,, partnersStatus] = usePartner();
   const [, cohortStatus] = useCohorts(selectAllCohorts);
   const [isAddCourseOpen, openAddCourse, closeAddCourse] = useToggle(false);
   const [isAddMemberOpen, openAddMember, closeAddMember] = useToggle(false);
@@ -43,27 +41,11 @@ export default function CohortDetails() {
       {importResults && (
         <Alert variant="success" show dismissible onClose={clearResults}>A background task has been initiated to import members. Please check back later.</Alert>
       )}
-      <PartnerHeading partnerName={partner?.name}>
-        <Button variant="inverse-outline-primary" href={`/${partnerSlug}/details`}>View</Button>
-      </PartnerHeading>
+      <PartnerHeader selectedView="cohortDetail" activeLabel={cohort?.name} />
 
       <section className="p-3">
         <Container size="lg">
-          <ManagementToolbar partner={partnerSlug} />
-          <ResponsiveBreadcrumb
-            links={[
-              { label: 'Partners', url: '/' },
-              { label: partner?.name, url: `/${partnerSlug}` },
-              { label: 'Cohorts', url: `/${partnerSlug}/admin` },
-            ]}
-            activeLabel={cohort?.name}
-          />
           <h1>{cohort?.name}</h1>
-        </Container>
-      </section>
-
-      <section className="p-3">
-        <Container size="lg">
           <div className="d-flex flex-row justify-content-between">
             <h2>Courses</h2>
             <div>
