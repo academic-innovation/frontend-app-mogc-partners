@@ -18,7 +18,8 @@ export default function AddMemberModal({ isOpen, onClose, cohort }) {
   const onEmailChange = (e) => setEmail(e.target.value);
   const canAddEmail = email.length && !cohortMemberEmails.includes(email);
 
-  const onAddMemberClicked = async () => {
+  const onSubmit = async (event) => {
+    event.preventDefault();
     await dispatch(addMember({ cohort, email }));
     setEmail('');
     onClose();
@@ -30,27 +31,27 @@ export default function AddMemberModal({ isOpen, onClose, cohort }) {
       isOpen={isOpen}
       onClose={onClose}
     >
-      <ModalDialog.Header>
-        <ModalDialog.Title>Add a member</ModalDialog.Title>
-      </ModalDialog.Header>
-      <ModalDialog.Body>
-        <Form>
+      <Form onSubmit={onSubmit}>
+        <ModalDialog.Header>
+          <ModalDialog.Title>Add a member</ModalDialog.Title>
+        </ModalDialog.Header>
+        <ModalDialog.Body>
           <Form.Group>
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" value={email} onChange={onEmailChange} />
           </Form.Group>
-        </Form>
-      </ModalDialog.Body>
-      <ModalDialog.Footer>
-        <ActionRow>
-          <ModalDialog.CloseButton variant="tertiary">
-            Cancel
-          </ModalDialog.CloseButton>
-          <Button onClick={onAddMemberClicked} disabled={!canAddEmail}>
-            Add member
-          </Button>
-        </ActionRow>
-      </ModalDialog.Footer>
+        </ModalDialog.Body>
+        <ModalDialog.Footer>
+          <ActionRow>
+            <ModalDialog.CloseButton variant="tertiary">
+              Cancel
+            </ModalDialog.CloseButton>
+            <Button type="submit" disabled={!canAddEmail}>
+              Add member
+            </Button>
+          </ActionRow>
+        </ModalDialog.Footer>
+      </Form>
     </ModalDialog>
   );
 }
