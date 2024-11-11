@@ -11,8 +11,7 @@ import useCohorts from '../cohorts/useCohorts';
 import usePartner from './usePartner';
 import useOfferings from '../offerings/useOfferings';
 import StatCard from './StatCard';
-import ManagementToolbar from './ManagementToolbar';
-import PartnerHeading from './PartnerHeading';
+import PartnerHeader from './PartnerHeader/PartnerHeader';
 import { selectCohortsByPartnerSlug } from '../cohorts/cohortsSlice';
 import { selectOfferingsByPartnerSlug } from '../offerings/offeringsSlice';
 
@@ -35,11 +34,10 @@ export default function PartnerStats() {
 
   return (
     <>
-      <PartnerHeading partnerName={partner?.name} />
+      <PartnerHeader selectedView="partnerStats" activeLabel="Insights" />
 
       <section className="p-3 py-5 bg-gray-100">
         <Container size="lg">
-          <ManagementToolbar partner={partnerSlug} selected={false} />
           <h2 className="text-center mb-5">Organizational Totals</h2>
           <Stack direction="horizontal" gap={3}>
             <StatCard value={courseCount} unit="Total" secondary={courseUnit} />
@@ -54,6 +52,7 @@ export default function PartnerStats() {
         <Container size="lg">
           <h2>Course Details</h2>
           <CourseEnrollmentList
+            partnerSlug={partnerSlug}
             offerings={partnerOfferings ?? []}
             cohorts={partnerCohorts}
           />
@@ -65,6 +64,7 @@ export default function PartnerStats() {
           <h2>User Details</h2>
           <MembershipProvider>
             <MemberEnrollmentList
+              partnerSlug={partnerSlug}
               offerings={partnerOfferings ?? []}
               cohorts={partnerCohorts}
             />

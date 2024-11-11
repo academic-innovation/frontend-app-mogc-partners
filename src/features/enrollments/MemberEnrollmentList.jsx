@@ -25,7 +25,7 @@ function availableOfferings(memberCohorts, cohortOfferingsMap) {
   return new Set(allAvailableOfferings).size;
 }
 
-export default function MemberEnrollmentList({ offerings, cohorts }) {
+export default function MemberEnrollmentList({ partnerSlug, offerings, cohorts }) {
   const [enrollments, enrollmentsStatus] = useRecords();
   const [partnerOfferings] = useOfferings(selectAllOfferings);
   const courseKeys = offerings.map(offering => offering.details.courseKey);
@@ -44,7 +44,10 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
   }, {});
 
   const { entities } = useContext(EntityContext);
-  const membersMap = entities.reduce((members, member) => {
+  const partnerMembers = entities.filter(
+    member => member.partner === partnerSlug,
+  );
+  const membersMap = partnerMembers.reduce((members, member) => {
     if (Object.keys(members).includes(member.email)) {
       members[member.email].cohorts.push(member.cohort);
     } else {
@@ -104,6 +107,7 @@ export default function MemberEnrollmentList({ offerings, cohorts }) {
 }
 
 MemberEnrollmentList.propTypes = {
+  partnerSlug: PropTypes.string.isRequired,
   offerings: PropTypes.arrayOf(PropTypes.shape({
     cohort: PropTypes.string,
     continueLearningUrl: PropTypes.string,

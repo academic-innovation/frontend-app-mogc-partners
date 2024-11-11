@@ -17,9 +17,12 @@ function courseCompletions(courseKey) {
   );
 }
 
-export default function CourseEnrollmentList({ offerings, cohorts }) {
+export default function CourseEnrollmentList({ partnerSlug, offerings, cohorts }) {
   const [enrollments, enrollmentsStatus] = useRecords();
   const [members] = useMembers(selectAllMembers);
+  const partnerMembers = members.filter(
+    member => member.partner === partnerSlug,
+  );
 
   const offeringsMap = offerings.reduce((offeringsCourseMap, offering) => {
     const offeringCourseKey = offering.details.courseKey;
@@ -44,7 +47,7 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
     return {
       ...offeringData,
       learners: new Set(
-        members.reduce((courseLearners, member) => {
+        partnerMembers.reduce((courseLearners, member) => {
           if (offeringData.cohorts.includes(member.cohort)) {
             courseLearners.push(member.email);
           }
@@ -96,6 +99,7 @@ export default function CourseEnrollmentList({ offerings, cohorts }) {
 }
 
 CourseEnrollmentList.propTypes = {
+  partnerSlug: PropTypes.string.isRequired,
   offerings: PropTypes.arrayOf(
     PropTypes.shape({
       cohort: PropTypes.string,
