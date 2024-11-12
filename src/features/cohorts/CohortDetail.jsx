@@ -38,7 +38,7 @@ export default function CohortDetails() {
 
   return (
     <>
-      {importResults && (
+      {importResults !== null && (
         <Alert variant="success" show dismissible onClose={clearResults}>You successfully imported {importResults} learners.</Alert>
       )}
       <PartnerHeader selectedView="cohortDetail" activeLabel={cohort?.name} />

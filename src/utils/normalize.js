@@ -1,9 +1,10 @@
-// eslint-disable-next-line
-export const noralizeSliceData = (data, key) => {
-  const normalizedData = { entities: { [key]: {} }, result: [] };
-  return data.reduce((_, item) => {
-    normalizedData.entities[key][item.id] = item;
-    normalizedData.result.push(item.id);
-    return normalizedData;
-  }, {});
+const noralizeSliceData = (data, key) => {
+  const entities = {};
+  data.forEach((item) => { entities[item.id] = item; });
+  return {
+    entities: { [key]: entities },
+    result: Object.keys(entities),
+  };
 };
+
+export default noralizeSliceData;

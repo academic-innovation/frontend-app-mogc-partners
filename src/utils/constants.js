@@ -9,3 +9,5 @@ export const COHORT_MEMBERSHIP_STATUS_TYPE_MAP = {
   1: 'Activated',
   2: 'Deactivated',
 };
+
+export const MEBIBYTE = 2 ** 20;
