@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Spinner, Container, Button } from '@openedx/paragon';
 
+import { Link } from 'react-router-dom';
 import usePartner from '../usePartner';
 
 import ResponsiveBreadcrumb from './ResponsiveBreadcrumb';
@@ -63,7 +64,7 @@ export default function PartnerHeader({ selectedView, activeLabel }) {
         </AlertBanner>
       )}
       <PartnerHeading partnerName={partner?.name}>
-        <Button variant="inverse-outline-primary" href={`/${partnerSlug}/details`}>View</Button>
+        <Button variant="inverse-outline-primary" as={Link} to={`/${partnerSlug}/details`}>View</Button>
       </PartnerHeading>
 
       <section className="p-3">
