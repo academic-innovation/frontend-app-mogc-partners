@@ -1,19 +1,41 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { useDropzone } from 'react-dropzone';
 import PropTypes from 'prop-types';
 import {
-  ActionRow, Alert, Button, Form, ModalDialog,
+  ActionRow, Alert, Button, Dropzone, Form, ModalDialog,
 } from '@openedx/paragon';
+import { WarningAmber } from '@openedx/paragon/icons';
 import { importMembers } from './membersSlice';
+import { MEBIBYTE } from '../../utils/constants';
 
-const CSV_TEMPLATE_FILENAME = 'email_template.csv';
+const FilledDropzone = ({ filename, count }) => (
+  <>
+    <p>{filename}</p>
+    {count === 0 && (
+      <Alert variant="warning" icon={WarningAmber} className="w-100">
+        This file appears to be empty.
+      </Alert>
+    )}
+  </>
+);
+
+FilledDropzone.propTypes = {
+  filename: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+};
+
+const generateTemplate = () => {
+  const rows = [...Array(3).keys()].map(n => `email${n}@example.com`);
+  const csvContent = `data:text/csv;charset=utf-8,${rows.join('\n')}\n`;
+  return encodeURI(csvContent);
+};
 
 export default function ImportMembersModal({ isOpen, onClose, cohort }) {
   const dispatch = useDispatch();
   const [emailList, setEmailList] = useState([]);
   const [filename, setFilename] = useState('');
   const [errorMessage, setError] = useState('');
+  const templateUrl = useMemo(() => generateTemplate(), []);
 
   const handleOnClose = (numMembersImported) => {
     setError('');
@@ -22,25 +44,19 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
     onClose(numMembersImported);
   };
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    setFilename(file.name);
+  const processFile = ({ fileData }) => {
+    setError('');
+    const file = fileData.get('file');
+    file.text().then(text => {
+      const cleanedEmails = text
+        .split('\n')
+        .map(email => email.trim().replace('\r', ''))
+        .filter(email => email.length > 0);
 
-    try {
-      const reader = new FileReader();
-      reader.onload = (readerEvent) => {
-        const result = readerEvent.target.result.split('\n');
-        const cleanedEmails = result
-          .map(email => email.trim().replace('\r', ''))
-          .filter(email => email.length > 0);
-        setEmailList(cleanedEmails);
-      };
-      reader.readAsText(file);
-    } catch (err) {
-      console.error(err);
-      setError('There was an error reading the uploaded file. Please verify and try again.');
-    }
-  }, []);
+      setEmailList(cleanedEmails);
+      setFilename(file.name);
+    });
+  };
 
   const onImportMembersClicked = async () => {
     setError('');
@@ -57,18 +73,9 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
         return setError(`The uploaded list contained duplicates or invalid emails. Added ${numMembersImported} out of ${expectedNumMembers} expected members.`);
       }
     } catch (err) {
-      console.error(err);
       return setError('There was an error reading the uploaded file. Please verify and try again.');
     }
     return handleOnClose(numMembersImported);
-  };
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-  const generateTemplate = () => {
-    const rows = [...Array(3).keys()].map(n => `email${n}@example.com`);
-    const csvContent = `data:text/csv;charset=utf-8,${rows.join('\n')}`;
-    return encodeURI(csvContent);
   };
 
   return (
@@ -81,6 +88,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
       <ModalDialog.Header>
         <ModalDialog.Title>Import Learners</ModalDialog.Title>
       </ModalDialog.Header>
+
       <ModalDialog.Body>
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <Form.Label>
@@ -88,18 +96,18 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
           Here is a template to make sure your file is correctly formatted:
         </Form.Label>
         <div className="mt-3 mb-3">
-          <Button variant="outline-primary" href={generateTemplate()} download={CSV_TEMPLATE_FILENAME}>Use template</Button>
+          <Button variant="outline-primary" href={templateUrl} download="email_template.csv">Use template</Button>
         </div>
-        <div {...getRootProps({ className: `dropzone${isDragActive ? ' active' : ''}` })}>
-          <input {...getInputProps()} />
-          {isDragActive
-            ? <p className="mt-3">Drop CSV file here</p>
-            : (
-              <>
-                <Button variant="outline-dark">Browse</Button>
-                <p className="mt-3">{ emailList.length > 0 ? filename : 'Or drag and drop a CSV file'}</p>
-              </>
-            )}
+
+        <div className="mb-3">
+          <Dropzone
+            accept={{ 'text/csv': ['.csv'] }}
+            maxSize={1 * MEBIBYTE}
+            onProcessUpload={processFile}
+            inputComponent={filename
+              ? <FilledDropzone filename={filename} count={emailList.length} />
+              : undefined}
+          />
         </div>
       </ModalDialog.Body>
       <ModalDialog.Footer>

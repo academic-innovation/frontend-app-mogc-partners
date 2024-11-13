@@ -4,7 +4,7 @@ import {
 import {
   camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
-import { noralizeSliceData } from '../../utils/normalize';
+import noralizeSliceData from '../../utils/normalize';
 import { setupRequest } from '../../utils/requests';
 
 const membersAdapter = createEntityAdapter({
