@@ -30,18 +30,24 @@ const generateTemplate = () => {
   return encodeURI(csvContent);
 };
 
-export default function ImportMembersModal({ isOpen, onClose, cohort }) {
+export default function ImportMembersModal({
+  isOpen, closeModal, onMembersImported, cohort,
+}) {
   const dispatch = useDispatch();
   const [emailList, setEmailList] = useState([]);
   const [filename, setFilename] = useState('');
   const [errorMessage, setError] = useState('');
   const templateUrl = useMemo(() => generateTemplate(), []);
 
-  const handleOnClose = (numMembersImported) => {
-    setError('');
+  const clearFileState = () => {
     setFilename('');
     setEmailList([]);
-    onClose(numMembersImported);
+  };
+
+  const onClose = () => {
+    setError('');
+    clearFileState();
+    closeModal();
   };
 
   const processFile = ({ fileData }) => {
@@ -60,29 +66,24 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
 
   const onImportMembersClicked = async () => {
     setError('');
-    let numMembersImported = 0;
     try {
       const response = await dispatch(importMembers({ cohort, emailList }));
-      const newMembers = response.payload?.members;
+      const newMembers = response.payload.members;
+      const numMembersImported = Object.keys(newMembers).length;
 
-      numMembersImported = Object.keys(newMembers).map(
-        memberId => newMembers[memberId],
-      ).length;
-      const expectedNumMembers = emailList.length;
-      if (numMembersImported !== expectedNumMembers) {
-        return setError(`The uploaded list contained duplicates or invalid emails. Added ${numMembersImported} out of ${expectedNumMembers} expected members.`);
-      }
-    } catch (err) {
-      return setError('There was an error reading the uploaded file. Please verify and try again.');
+      onMembersImported(numMembersImported);
+      onClose();
+    } catch {
+      clearFileState();
+      setError('There was an error reading the uploaded file, or the file included invalid email addresses. Please verify and try again.');
     }
-    return handleOnClose(numMembersImported);
   };
 
   return (
     <ModalDialog
       title="Import members"
       isOpen={isOpen}
-      onClose={handleOnClose}
+      onClose={onClose}
       width="lg"
     >
       <ModalDialog.Header>
@@ -115,7 +116,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
           <ModalDialog.CloseButton variant="tertiary">
             Cancel
           </ModalDialog.CloseButton>
-          <Button onClick={onImportMembersClicked}>
+          <Button onClick={onImportMembersClicked} disabled={!filename}>
             Import
           </Button>
         </ActionRow>
@@ -126,6 +127,7 @@ export default function ImportMembersModal({ isOpen, onClose, cohort }) {
 
 ImportMembersModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  onMembersImported: PropTypes.func.isRequired,
   cohort: PropTypes.string.isRequired,
 };

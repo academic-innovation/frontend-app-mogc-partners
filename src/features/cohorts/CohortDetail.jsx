@@ -29,11 +29,6 @@ export default function CohortDetails() {
     return <Spinner animation="border" className="mie-3" screenReaderText="loading" />;
   }
 
-  const importCallback = (results) => {
-    setImportResults(results);
-    closeImportMembers();
-  };
-
   const clearResults = () => setImportResults(null);
 
   return (
@@ -85,7 +80,8 @@ export default function CohortDetails() {
 
       <ImportMembersModal
         isOpen={isImportMembersOpen}
-        onClose={importCallback}
+        closeModal={closeImportMembers}
+        onMembersImported={setImportResults}
         cohort={cohort.uuid}
       />
     </>
