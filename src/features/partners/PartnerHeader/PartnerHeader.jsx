@@ -18,6 +18,7 @@ export default function PartnerHeader({ selectedView, activeLabel }) {
 
   const PAGE_HEADER_SETTINGS = {
     cohortDetail: {
+      showViewButton: true,
       breadcrumbLinks: [
         { label: 'Partners', url: '/' },
         { label: partner?.name, url: `/${partnerSlug}` },
@@ -25,18 +26,21 @@ export default function PartnerHeader({ selectedView, activeLabel }) {
       ],
     },
     partnerAdmin: {
+      showViewButton: true,
       breadcrumbLinks: [
         { label: 'Partners', url: '/' },
         { label: partner?.name, url: `/${partnerSlug}/details` },
       ],
     },
     partnerStats: {
+      showViewButton: true,
       breadcrumbLinks: [
         { label: 'Partners', url: '/' },
         { label: partner?.name, url: `/${partnerSlug}/details` },
       ],
     },
     partnerDetails: {
+      showViewButton: false,
       breadcrumbLinks: [
         { label: 'Partners', url: '/' },
       ],
@@ -63,8 +67,11 @@ export default function PartnerHeader({ selectedView, activeLabel }) {
           You are viewing this page as a learner.
         </AlertBanner>
       )}
+
       <PartnerHeading partnerName={partner?.name}>
-        <Button variant="inverse-outline-primary" as={Link} to={`/${partnerSlug}/details`}>View</Button>
+        {viewSettings.showViewButton && (
+          <Button variant="inverse-outline-primary" as={Link} to={`/${partnerSlug}/details`}>View</Button>
+        )}
       </PartnerHeading>
 
       <section className="p-3">
