@@ -4,7 +4,7 @@ import {
 import {
   camelCaseObject, snakeCaseObject,
 } from '@edx/frontend-platform';
-import noralizeSliceData from '../../utils/normalize';
+import normalizeSliceData from '../../utils/normalize';
 import { setupRequest } from '../../utils/requests';
 
 const membersAdapter = createEntityAdapter({
@@ -63,7 +63,7 @@ export const importMembers = createAsyncThunk(
       `${baseUrl}/api/partnerships/v0/memberships/${cohort}/`,
       snakeCaseObject(emailList.map(email => ({ email }))),
     );
-    const normalized = noralizeSliceData(camelCaseObject(data), 'members');
+    const normalized = normalizeSliceData(camelCaseObject(data), 'members');
     return normalized.entities;
   },
 );
