@@ -18,7 +18,9 @@
     "lint:fix": "fedx-scripts eslint --fix --ext .js --ext .jsx .",
     "snapshot": "fedx-scripts jest --updateSnapshot",
     "start": "fedx-scripts webpack-dev-server --progress",
-    "test": "fedx-scripts jest --coverage --passWithNoTests"
+    "test": "fedx-scripts jest --passWithNoTests",
+    "test:coverage": "fedx-scripts jest --coverage --passWithNoTests",
+    "test:watch": "fedx-scripts jest --watch"
   },
   "author": "edX",
   "license": "AGPL-3.0",
@@ -60,7 +62,8 @@
     "es-check": "7.1.1",
     "glob": "10.3.10",
     "husky": "9.0.11",
-    "jest": "^29.7.0",
+    "jest": "^27.5.1",
+    "jest-environment-jsdom": "^27.5.1",
     "postcss-loader": "^8.1.1",
     "reactifex": "1.1.1"
   }
