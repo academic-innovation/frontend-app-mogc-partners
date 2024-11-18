@@ -1,4 +1,4 @@
-const noralizeSliceData = (data, key) => {
+const normalizeSliceData = (data, key) => {
   const entities = {};
   data.forEach((item) => { entities[item.id] = item; });
   return {
@@ -7,4 +7,4 @@ const noralizeSliceData = (data, key) => {
   };
 };
 
-export default noralizeSliceData;
+export default normalizeSliceData;
