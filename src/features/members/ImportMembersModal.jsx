@@ -108,6 +108,7 @@ export default function ImportMembersModal({
             inputComponent={filename
               ? <FilledDropzone filename={filename} count={emailList.length} />
               : undefined}
+            data-testid="dropzone"
           />
         </div>
       </ModalDialog.Body>
