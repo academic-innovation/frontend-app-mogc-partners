@@ -16,7 +16,7 @@ export default function ManagementToolbar({ partner, selected, showPreview }) {
   const insightClass = `btn btn-${selectedOpt === options[0] ? 'dark' : 'outline-dark'}`;
   return (
     <div className="row">
-      <div className="col col-9">
+      <div className="col d-flex flex-column flex-sm-row justify-content-between gap-4">
         <ButtonLinkGroup>
           <ButtonLink className={cohortClass} link={`/${partner}/admin`}>
             Cohorts
@@ -25,14 +25,13 @@ export default function ManagementToolbar({ partner, selected, showPreview }) {
             Insights
           </ButtonLink>
         </ButtonLinkGroup>
+
+        {showPreview && (
+        <ButtonLink className="btn btn-primary" link={`/${partner}/details`} onClick={togglePreview}>
+          Preview As Learner
+        </ButtonLink>
+        )}
       </div>
-      {showPreview && (
-        <div className="col col-3">
-          <ButtonLink className="btn btn-primary" link={`/${partner}/details`} onClick={togglePreview}>
-            Preview As Learner
-          </ButtonLink>
-        </div>
-      )}
     </div>
   );
 }
