@@ -76,16 +76,17 @@ export default function PartnerHeader({ selectedView, activeLabel }) {
 
       <section className="p-3">
         <Container size="lg">
+          <ResponsiveBreadcrumb
+            links={viewSettings.breadcrumbLinks}
+            activeLabel={activeLabel}
+          />
+
           {(partner?.isManager && !isPreview) && (
             <ManagementToolbar
               partner={partnerSlug}
               showPreview={viewSettings.showPreview}
             />
           )}
-          <ResponsiveBreadcrumb
-            links={viewSettings.breadcrumbLinks}
-            activeLabel={activeLabel}
-          />
         </Container>
       </section>
     </>
